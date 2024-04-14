@@ -1,22 +1,30 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Subscription } from 'rxjs';
+import { User } from '../../../auth/interfaces';
 
 @Component({
   selector: 'app-fertilizer-layout',
   templateUrl: './fertilizer-layout.component.html',
   styleUrl: './fertilizer-layout.component.css'
 })
-export class FertilizerLayoutComponent {
+export class FertilizerLayoutComponent implements OnInit, OnDestroy {
+  private userSubscription?: Subscription;
+  public user: User | null = null;
 
-  private authService = inject( AuthService );
-  public user = computed( () => this.authService.currentUser() );
+  constructor(private authService: AuthService) {}
 
-  // get user2() {
-  //   return this.authService.currentUser();
-  // }
+  ngOnInit(): void {
+    this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
+      this.user = currentUser;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
+  }
 
   public logout() {
     this.authService.logout();
   }
-
 }
