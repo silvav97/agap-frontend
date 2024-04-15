@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.authStatusSubscription = this.authService.authStatus.subscribe(status => {
+    /*this.authStatusSubscription = this.authService.authStatus.subscribe(status => {
       console.log('Auth Status in AppComponent: ', status);
       switch (status) {
         case AuthStatus.checking:
@@ -30,10 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('/auth/login');
           break;
       }
-    });
+    });*/
   }
 
   ngOnDestroy(): void {
-    this.authStatusSubscription?.unsubscribe();
+    //this.authStatusSubscription?.unsubscribe();
   }
 }

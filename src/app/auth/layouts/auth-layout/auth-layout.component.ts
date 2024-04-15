@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AuthLayoutComponent {
 
+  constructor() {
+    console.log('Se inicializó AuthLayoutComponent');
+  }
+
 }

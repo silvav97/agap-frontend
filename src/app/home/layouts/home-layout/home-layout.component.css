@@ -1,0 +1,48 @@
+/* Estilos para la barra de navegación */
+.navbar {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.navbar nav ul {
+  list-style: none; /* Elimina los puntos de las listas */
+  padding: 0;
+}
+
+.navbar nav ul li {
+  display: inline; /* Muestra los elementos de la lista en línea */
+  margin-right: 10px;
+}
+
+.navbar nav ul li a {
+  color: white;
+  text-decoration: none; /* Elimina el subrayado de los enlaces */
+  font-weight: bold;
+}
+
+/* Estilos para el contenido principal */
+.content {
+  padding: 20px;
+  min-height: 400px; /* Altura mínima para el contenido */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos para el pie de página */
+.footer {
+  background-color: #343A40;
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  position: fixed;
+  width: 100%;
+  bottom: 0; /* Fija el footer en la parte inferior de la página */
+}
+
+/* Agrega algunos estilos para los textos dentro del footer */
+.footer p {
+  margin: 0; /* Elimina los márgenes por defecto */
+}

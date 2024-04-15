@@ -40,7 +40,6 @@ export class AuthService {
       const refresh_token = localStorage.getItem('refresh_token');
 
       if ( !access_token || !refresh_token ) {
-        //this._authStatus.set(AuthStatus.notAuthenticated);
         this.logout();
         observer.next(false);
         observer.complete();
@@ -54,17 +53,15 @@ export class AuthService {
 
       if (expirationDate > now) {
         this._authStatus.next(AuthStatus.authenticated);
-        this._currentUser.next(this.getCurrentUser(payload));
+        this._currentUser.next(this.getCurrentUser(access_token));
         observer.next(true);
         observer.complete();
-        //this._authStatus.set( AuthStatus.authenticated );
       } else {
         // Check if refresh token is expired
         const refreshPayload = JSON.parse(atob(refresh_token.split('.')[1]));
         const refreshExpirationDate = new Date(refreshPayload.exp * 1000);
 
         if (refreshExpirationDate <= now) {
-          //this._authStatus.set(AuthStatus.notAuthenticated);
           this.logout();
           observer.next(false);
           observer.complete();
@@ -85,7 +82,23 @@ export class AuthService {
     });
   }
 
-  private getCurrentUser(tokenPayload: any): User | null {
+  public logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    this._currentUser.next(null);
+    this._authStatus.next( AuthStatus.notAuthenticated );
+  }
+
+  private setAuthentication(user: User, access_token:string, refresh_token:string): boolean {
+    this._currentUser.next( this.getCurrentUser(access_token) );
+    this._authStatus.next( AuthStatus.authenticated );
+    localStorage.setItem('access_token', access_token);
+    localStorage.setItem('refresh_token', refresh_token);
+    return true;
+  }
+
+  private getCurrentUser(access_token: any): User | null {
+    const tokenPayload = JSON.parse(atob(access_token.split('.')[1]));
     const id    = tokenPayload.id;
     const name  = tokenPayload.name;
     const roles = tokenPayload.roles;
@@ -94,23 +107,6 @@ export class AuthService {
     var user : User = {id: id, email: email, name: name, isActive: true, roles: roles};
     return user;
   }
-
-  public logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    this._currentUser.next(null);
-    console.log('Se seteo en null el user');
-    this._authStatus.next( AuthStatus.notAuthenticated );
-  }
-
-  private setAuthentication(user: User, access_token:string, refresh_token:string): boolean {
-    this._currentUser.next( user );
-    this._authStatus.next( AuthStatus.authenticated );
-    localStorage.setItem('access_token', access_token);
-    localStorage.setItem('refresh_token', refresh_token);
-    return true;
-  }
-
 
   private refreshToken(refresh_token: string): Observable<boolean> {
     const url = `${ this.baseUrl }/api/v1/auth/refresh-token`;
