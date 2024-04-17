@@ -15,7 +15,7 @@ export const isNotAuthenticatedGuard: CanActivateFn = (route, state) => {
     take(1),
     map((status: AuthStatus) => {
       if (status === AuthStatus.authenticated) {
-        router.navigateByUrl('/fertilizer');
+        router.navigateByUrl('/home');    // cmabio fertilizer a home
         return false;
       }
       return true;

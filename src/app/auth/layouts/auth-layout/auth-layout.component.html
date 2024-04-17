@@ -1,9 +1,19 @@
-<div class="limiter">
+<!-- <div class="limiter">
   <div class="container-login100" style="background-image: url('../../../../assets/images/bg-01.jpg');">
-      <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+    <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 
           <router-outlet />
 
       </div>
   </div>
+</div> -->
+
+<div class="vh-100 d-flex align-items-center justify-content-center position-relative" style="background-image: url('../../../../assets/images/bg-01.jpg'); background-size: cover; background-position: center;">
+  <a href="/home" class="btn btn-light position-absolute top-0 start-0 mt-4 ms-4" routerLink="/home">Volver</a>
+  <div class="bg-white shadow rounded-3 overflow-hidden p-5" style="max-width: 500px; width: 100%;">
+
+    <router-outlet></router-outlet>
+
+  </div>
 </div>
+

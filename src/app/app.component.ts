@@ -9,16 +9,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit, OnDestroy {
-  private authStatusSubscription?: Subscription;
+export class AppComponent { //implements OnInit, OnDestroy {
+  //private authStatusSubscription?: Subscription;
 
-  constructor(
+  /*constructor(
     private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    /*this.authStatusSubscription = this.authService.authStatus.subscribe(status => {
+    this.authStatusSubscription = this.authService.authStatus.subscribe(status => {
       console.log('Auth Status in AppComponent: ', status);
       switch (status) {
         case AuthStatus.checking:
@@ -30,10 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('/auth/login');
           break;
       }
-    });*/
+    });
   }
 
   ngOnDestroy(): void {
-    //this.authStatusSubscription?.unsubscribe();
-  }
+    this.authStatusSubscription?.unsubscribe();
+  }*/
 }

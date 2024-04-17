@@ -9,6 +9,7 @@ import { User } from '../../../auth/interfaces';
   styleUrl: './fertilizer-layout.component.css'
 })
 export class FertilizerLayoutComponent implements OnInit, OnDestroy {
+
   private userSubscription?: Subscription;
   public user: User | null = null;
 

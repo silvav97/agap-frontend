@@ -9,9 +9,9 @@ const routes: Routes = [
     path: '',
     component: HomeLayoutComponent,
     children: [
-      { path: 'home', component: HomePageComponent },
+      { path: '', component: HomePageComponent },
       //{ path: 'register', component: RegisterPageComponent },
-      { path: '**', redirectTo: 'home' },
+      { path: '**', redirectTo: '' },
     ]
   }
 

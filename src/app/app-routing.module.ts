@@ -1,31 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { isAuthenticatedGuard, isNotAuthenticatedGuard } from './auth/guards';
 
 const routes: Routes = [
 
-
   {
-    path: '',
+    path: 'home',
     //canActivate: [ isAuthenticatedGuard ],
     loadChildren: () => import('./home/home.module').then( m => m.HomeModule ),
   },
 
   {
-    path: 'auth',
-    //canActivate: [ isNotAuthenticatedGuard ],
-    loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule ),
-  },
-
-
-  {
     path: 'fertilizer',
-    //canActivate: [ isAuthenticatedGuard ],
+    canActivate: [ isAuthenticatedGuard ],
     loadChildren: () => import('./fertilizer/fertilizer.module').then( m => m.FertilizerModule ),
   },
 
   {
+    path: 'auth',
+    canActivate: [ isNotAuthenticatedGuard ],
+    loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule ),
+  },
+
+  {
     path: '**',
-    redirectTo: 'index'
+    redirectTo: 'home'
   },
 
 ];

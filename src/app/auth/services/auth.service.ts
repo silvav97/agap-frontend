@@ -2,7 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environments';
 import { BehaviorSubject, Observable, catchError, map, of, tap, throwError } from 'rxjs';
-import { AuthStatus, LoginResponse, RefreshTokenResponse, User } from '../interfaces';
+import { AuthStatus, LoginResponse, RefreshTokenResponse, RegisterResponse, User } from '../interfaces';
 
 
 @Injectable({
@@ -30,6 +30,45 @@ export class AuthService {
 
     return this.http.post<LoginResponse>( url, body ).pipe(
         map( ({user, access_token, refresh_token}) => this.setAuthentication(user, access_token, refresh_token)),
+        catchError( err => throwError( () => err.error )),
+    );
+  }
+
+
+  public verifyAccount(token: string): Observable<boolean> {
+    const url = `${this.baseUrl}/api/v1/auth/verify/${token}`;
+
+    return this.http.get<LoginResponse>(url).pipe(
+      map( ({user, access_token, refresh_token}) => {
+        console.log('Verification Success:');
+        return this.setAuthentication(user, access_token, refresh_token)
+      }),
+      catchError(err => {
+        console.error('Verification Error:', err.error);
+        return throwError(() => new Error('Verification failed'));
+        // return of(false);
+      })
+    );
+  }
+
+  public register(firstname:string, lastname:string, email:string, password:string): Observable<RegisterResponse> {
+    const url = `${ this.baseUrl }/api/v1/auth/register`;
+    const body = { firstname, lastname, email, password };
+
+    return this.http.post<RegisterResponse>( url, body ).pipe(
+        //tap( (message: RegisterResponse) => message.message),
+      //map( ({user, access_token, refresh_token}) => this.setAuthentication(user, access_token, refresh_token)),
+        catchError( err => throwError( () => err.error )),
+    );
+  }
+
+  public forgotPassword(email:string): Observable<string> {
+    const url = `${ this.baseUrl }/api/v1/users/forgot-password`;
+    const body = { email };
+
+    return this.http.post<string>( url, body ).pipe(
+        //tap( (message: RegisterResponse) => message.message),
+      //map( ({user, access_token, refresh_token}) => this.setAuthentication(user, access_token, refresh_token)),
         catchError( err => throwError( () => err.error )),
     );
   }

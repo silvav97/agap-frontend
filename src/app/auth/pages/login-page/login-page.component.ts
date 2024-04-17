@@ -15,6 +15,8 @@ export class LoginPageComponent {
   private authService = inject( AuthService );
   private router      = inject( Router );
 
+  constructor() {}
+
   public myForm: FormGroup = this.formBuilder.group({
     email: ['admin@yopmail.com', [ Validators.required, Validators.email ]],
     password: ['password', [ Validators.required, Validators.minLength(8) ]],
@@ -24,7 +26,7 @@ export class LoginPageComponent {
     const { email, password } = this.myForm.value;
     this.authService.login(email, password)
       .subscribe({
-        next: () => this.router.navigateByUrl('/fertilizer'),
+        next: () => this.router.navigateByUrl('/home'),
         error: (error) => {
           Swal.fire(error.message, error.description, 'error');
         }
