@@ -8,6 +8,7 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { VerifyPageComponent } from './pages/verify-page/verify-page.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
+import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot
     RegisterPageComponent,
     AuthLayoutComponent,
     VerifyPageComponent,
-    ForgotPasswordPageComponent
+    ForgotPasswordPageComponent,
+    ResetPasswordPageComponent
   ],
   imports: [
     CommonModule,

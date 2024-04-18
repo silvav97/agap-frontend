@@ -34,6 +34,21 @@ export class AuthService {
     );
   }
 
+  public resetPassword(newPassword:string, confirmationPassword:string, token: string): Observable<string> {
+    const url = `${ this.baseUrl }/api/v1/users/reset-password`;
+    const body = { newPassword, confirmationPassword };
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put<string>( url, body, {headers} ).pipe(
+
+        tap( (response) => console.log('response dentro del auth',response)),
+        catchError( (err) => {
+          console.log('Error obtenido en authResetPassword: ', err);
+          return throwError( () => new Error(err.error.message || "Unknown error") )
+        }),
+    );
+  }
+
 
   public verifyAccount(token: string): Observable<boolean> {
     const url = `${this.baseUrl}/api/v1/auth/verify/${token}`;
@@ -128,6 +143,19 @@ export class AuthService {
     this._authStatus.next( AuthStatus.notAuthenticated );
   }
 
+  private refreshToken(refresh_token: string): Observable<boolean> {
+    const url = `${ this.baseUrl }/api/v1/auth/refresh-token`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${refresh_token}`);
+
+    return this.http.post<RefreshTokenResponse>(url, {}, { headers }).pipe(
+      map(({user, access_token, refresh_token}) => this.setAuthentication(user, access_token, refresh_token)),
+      catchError(() => {
+          this.logout();
+          return of(false);
+      }),
+    );
+  }
+
   private setAuthentication(user: User, access_token:string, refresh_token:string): boolean {
     this._currentUser.next( this.getCurrentUser(access_token) );
     this._authStatus.next( AuthStatus.authenticated );
@@ -145,19 +173,6 @@ export class AuthService {
 
     var user : User = {id: id, email: email, name: name, isActive: true, roles: roles};
     return user;
-  }
-
-  private refreshToken(refresh_token: string): Observable<boolean> {
-    const url = `${ this.baseUrl }/api/v1/auth/refresh-token`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${refresh_token}`);
-
-    return this.http.post<RefreshTokenResponse>(url, {}, { headers }).pipe(
-      map(({user, access_token, refresh_token}) => this.setAuthentication(user, access_token, refresh_token)),
-      catchError(() => {
-          this.logout();
-          return of(false);
-      }),
-    );
   }
 
 }

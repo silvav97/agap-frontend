@@ -18,11 +18,11 @@ export class ForgotPasswordPageComponent {
   constructor() {}
 
   public myForm: FormGroup = this.formBuilder.group({
-    email: ['admin@yopmail.com', [ Validators.required, Validators.email ]],
+    email: ['sesilvavi@gmail.com', [ Validators.required, Validators.email ]],
   });
 
 
-  public recoverPassword() {
+  public forgotPassword() {
     const { email } = this.myForm.value;
     this.authService.forgotPassword(email).subscribe({
       next: () => Swal.fire('Aviso', 'Verifique su cuenta para recuperar contraseña', 'info'),

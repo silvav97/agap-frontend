@@ -43,7 +43,37 @@
 </nav>
 
 
-<router-outlet></router-outlet>
+
+
+<div class="container-fluid h-100">
+  <div class="row">
+    <!-- Sidebar column -->
+    <div class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+      <div class="position-sticky pt-3">
+        <h5 class="text-white px-3">Menú</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active text-white" aria-current="page" href="#manage-fertilizers">Gestionar Fertilizantes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#view-projects">Ver Proyectos</a>
+          </li>
+          <!-- Additional links for other roles can be added here -->
+        </ul>
+      </div>
+    </div>
+    <!-- Main content area -->
+    <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <!-- Your router outlet and other content goes here -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <router-outlet></router-outlet> -->
 
 
 <footer class="footer bg-dark text-white text-center py-3 fixed-bottom">
