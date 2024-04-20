@@ -1,6 +1,6 @@
 <form class="login100-form" autocomplete="off" [formGroup]="myForm" (ngSubmit)="login()">
 
-    <span class="login100-form-title p-b-49">Login</span>
+    <span class="login100-form-title p-b-49">Iniciar Sesión</span>
 
     <div class="wrap-input100 m-b-23">
         <span class="label-input100">Correo</span>
@@ -28,7 +28,7 @@
             <button class="login100-form-btn"
                     [disabled]="myForm.invalid"
                     type="submit">
-                Login
+                Iniciar Sesión
             </button>
         </div>
     </div>
@@ -43,8 +43,8 @@
         </a>
 
 
-        <span class="txt1 p-b-17">
-          Olvidaste tu contraseña
+        <span class="txt1 p-b-17 mt-4">
+          ¿Olvidaste tu contraseña?
       </span>
 
       <a routerLink="/auth/forgot-password" class="txt2">
