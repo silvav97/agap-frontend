@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{ hero.superhero }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ hero.alter_ego }}</h6>
+  </div>
+
+  <!-- Imagen -->
+  <!-- <img class="card-img-top" [src]="hero | heroImage" [alt]="hero.superhero"> -->
+
+  <div class="card-body">
+    <h4>{{ hero.publisher }}</h4>
+
+      <strong>Primera aparición:</strong> {{ hero.first_appearance }}
+      <br>
+      <div class="d-inline-flex flex-wrap gap-2">
+        <span class="badge bg-secondary" *ngFor="let name of hero.characters.split(',') | slice:0:3">
+          {{ name }}
+        </span>
+      </div>
+
+  </div>
+
+  <hr>
+
+  <div class="card-footer">
+    <a class="btn btn-primary me-2" [routerLink]="['/heroes/edit', hero.id]">
+      <i class="bi bi-pencil"></i> Editar
+    </a>
+    <a class="btn btn-secondary" [routerLink]="['/heroes', hero.id]">
+      <i class="bi bi-three-dots"></i> Más
+    </a>
+  </div>
+</div>
