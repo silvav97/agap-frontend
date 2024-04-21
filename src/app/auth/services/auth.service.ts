@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   public resetPassword(newPassword:string, confirmationPassword:string, token: string): Observable<string> {
-    const url = `${ this.baseUrl }/api/v1/users/reset-password`;
+    const url = `${ this.baseUrl }/api/v1/user/reset-password`;
     const body = { newPassword, confirmationPassword };
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   public forgotPassword(email:string): Observable<string> {
-    const url = `${ this.baseUrl }/api/v1/users/forgot-password`;
+    const url = `${ this.baseUrl }/api/v1/user/forgot-password`;
     const body = { email };
 
     return this.http.post<string>( url, body ).pipe(
