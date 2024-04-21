@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Fertilizer } from '../../../fertilizer/interfaces';
 
 @Component({
   selector: 'shared-generic-card',
@@ -8,21 +9,11 @@ import { Component, Input } from '@angular/core';
 export class GenericCardComponent {
 
   @Input()
-  public hero!: Hero;
+  public fertilizer!: Fertilizer;
 
   ngOnInit(): void {
-    if ( !this.hero ) throw Error('Hero property is required');
+    if ( !this.fertilizer ) throw Error('Fertilizer property is required');
   }
 
 }
 
-
-export interface Hero {
-  id:               string;
-  superhero:        string;
-  publisher:        string;
-  alter_ego:        string;
-  first_appearance: string;
-  characters:       string;
-  alt_img?:         string;
-}

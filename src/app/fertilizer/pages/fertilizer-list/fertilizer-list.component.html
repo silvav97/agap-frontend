@@ -1,9 +1,23 @@
-<h1>Listado de Héroes</h1>
+<h1>Listado de Fertilizantes</h1>
 
-<div class="row bm-8 pt-2">
-  <div *ngFor="let hero of heroes" class="col-12 col-sm-4 col-md-3 col-xl-2">
-    <shared-generic-card [hero]="hero"></shared-generic-card>
+
+
+<!-- <div class="row bm-8 pt-2">
+  <div *ngFor="let fertilizer of fertilizerList" class="col-12 col-sm-4 col-md-3 col-xl-2">
+    <shared-generic-card [fertilizer]="fertilizer"></shared-generic-card>
+  </div>
+</div> -->
+
+
+
+
+<div class="row">
+  <div class="col">
+    <!-- Tabla -->
+    <hr>
+    <!-- <shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner> -->
+    <shared-generic-table [fertilizers]="fertilizerList"></shared-generic-table>
   </div>
 </div>
 
-
+<shared-paginator *ngIf="paginador" [paginador] = "paginador"></shared-paginator>

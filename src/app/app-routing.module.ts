@@ -5,26 +5,20 @@ import { isAuthenticatedGuard, isNotAuthenticatedGuard } from './auth/guards';
 const routes: Routes = [
 
   {
-    path: 'home',
-    //canActivate: [ isAuthenticatedGuard ],
-    loadChildren: () => import('./home/home.module').then( m => m.HomeModule ),
-  },
-
-  {
-    path: 'fertilizer',
-    canActivate: [ isAuthenticatedGuard ],
-    loadChildren: () => import('./fertilizer/fertilizer.module').then( m => m.FertilizerModule ),
-  },
-
-  {
     path: 'auth',
     canActivate: [ isNotAuthenticatedGuard ],
     loadChildren: () => import('./auth/auth.module').then( m => m.AuthModule ),
   },
 
   {
+    path: '',
+    //canActivate: [ isAuthenticatedGuard ],
+    loadChildren: () => import('./home/home.module').then( m => m.HomeModule ),
+  },
+
+  {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: ''
   },
 
 ];
