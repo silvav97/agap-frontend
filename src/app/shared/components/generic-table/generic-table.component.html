@@ -13,19 +13,21 @@
         <th>Nombre</th>
         <th>Marca</th>
         <th>Precio por gramo</th>
-        <th></th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let fertilizer of fertilizers; let i = index">
-        <!-- <td>{{ i + 1 }}</td> -->
-        <!-- <td> <img [src]="country.flags.svg" [alt]="country.name.common"/> </td>-->
+
         <td>{{ fertilizer.id }}</td>
         <td>{{ fertilizer.name }}</td>
         <td>{{ fertilizer.brand }}</td>
         <td>{{ fertilizer.pricePerGram| number }}</td>
+
         <td>
-          <!-- <a [routerLink]="[ '/countries/by', country.cca3 ]">Ver más</a> -->
+          <button type="button" [routerLink]="['/fertilizer/edit', fertilizer.id]" class="btn btn-primary btn-sm">Editar</button>
+
+          <button type="button" (click)="delete(fertilizer.id)" class="btn btn-danger btn-sm">Eliminar</button>
         </td>
       </tr>
     </tbody>

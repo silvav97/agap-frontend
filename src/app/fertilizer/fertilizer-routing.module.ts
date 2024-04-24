@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FertilizerListComponent } from './pages/fertilizer-list/fertilizer-list.component';
+import { FertilizerFormComponent } from './pages/fertilizer-form/fertilizer-form.component';
 
 const routes: Routes = [
 
@@ -10,8 +11,16 @@ const routes: Routes = [
     //children: [{ path: 'list', component: FertilizerListComponent }]
   },
   {
-    path: 'page/:page',  // Añade esta línea para manejar la paginación
+    path: 'page/:page',
     component: FertilizerListComponent
+  },
+  {
+    path: 'new-fertilizer',
+    component: FertilizerFormComponent
+  },
+  {
+    path: 'edit/:id',
+    component: FertilizerFormComponent
   }
 
 ];

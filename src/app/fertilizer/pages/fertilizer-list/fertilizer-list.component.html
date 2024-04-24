@@ -21,3 +21,15 @@
 </div>
 
 <shared-paginator *ngIf="paginador" [paginador] = "paginador"></shared-paginator>
+
+
+<div>
+  <label for="pageSize">Items por página:</label>
+  <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+    <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+  </select>
+</div>
+
+<button type="button" class="btn btn-danger btn-sm" routerLink='/fertilizer/new-fertilizer'>
+  Agregar fertilizante
+</button>
