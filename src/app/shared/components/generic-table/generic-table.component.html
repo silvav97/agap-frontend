@@ -1,5 +1,5 @@
-<div *ngIf="fertilizers.length === 0; else table" class="alert alert-warning text-center">
-  No hay fertilizers que mostrar
+<div *ngIf="items.length === 0; else table" class="alert alert-warning text-center">
+  No hay elementos que mostrar
 </div>
 
 
@@ -7,27 +7,19 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>#</th>
-        <!-- <th>Icon</th> -->
-        <!-- <th>Bandera</th> -->
-        <th>Nombre</th>
-        <th>Marca</th>
-        <th>Precio por gramo</th>
+        <th *ngFor="let col of columns">{{ col.label }}</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let fertilizer of fertilizers; let i = index">
+      <tr *ngFor="let item of items; let i = index">
 
-        <td>{{ fertilizer.id }}</td>
-        <td>{{ fertilizer.name }}</td>
-        <td>{{ fertilizer.brand }}</td>
-        <td>{{ fertilizer.pricePerGram| number }}</td>
+        <td *ngFor="let col of columns">{{ item[col.key] }}</td>
 
         <td>
-          <button type="button" [routerLink]="['/fertilizer/edit', fertilizer.id]" class="btn btn-primary btn-sm">Editar</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="edit.emit(item.id)">Editar</button>
 
-          <button type="button" (click)="delete(fertilizer.id)" class="btn btn-danger btn-sm">Eliminar</button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="delete.emit(item.id)">Eliminar</button>
         </td>
       </tr>
     </tbody>

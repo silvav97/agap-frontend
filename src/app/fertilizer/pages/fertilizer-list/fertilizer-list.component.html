@@ -1,26 +1,17 @@
 <h1>Listado de Fertilizantes</h1>
 
-
-
-<!-- <div class="row bm-8 pt-2">
-  <div *ngFor="let fertilizer of fertilizerList" class="col-12 col-sm-4 col-md-3 col-xl-2">
-    <shared-generic-card [fertilizer]="fertilizer"></shared-generic-card>
-  </div>
-</div> -->
-
-
-
-
 <div class="row">
   <div class="col">
-    <!-- Tabla -->
     <hr>
-    <!-- <shared-loading-spinner *ngIf="isLoading"></shared-loading-spinner> -->
-    <shared-generic-table [fertilizers]="fertilizerList"></shared-generic-table>
+    <shared-generic-table [items]="fertilizerList"
+                          [columns]="columns"
+                          (edit)="onEdit($event)"
+                          (delete)="onDelete($event)">
+    </shared-generic-table>
   </div>
 </div>
 
-<shared-paginator *ngIf="paginador" [paginador] = "paginador"></shared-paginator>
+<shared-paginator *ngIf="paginador" [paginador] = "paginador" [pageRoute]="baseRoute + '/page'"></shared-paginator>
 
 
 <div>

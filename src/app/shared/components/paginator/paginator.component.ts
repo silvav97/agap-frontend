@@ -8,7 +8,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input()
-  paginador: any;
+  public paginador: any;
+  @Input()
+  public pageRoute?: string = ''; // Ruta base para construir los enlaces
+
   paginas?: number[];
   desde?: number;
   hasta?: number;
@@ -17,11 +20,9 @@ export class PaginatorComponent implements OnInit, OnChanges {
     this.initPaginator();
   }
 
-  ngOnChanges( changes: SimpleChanges ): void {
-    let paginadorActualizado = changes['paginador'];
-    if (paginadorActualizado.previousValue) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['paginador'].currentValue) {
       this.initPaginator();
-
     }
   }
 

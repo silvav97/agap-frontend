@@ -4,6 +4,7 @@ import { GenericCardComponent } from './components/generic-card/generic-card.com
 import { RouterModule } from '@angular/router';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { GenericListComponent } from './components/generic-list/generic-list.component';
 
 
 
@@ -11,7 +12,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
   declarations: [
     GenericCardComponent,
     GenericTableComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    GenericListComponent
   ],
   imports: [
     CommonModule,
