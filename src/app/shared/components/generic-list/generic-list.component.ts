@@ -16,9 +16,7 @@ export class GenericListComponent {
   public listTitle?: string;
   @Input()
   public paginator: any;
-
   public pageSize = 10;
-
 
   // @Input()
   // public addRoute?: string;
@@ -26,8 +24,6 @@ export class GenericListComponent {
 
   @Input()  // creo que no necesita el input
   public pageSizes: number[] = [5, 10, 15];  // Default sizes
-
-
 
 
 
