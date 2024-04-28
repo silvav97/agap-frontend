@@ -13,8 +13,9 @@ export class GenericTableComponent {
   public items: any[] = [];
   @Input()
   public columns?: { key: string, label: string }[]; // Ejemplo: [{ key: 'name', label: 'Nombre' }]
-  @Input()
-  public entityType?: string; // 'fertilizer', 'pesticide', etc.
+
+
+
 
   @Output()
   public edit = new EventEmitter<number>();

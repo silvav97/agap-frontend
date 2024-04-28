@@ -12,8 +12,7 @@ import Swal from 'sweetalert2';
 export class FertilizerService {
 
   private readonly baseUrl: string = environment.baseUrl;
-  private router = inject( Router)
-  private http = inject( HttpClient)
+  private http = inject( HttpClient )
 
 
   constructor() {}

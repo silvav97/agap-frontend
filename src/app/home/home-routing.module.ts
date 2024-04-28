@@ -15,7 +15,14 @@ const routes: Routes = [
       {
         path: 'fertilizer',
         canActivate: [ isAuthenticatedGuard ],
-        loadChildren: () => import('../fertilizer/fertilizer.module').then(m => m.FertilizerModule) },
+        loadChildren: () => import('../fertilizer/fertilizer.module').then(m => m.FertilizerModule)
+      },
+
+      {
+        path: 'pesticide',
+        canActivate: [ isAuthenticatedGuard ],
+        loadChildren: () => import('../pesticide/pesticide.module').then(m => m.PesticideModule)
+      },
 
       { path: '**', redirectTo: '' },
     ]
