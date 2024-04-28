@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { GenericListComponent } from './components/generic-list/generic-list.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
 
 
@@ -21,13 +21,15 @@ import { GenericFormComponent } from './components/generic-form/generic-form.com
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     GenericCardComponent,
     GenericTableComponent,
     PaginatorComponent,
-    GenericListComponent
+    GenericListComponent,
+    GenericFormComponent
   ]
 })
 export class SharedModule { }

@@ -98,7 +98,7 @@ export class PesticideListComponent {
   }
 
   public onCreate(): void {
-    this.router.navigateByUrl(`${this.baseRoute}/new-${this.baseRoute}`);
+    this.router.navigateByUrl(`${this.baseRoute}/new`);
   }
 
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PesticideListComponent } from './pages/pesticide-list/pesticide-list.component';
 import { PesticideFormComponent } from './pages/pesticide-form/pesticide-form.component';
+import { GenericFormComponent } from '../shared/components/generic-form/generic-form.component';
 
 const routes: Routes = [
 
@@ -15,12 +16,14 @@ const routes: Routes = [
     component: PesticideListComponent
   },
   {
-    path: 'new-pesticide',
-    component: PesticideFormComponent
+    path: 'new',
+    component: GenericFormComponent,
+    data: { entityType: 'pesticide' }
   },
   {
     path: 'edit/:id',
-    component: PesticideFormComponent
+    component: GenericFormComponent,
+    data: { entityType: 'pesticide' }
   }
 
 ];
