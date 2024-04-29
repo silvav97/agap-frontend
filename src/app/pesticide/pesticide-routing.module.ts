@@ -17,13 +17,11 @@ const routes: Routes = [
   },
   {
     path: 'new',
-    component: GenericFormComponent,
-    data: { entityType: 'pesticide' }
+    component: PesticideFormComponent,
   },
   {
     path: 'edit/:id',
-    component: GenericFormComponent,
-    data: { entityType: 'pesticide' }
+    component: PesticideFormComponent,
   }
 
 ];

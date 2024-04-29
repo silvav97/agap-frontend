@@ -1,5 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { FormConfig, FormConfigs } from "../interfaces/form-config.interface";
+import { PesticideService } from "../../pesticide/services/pesticide.service";
+import { FertilizerService } from "../../fertilizer/services/fertilizer.service";
 
 
 @Injectable({
@@ -7,23 +9,28 @@ import { FormConfig, FormConfigs } from "../interfaces/form-config.interface";
 })
 export class FormConfigService {
 
+  private pesticideService  = inject( PesticideService );
+  private fertilizerService = inject( FertilizerService );
+
   private configs: FormConfigs = {
     pesticide: {
       title: 'Pesticide',
+      service: this.pesticideService,
       fields: [
         { name: 'name', type: 'text', label: 'Name' },
         { name: 'brand', type: 'text', label: 'Brand' },
         { name: 'pricePerGram', type: 'number', label: 'PricePerGram' }
       ]
     },
-    crop: {
-      title: 'Crop',
+    fertilizer: {
+      title: 'Fertilizer',
+      service: this.fertilizerService,
       fields: [
-        { name: 'variety', type: 'text', label: 'Variety' },
-
+        { name: 'name', type: 'text', label: 'Name' },
+        { name: 'brand', type: 'text', label: 'Brand' },
+        { name: 'pricePerGram', type: 'number', label: 'PricePerGram' }
       ]
     }
-
   };
 
   public getFormConfig(entityType: string): FormConfig {

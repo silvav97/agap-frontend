@@ -1,1 +1,31 @@
-<p>pesticide-form works!</p>
+<div class="container-fluid min-vh-100 d-flex justify-content-center" style="padding-top: 5vh;">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-12">
+      <div class="card shadow-lg mb-0">
+        <div class="card-body p-2">
+
+          <shared-generic-form
+              [title]="title"
+              [config]="formConfig"
+              [form]="form">
+          </shared-generic-form>
+
+          <div class="container mt-n3"> <!-- Aplica un margen negativo para acercar el contenedor al formulario -->
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div class="d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary" (click)="handleSubmit()" [disabled]="!form.valid">Guardar</button>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
