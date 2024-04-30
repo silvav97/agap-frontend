@@ -1,28 +1,23 @@
-<!-- Generic Form Component Template -->
+<!-- generic-form.component.html -->
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <h1>{{ title }}</h1>
+  <div *ngFor="let field of config" class="mb-3">
+    <label [attr.for]="field.name" class="form-label">{{ field.label }}</label>
 
+    <!-- Añade ngSwitch en un div contenedor -->
+    <div [ngSwitch]="field.type">
+      <input *ngSwitchCase="'text'" type="text" class="form-control" [id]="field.name" [formControlName]="field.name">
+      <input *ngSwitchCase="'number'" type="number" class="form-control" [id]="field.name" [formControlName]="field.name">
+      <select *ngSwitchCase="'select'" class="form-control" [id]="field.name" [formControlName]="field.name">
+        <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+      </select>
+      <input *ngSwitchCase="'checkbox'" type="checkbox" class="form-check-input" [id]="field.name" [formControlName]="field.name">
+    </div>
 
-
-   <!-- Elimina cualquier margen inferior del card -->
-     <!-- Reduce padding dentro del card -->
-      <h1 class="mb-3"> <!-- Reducido el margen inferior del título -->
-        {{ title }}
-        <small *ngIf="form.get('id')?.value">{{ form.get('name')?.value }}</small>
-      </h1>
-      <form [formGroup]="form">
-        <div *ngFor="let field of config" class="mb-1" [ngSwitch]="field.type"> <!-- Reducido el margen entre campos -->
-          <label [attr.for]="field.name" class="form-label">{{ field.label }}</label>
-          <input *ngSwitchCase="'text'" type="text" class="form-control" [id]="field.name" [formControlName]="field.name">
-          <input *ngSwitchCase="'number'" type="number" class="form-control" [id]="field.name" [formControlName]="field.name">
-          <select *ngSwitchCase="'select'" class="form-control" [formControlName]="field.name">
-            <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
-          </select>
-          <input *ngSwitchCase="'checkbox'" type="checkbox" class="form-check-input" [id]="field.name" [formControlName]="field.name">
-          <input *ngSwitchDefault type="text" class="form-control" [id]="field.name" [formControlName]="field.name">
-          <div *ngIf="form.controls[field.name].errors?.['required']" class="alert alert-danger mt-1">
-            This field is required.
-          </div>
-        </div>
-      </form>
-
-
-
+    <!-- Error handling -->
+    <div *ngIf="form.get(field.name)?.touched && form.get(field.name)?.errors?.['required']" class="alert alert-danger mt-1">
+      This field is required.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>

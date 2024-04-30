@@ -14,10 +14,11 @@ export class PesticideFormComponent implements OnInit {
   public form: FormGroup;
   public title: string = '';
 
-  public formConfig = [
-    { name: 'name', type: 'text', label: 'Name', validators: [Validators.required, Validators.maxLength(50)] },
-    { name: 'brand', type: 'text', label: 'Brand', validators: [Validators.required] },
-    { name: 'pricePerGram', type: 'number', label: 'Price Per Gram', validators: [Validators.required, Validators.min(0)] }
+  // Define formConfig here
+  public formConfig: FieldConfig[] = [
+    { type: 'text', name: 'name', label: 'Nombre', validators: [Validators.required, Validators.maxLength(50)] },
+    { type: 'text', name: 'brand', label: 'Marca', validators: [Validators.required] },
+    { type: 'number', name: 'pricePerGram', label: 'Precio por Gramo', validators: [Validators.required, Validators.min(0)] }
   ];
 
   constructor(
@@ -32,9 +33,7 @@ export class PesticideFormComponent implements OnInit {
       brand: ['', [Validators.required]],
       pricePerGram: ['', [Validators.required, Validators.min(0)]]
     });
-  }
 
-  ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       if (id) {
@@ -46,7 +45,9 @@ export class PesticideFormComponent implements OnInit {
     });
   }
 
-  loadPesticide(id: number) {
+  ngOnInit(): void {}
+
+  loadPesticide(id: number): void {
     const token = localStorage.getItem('access_token');
     this.pesticideService.getPesticideById(id, token).subscribe({
       next: (pesticide) => this.form.patchValue(pesticide),
@@ -57,18 +58,19 @@ export class PesticideFormComponent implements OnInit {
     });
   }
 
-  handleSubmit() {
+  handleFormSubmit(value: any): void {
     const token = localStorage.getItem('access_token');
     const operation = this.form.get('id')?.value
-      ? this.pesticideService.updatePesticide(this.form.value, token)
-      : this.pesticideService.addPesticide(this.form.value, token);
+      ? this.pesticideService.updatePesticide(value, token)
+      : this.pesticideService.addPesticide(value, token);
 
     operation.subscribe({
       next: () => {
-        const message = this.form.get('id')?.value ? 'Pesticida actualizado' : 'Pesticida creado con éxito';
-        Swal.fire('Éxito', message, 'success').then(() => this.router.navigateByUrl('/pesticide'));
+        Swal.fire('Éxito', `Pesticida ${this.form.get('id')?.value ? 'actualizado' : 'creado'} con éxito!`, 'success').then(() => this.router.navigateByUrl('/pesticide'));
       },
-      error: () => Swal.fire('Error', 'Operación fallida', 'error')
+      error: () => {
+        Swal.fire('Error', 'Operación fallida', 'error');
+      }
     });
   }
 }

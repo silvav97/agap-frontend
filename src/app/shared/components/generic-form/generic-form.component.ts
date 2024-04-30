@@ -12,6 +12,8 @@ export class GenericFormComponent implements OnChanges {
   @Input() config!: FieldConfig[];
   @Input() form!: FormGroup;
 
+  @Output() submitForm = new EventEmitter<any>();
+
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -28,5 +30,9 @@ export class GenericFormComponent implements OnChanges {
     });
   }
 
-
+  handleSubmit(): void {
+    if (this.form.valid) {
+      this.submitForm.emit(this.form.value);
+    }
+  }
 }
