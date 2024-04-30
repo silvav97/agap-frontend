@@ -24,6 +24,12 @@ const routes: Routes = [
         loadChildren: () => import('../pesticide/pesticide.module').then(m => m.PesticideModule)
       },
 
+      {
+        path: 'crop-type',
+        canActivate: [ isAuthenticatedGuard ],
+        loadChildren: () => import('../crop-type/crop-type.module').then(m => m.CropTypeModule)
+      },
+
       { path: '**', redirectTo: '' },
     ]
   }

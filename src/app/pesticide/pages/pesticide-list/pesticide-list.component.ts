@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { Fertilizer } from '../../../fertilizer/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PesticideService } from '../../services/pesticide.service';
 import Swal from 'sweetalert2';
+import { Pesticide } from '../../interfaces';
 
 @Component({
   selector: 'app-pesticide-list',
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class PesticideListComponent {
 
-  public pesticideList     : Fertilizer[] = []
+  public pesticideList     : Pesticide[] = []
 
   public columns = [
     { key: 'name',         label: 'Nombre' },

@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environments';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { Pesticide } from '../interfaces';
-import { FertilizerPagination } from '../../fertilizer/interfaces';
+import { Pagination } from '../../shared/interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +27,11 @@ export class PesticideService {
     );
   }
 
-  public getPesticidePaginated(page: number, pageSize: number, token: string | null): Observable<FertilizerPagination> {
+  public getPesticidePaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<Pesticide>> {
     const url = `${ this.baseUrl }/api/v1/pesticide/page?pageNumber=${page}&pageSize=${pageSize}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<FertilizerPagination>( url, {headers} ).pipe(
+    return this.http.get<Pagination<Pesticide>>( url, {headers} ).pipe(
       tap( (response) => {
         console.log('Pesticide.Service.getPesticidePaginated', response);
       }),

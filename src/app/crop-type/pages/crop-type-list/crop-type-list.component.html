@@ -1,0 +1,14 @@
+
+
+
+<shared-generic-list  [items]="cropTypeList"
+                      [columns]="columns"
+                      [baseRoute]="baseRoute"
+                      [listTitle]="listTitle"
+                      [paginator]="paginator"
+
+                      (edit)="onEdit($event)"
+                      (delete)="onDelete($event)"
+                      (create)="onCreate()"
+                      (pageSizeChange)="onPageSizeChange($event)">
+</shared-generic-list>

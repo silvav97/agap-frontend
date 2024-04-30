@@ -3,8 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environments';
-import { Fertilizer, FertilizerPagination } from '../interfaces';
+import { Fertilizer } from '../interfaces';
 import Swal from 'sweetalert2';
+import { Pagination } from '../../shared/interfaces/pagination.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +29,11 @@ export class FertilizerService {
     );
   }
 
-  public getFertilizerPaginated(page: number, pageSize: number, token: string | null): Observable<FertilizerPagination> {
+  public getFertilizerPaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<Fertilizer>> {
     const url = `${ this.baseUrl }/api/v1/fertilizer/page?pageNumber=${page}&pageSize=${pageSize}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<FertilizerPagination>( url, {headers} ).pipe(
+    return this.http.get<Pagination<Fertilizer>>( url, {headers} ).pipe(
       tap( (response) => {
         console.log('Fertilizer.Service.getFertilizerPaginated', response);
       }),

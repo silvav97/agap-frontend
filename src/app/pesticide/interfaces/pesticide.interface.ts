@@ -1,7 +1,7 @@
 
 
 export interface Pesticide {
-  id: number
+  id: number;
   name: string;
   brand: string;
   pricePerGram: number;

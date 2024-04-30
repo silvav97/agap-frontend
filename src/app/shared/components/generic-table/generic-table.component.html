@@ -14,7 +14,11 @@
     <tbody>
       <tr *ngFor="let item of items; let i = index">
 
-        <td *ngFor="let col of columns">{{ item[col.key] }}</td>
+        <!-- <td *ngFor="let col of columns">{{ item[col.key] }}</td> -->
+
+        <td *ngFor="let col of columns">
+          {{ col.key.includes('.') ? resolveNestedProperty(item, col.key) : item[col.key] }}
+        </td>
 
         <td>
           <button type="button" class="btn btn-primary btn-sm" (click)="edit.emit(item.id)">Editar</button>

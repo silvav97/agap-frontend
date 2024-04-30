@@ -22,5 +22,8 @@ export class GenericTableComponent {
   @Output()
   public delete = new EventEmitter<number>();
 
+  resolveNestedProperty(item: any, path: string): any {
+    return path.split('.').reduce((o, i) => o && o[i], item);
+  }
 
 }

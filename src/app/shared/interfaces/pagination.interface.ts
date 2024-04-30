@@ -1,7 +1,5 @@
-import { Fertilizer } from "./fertilizer.interface";
-
-export interface FertilizerPagination {
-  content:          Fertilizer[];
+export interface Pagination<T> {
+  content:          T[];
   pageable:         Pageable;
   last:             boolean;
   totalPages:       number;

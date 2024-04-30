@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PesticideListComponent } from './pages/pesticide-list/pesticide-list.component';
-import { PesticideFormComponent } from './pages/pesticide-form/pesticide-form.component';
+import { CropTypeListComponent } from './pages/crop-type-list/crop-type-list.component';
+import { CropTypeFormComponent } from './pages/crop-type-form/crop-type-form.component';
 
 const routes: Routes = [
 
   {
     path: '',
-    component: PesticideListComponent,
+    component: CropTypeListComponent,
     //children: [{ path: 'list', component: FertilizerListComponent }]
   },
   {
     path: 'page/:page',
-    component: PesticideListComponent
+    component: CropTypeListComponent
   },
   {
     path: 'new',
-    component: PesticideFormComponent,
+    component: CropTypeFormComponent,
   },
   {
     path: 'edit/:id',
-    component: PesticideFormComponent,
+    component: CropTypeFormComponent,
   }
 
 ];
@@ -29,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PesticideRoutingModule { }
+export class CropTypeRoutingModule { }
