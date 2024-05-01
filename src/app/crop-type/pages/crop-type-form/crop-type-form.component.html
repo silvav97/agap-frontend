@@ -1,1 +1,11 @@
-<p>crop-type-form works!</p>
+
+
+
+<div class="container mt-4">
+  <shared-generic-form
+      [title]="title"
+      [config]="formConfig"
+      [form]="form"
+      (submitForm)="handleFormSubmit($event)">
+  </shared-generic-form>
+</div>

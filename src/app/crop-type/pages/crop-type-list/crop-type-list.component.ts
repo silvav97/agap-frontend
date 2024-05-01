@@ -19,6 +19,7 @@ export class CropTypeListComponent {
     { key: 'fertilizer.name', label: 'Fertilizante' },
     { key: 'plantQuantityPerSquareMeter', label: '# de Plantas / m^2' },
     { key: 'harvestTime', label: 'Tiempo de Cosecha' },
+    { key: 'weather', label: 'Tiempo de Cosecha' },
 
   ];
 

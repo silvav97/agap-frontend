@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environments';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, tap, throwError } from 'rxjs';
-import { CropType } from '../interfaces';
+import { CropType, CropTypeRequest } from '../interfaces';
 import { Pagination } from '../../shared/interfaces/pagination.interface';
 
 @Injectable({
@@ -51,7 +51,7 @@ export class CropTypeService {
     );
   }
 
-  public updateCropType( cropType: CropType, token: string | null): Observable<CropType> {
+  public updateCropType( cropType: CropTypeRequest, token: string | null): Observable<CropType> {
     const url = `${ this.baseUrl }/api/v1/cropType/${cropType.id}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -78,5 +78,13 @@ export class CropTypeService {
     );
   }
 
+  public addCropType( cropType: CropTypeRequest, token: string | null ): Observable<CropType> {
+    const url = `${ this.baseUrl }/api/v1/cropType`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<CropType>( url, cropType, { headers } ).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
 
 }
