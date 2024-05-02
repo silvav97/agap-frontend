@@ -11,7 +11,7 @@ import { Pesticide } from '../../interfaces';
 })
 export class PesticideListComponent {
 
-  public pesticideList     : Pesticide[] = []
+  public pesticideList: Pesticide[] = [];
 
   public columns = [
     { key: 'name',         label: 'Nombre' },
@@ -23,20 +23,12 @@ export class PesticideListComponent {
   public paginator: any;
 
 
-  private activatedRoute    = inject( ActivatedRoute );
-  private router            = inject( Router );
-
-
-
+  private activatedRoute   = inject( ActivatedRoute );
+  private router           = inject( Router );
+  private pesticideService = inject( PesticideService );
 
   public pageSize = 10;
   public pageSizes = [5, 10, 15];
-
-
-
-
-  private pesticideService = inject( PesticideService );
-
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {

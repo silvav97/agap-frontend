@@ -175,4 +175,10 @@ export class AuthService {
     return user;
   }
 
+  public getUserRoles(): Observable<string[]> {
+    return this.currentUser.pipe(
+      map(user => user? user.roles : [])
+    )
+  }
+
 }

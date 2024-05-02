@@ -1,0 +1,41 @@
+/* Estilo básico para todos los botones */
+.btn-card {
+  border: none;
+  padding: 5px 5px; /* Ajustado para unificar el tamaño */
+  border-radius: 20px;
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  margin-right: 6px; /* Espacio entre botones */
+  background-color: #6c757d; /* Un gris más neutral */
+  color: white;
+  min-width: 80px; /* Asegura que todos los botones tienen el mismo ancho mínimo */
+}
+
+/* Hover común para todos los botones */
+.btn-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilo específico para el botón Eliminar */
+.btn-delete {
+  background-color: #dc3545; /* Un rojo más vibrante pero no demasiado brillante */
+}
+
+.btn-delete:hover {
+  background-color: #c82333; /* Un rojo más oscuro para el hover */
+}
+
+/* Los botones Editar, Más y Aplicar usan el mismo color base y hover, solo cambiaré el hover para que sea un poco más oscuro */
+.btn-regular:hover {
+  background-color: #5a6268; /* Un gris oscuro para el hover */
+}
+
+
+
+.card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Espacio entre botones */
+  justify-content: center; /* Centra los botones cuando no llenan completamente una línea */
+}

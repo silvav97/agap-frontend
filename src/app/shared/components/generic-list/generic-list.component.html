@@ -7,6 +7,7 @@
     <hr>
     <shared-generic-table [items]="items"
                           [columns]="columns"
+                          [actionsConfig]="actionsConfig"
                           (edit)="edit.emit($event)"
                           (delete)="delete.emit($event)">
     </shared-generic-table>

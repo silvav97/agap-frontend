@@ -8,8 +8,8 @@ import { map, take } from 'rxjs';
 // PublicGuard(isNotAuthenticatedGuard) - PrivateGuard(isAuthenticatedGuard)
 
 export const isNotAuthenticatedGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
+  const authService = inject( AuthService );
+  const router      = inject( Router );
 
   return authService.authStatus.pipe(
     take(1),

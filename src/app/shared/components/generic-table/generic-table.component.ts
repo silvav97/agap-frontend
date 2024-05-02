@@ -14,6 +14,7 @@ export class GenericTableComponent {
   @Input()
   public columns?: { key: string, label: string }[]; // Ejemplo: [{ key: 'name', label: 'Nombre' }]
 
+  @Input() actionsConfig?: ActionConfig[] = [];
 
 
 
@@ -26,4 +27,11 @@ export class GenericTableComponent {
     return path.split('.').reduce((o, i) => o && o[i], item);
   }
 
+}
+
+
+export interface ActionConfig {
+  label: string;
+  visible: (item: any) => boolean;   // es una funcion aunque podría ser un booleano si quisiera.
+  emitEvent: EventEmitter<number>;
 }

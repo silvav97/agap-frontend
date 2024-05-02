@@ -1,0 +1,21 @@
+
+
+<div class="container">
+  <h1>Lista de proyectos</h1>
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mb-5">
+    <div class="col" *ngFor="let project of projects">
+
+
+      <shared-generic-card class="d-flex flex-column h-100"
+            [image]="project.imageUrl"
+            [title]="project.name"
+            [fields]="getCardFields(project)"
+            [buttons]="getCardButtons(project)"
+            (buttonClick)="handleButtonClick($event, project.id)">
+      </shared-generic-card>
+
+
+    </div>
+  </div>
+</div>

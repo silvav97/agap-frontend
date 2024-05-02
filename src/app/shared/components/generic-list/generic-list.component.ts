@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ActionConfig } from '../generic-table/generic-table.component';
 
 @Component({
   selector: 'shared-generic-list',
@@ -18,12 +19,10 @@ export class GenericListComponent {
   public paginator: any;
   public pageSize = 10;
 
-  // @Input()
-  // public addRoute?: string;
-
-
   @Input()  // creo que no necesita el input
   public pageSizes: number[] = [5, 10, 15];  // Default sizes
+
+  @Input() actionsConfig?: ActionConfig[];
 
 
 

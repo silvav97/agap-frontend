@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Fertilizer } from '../../../fertilizer/interfaces';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 
 @Component({
   selector: 'shared-generic-card',
@@ -8,12 +8,32 @@ import { Fertilizer } from '../../../fertilizer/interfaces';
 })
 export class GenericCardComponent {
 
-  @Input()
-  public fertilizer!: Fertilizer;
+  @Input() image?: string;
+  @Input() title!: string;
+  @Input() fields: CardField[] = [];
+  @Input() buttons: CardButton[] = [];
 
-  ngOnInit(): void {
-    if ( !this.fertilizer ) throw Error('Fertilizer property is required');
+  @Output() buttonClick = new EventEmitter<string>();
+
+  public onButtonClick(action: string): void {
+    this.buttonClick.emit(action);
+  }
+
+  public hasDropdownItems(): boolean {
+    return this.buttons.some(btn => btn.isDropdownItem && btn.visible);
   }
 
 }
 
+export interface CardField {
+  label: string;
+  value: any;
+}
+
+export interface CardButton {
+  text: string;
+  action: string;  // puede ser 'edit', 'more', 'delete', 'apply'
+  visible: boolean;
+  style?: string;
+  isDropdownItem?: boolean;  // indica si el botón debe ir en la lista desplegable
+}
