@@ -5,9 +5,9 @@
                       [baseRoute]="baseRoute"
                       [listTitle]="listTitle"
                       [paginator]="paginator"
+                      [actionsConfig]="actionsConfig"
 
-                      (edit)="onEdit($event)"
-                      (delete)="onDelete($event)"
+
                       (create)="onCreate()"
                       (pageSizeChange)="onPageSizeChange($event)">
 </shared-generic-list>

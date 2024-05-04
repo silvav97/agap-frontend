@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject } from '@angular/core';
 import { FertilizerService } from '../../services/fertilizer.service';
 import { Fertilizer } from '../../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 
 @Component({
   selector: 'app-fertilizer-list',
@@ -11,35 +12,41 @@ import Swal from 'sweetalert2';
 })
 export class FertilizerListComponent {
 
+  public fertilizerList: Fertilizer[] = []
+  public actionsConfig: ActionConfig[] = [];
 
-  public fertilizerList     : Fertilizer[] = []
-  //public fertilizerSelected?: Fertilizer;
-  public paginador: any;
-  public pageSize = 10;
-  public pageSizes = [5, 10, 15];
-  public baseRoute = '/fertilizer';
   public columns = [
     { key: 'name',         label: 'Nombre' },
     { key: 'brand',        label: 'Marca' },
     { key: 'pricePerGram', label: 'Precio por gramo' }
   ];
+  public baseRoute = '/fertilizer';
+  public listTitle = 'Fertilizantes';
+  public paginator: any;
+
+
+  private activatedRoute   = inject( ActivatedRoute );
+  private router           = inject( Router );
   private fertilizerService = inject( FertilizerService );
-  private activatedRoute    = inject( ActivatedRoute );
-  private router            = inject( Router );
+
+  public pageSize = 10;
+  public pageSizes = [5, 10, 15];
+
 
   ngOnInit(): void {
+    this.setupActions();
     this.activatedRoute.paramMap.subscribe(params => {
       let page = +params.get('page')! || 0;
-      this.loadFertilizers(page);
+      this.loadItems(page);
     });
   }
 
-  loadFertilizers(page: number): void {
+  loadItems(page: number): void {
     var token = localStorage.getItem('access_token')
     this.fertilizerService.getFertilizerPaginated(page, this.pageSize, token)
       .subscribe( response => {
         this.fertilizerList = response.content
-        this.paginador = {
+        this.paginator = {
                 content: response.content,
                 pageable: response.pageable,
                 last: response.last,
@@ -55,9 +62,27 @@ export class FertilizerListComponent {
       });
   }
 
+  private setupActions(): void {
+    this.actionsConfig = [
+      {
+        label: 'Editar',
+        visible: () => true,
+        emitEvent: new EventEmitter<number>()
+      },
+      {
+        label: 'Eliminar',
+        visible: () => true,
+        emitEvent: new EventEmitter<number>()
+      }
+    ];
+
+    this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id));
+    this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id));
+  }
+
   onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
-    this.loadFertilizers(0);
+    this.loadItems(0);
   }
 
   public onEdit(id: number): void {
@@ -83,6 +108,10 @@ export class FertilizerListComponent {
         });
       }
     });
+  }
+
+  public onCreate(): void {
+    this.router.navigateByUrl(`${this.baseRoute}/new`);
   }
 
 }

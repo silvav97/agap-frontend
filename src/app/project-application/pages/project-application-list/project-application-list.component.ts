@@ -16,9 +16,10 @@ export class ProjectApplicationListComponent {
   public actionsConfig: ActionConfig[] = [];
 
   public columns = [
+    { key: 'id',      label: 'Aplication id' },
     { key: 'applicationStatus', label: 'Status' },
     { key: 'applicationDate',   label: 'applicationDate' },
-    { key: 'adminComment',      label: 'Comentarios del admin' }
+
   ];
 
   public baseRoute = '/project-application';
@@ -44,6 +45,7 @@ export class ProjectApplicationListComponent {
     var token = localStorage.getItem('access_token')
     this.projectApplicationService.getProjectApplicationPaginated(page, this.pageSize, token)
       .subscribe( response => {
+        console.log({response})
         this.projectApplicationList = response.content
         this.paginator = {
                 content: response.content,

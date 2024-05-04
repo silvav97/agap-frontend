@@ -16,9 +16,13 @@ const routes: Routes = [
     component: ProjectApplicationListComponent
   },
   {
-    path: 'new',
-    canActivate: [ roleGuard ],
-    data: { roles: ['ADMIN'] },
+    path: 'new/:projectId',
+    //canActivate: [ roleGuard ],
+    //data: { roles: ['ADMIN'] },
+    component: ProjectApplicationFormComponent
+  },
+  {
+    path: 'edit/:id/:projectId',
     component: ProjectApplicationFormComponent
   }
 

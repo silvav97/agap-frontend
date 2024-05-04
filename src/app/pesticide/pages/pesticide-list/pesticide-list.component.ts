@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PesticideService } from '../../services/pesticide.service';
 import Swal from 'sweetalert2';
 import { Pesticide } from '../../interfaces';
+import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 
 @Component({
   selector: 'app-pesticide-list',
@@ -12,6 +13,7 @@ import { Pesticide } from '../../interfaces';
 export class PesticideListComponent {
 
   public pesticideList: Pesticide[] = [];
+  public actionsConfig: ActionConfig[] = [];
 
   public columns = [
     { key: 'name',         label: 'Nombre' },
@@ -31,6 +33,7 @@ export class PesticideListComponent {
   public pageSizes = [5, 10, 15];
 
   ngOnInit(): void {
+    this.setupActions();
     this.activatedRoute.paramMap.subscribe(params => {
       let page = +params.get('page')! || 0;
       this.loadItems(page);
@@ -58,6 +61,23 @@ export class PesticideListComponent {
       });
   }
 
+  private setupActions(): void {
+    this.actionsConfig = [
+      {
+        label: 'Editar',
+        visible: () => true,
+        emitEvent: new EventEmitter<number>()
+      },
+      {
+        label: 'Eliminar',
+        visible: () => true,
+        emitEvent: new EventEmitter<number>()
+      }
+    ];
+
+    this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id));
+    this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id));
+  }
 
   public onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
@@ -71,7 +91,7 @@ export class PesticideListComponent {
   public onDelete(id: number):void {
     Swal.fire({
       title: 'Está seguro',
-      text: `Desea eliminar el fertilizer con id: ${id}?`,
+      text: `Desea eliminar el pesticida con id: ${id}?`,
       icon: 'warning',
       confirmButtonText: 'Si',
       cancelButtonText: 'No',
@@ -80,10 +100,10 @@ export class PesticideListComponent {
         let token = localStorage.getItem('access_token');
         this.pesticideService.deletePesticideById(id, token).subscribe({
           next: () =>  {
-            Swal.fire('Eliminado', `Fertilizante ${id} eliminado con éxito!`, 'success');
+            Swal.fire('Eliminado', `Pesticida ${id} eliminado con éxito!`, 'success');
             this.pesticideList = this.pesticideList.filter(pesticide => pesticide.id != id);
           },
-          error: () => Swal.fire('Error', `Fertilizante ${id} no pudo ser eliminado!`, 'error'),
+          error: () => Swal.fire('Error', `Pesticida ${id} no pudo ser eliminado!`, 'error'),
         });
       }
     });

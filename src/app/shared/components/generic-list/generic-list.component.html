@@ -5,12 +5,12 @@
   <div class="col">
     <button type="button" class="btn btn-success mb-3" (click)="onCreate()">Agregar {{ listTitle }}</button>
     <hr>
-    <shared-generic-table [items]="items"
-                          [columns]="columns"
-                          [actionsConfig]="actionsConfig"
-                          (edit)="edit.emit($event)"
-                          (delete)="delete.emit($event)">
+    <shared-generic-table
+                [items]="items"
+                [columns]="columns"
+                [actionsConfig]="actionsConfig">
     </shared-generic-table>
+
     <shared-paginator [paginador]="paginator" [pageRoute]="baseRoute + '/page'"></shared-paginator>
   </div>
 

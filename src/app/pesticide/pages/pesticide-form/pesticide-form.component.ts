@@ -11,10 +11,10 @@ import Swal from 'sweetalert2';
   styleUrl: './pesticide-form.component.css'
 })
 export class PesticideFormComponent implements OnInit {
+
   public form: FormGroup;
   public title: string = '';
 
-  // Define formConfig here
   public formConfig: FieldConfig[] = [
     { type: 'text', name: 'name', label: 'Nombre', validators: [Validators.required, Validators.maxLength(50)] },
     { type: 'text', name: 'brand', label: 'Marca', validators: [Validators.required] },

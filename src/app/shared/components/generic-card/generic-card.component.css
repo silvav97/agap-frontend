@@ -13,7 +13,7 @@
 
 /* Hover común para todos los botones */
 .btn-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-6px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 

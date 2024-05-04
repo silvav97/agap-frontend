@@ -77,4 +77,5 @@ export class PesticideService {
       catchError(err => throwError(() => err.error))
     );
   }
+
 }

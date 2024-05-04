@@ -9,21 +9,11 @@ import Swal from 'sweetalert2';
   styleUrl: './generic-table.component.css'
 })
 export class GenericTableComponent {
-  @Input()
-  public items: any[] = [];
-  @Input()
-  public columns?: { key: string, label: string }[]; // Ejemplo: [{ key: 'name', label: 'Nombre' }]
-
+  @Input() items: any[] = [];
+  @Input() columns?: { key: string, label: string }[];
   @Input() actionsConfig?: ActionConfig[] = [];
 
-
-
-  @Output()
-  public edit = new EventEmitter<number>();
-  @Output()
-  public delete = new EventEmitter<number>();
-
-  resolveNestedProperty(item: any, path: string): any {
+  public resolveNestedProperty(item: any, path: string): any {
     return path.split('.').reduce((o, i) => o && o[i], item);
   }
 

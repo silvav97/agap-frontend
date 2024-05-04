@@ -21,13 +21,13 @@
         </td>
 
         <td>
-          <button type="button" class="btn btn-primary btn-sm" (click)="edit.emit(item.id)">Editar</button>
+          <!-- <button type="button" class="btn btn-primary btn-sm" (click)="edit.emit(item.id)">Editar</button>
 
-          <button type="button" class="btn btn-danger btn-sm" (click)="delete.emit(item.id)">Eliminar</button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="delete.emit(item.id)">Eliminar</button> -->
 
           <ng-container *ngFor="let action of actionsConfig">
-            <button *ngIf="action.visible"
-                    type="button" class="btn btn-primary btn-sm"
+            <button *ngIf="action.visible(item)"
+                    type="button" class="btn btn-primary btn-sm m-2"
                     (click)="action.emitEvent.emit(item.id)">
               {{ action.label }}
             </button>

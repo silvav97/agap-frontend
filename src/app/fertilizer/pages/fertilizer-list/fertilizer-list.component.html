@@ -1,26 +1,11 @@
-<h1>Listado de Fertilizantes</h1>
-
-<div class="row">
-  <div class="col">
-    <hr>
-    <shared-generic-table [items]="fertilizerList"
-                          [columns]="columns"
-                          (edit)="onEdit($event)"
-                          (delete)="onDelete($event)">
-    </shared-generic-table>
-  </div>
-</div>
-
-<shared-paginator *ngIf="paginador" [paginador] = "paginador" [pageRoute]="baseRoute + '/page'"></shared-paginator>
+<shared-generic-list  [items]="fertilizerList"
+                      [columns]="columns"
+                      [baseRoute]="baseRoute"
+                      [listTitle]="listTitle"
+                      [paginator]="paginator"
+                      [actionsConfig]="actionsConfig"
 
 
-<div>
-  <label for="pageSize">Items por página:</label>
-  <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
-    <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
-  </select>
-</div>
-
-<button type="button" class="btn btn-danger btn-sm" routerLink='/fertilizer/new-fertilizer'>
-  Agregar fertilizante
-</button>
+                      (create)="onCreate()"
+                      (pageSizeChange)="onPageSizeChange($event)">
+</shared-generic-list>

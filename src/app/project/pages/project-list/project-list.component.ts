@@ -5,6 +5,8 @@ import { CardButton } from '../../../shared/components/generic-card/generic-card
 import { User } from '../../../auth/interfaces';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-list',
@@ -19,6 +21,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   private projectService = inject( ProjectService );
   private authService    = inject( AuthService );
+  private router         = inject( Router );
 
   constructor() {}
 
@@ -78,10 +81,15 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         // código para eliminar
         break;
       case 'apply':
-        // código para aplicar
+        this.onApply(projectId);
         break;
       default:
         console.error('Acción no reconocida');
     }
+  }
+
+  public onApply(projectId: number) {
+    //Swal.fire('Bien', `Aplicaste al proyecto con id ${projectId}`, 'success');
+    this.router.navigate(['/project-application/new', projectId]);
   }
 }

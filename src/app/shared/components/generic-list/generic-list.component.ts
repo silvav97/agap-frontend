@@ -26,10 +26,10 @@ export class GenericListComponent {
 
 
 
-  @Output()
-  public edit = new EventEmitter<number>();
-  @Output()
-  public delete = new EventEmitter<number>();
+  // @Output()
+  // public edit = new EventEmitter<number>();
+  // @Output()
+  // public delete = new EventEmitter<number>();
   @Output()
   public create = new EventEmitter<void>();
   @Output()

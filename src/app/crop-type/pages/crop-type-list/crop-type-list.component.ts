@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject } from '@angular/core';
 import { CropType } from '../../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CropTypeService } from '../../services/crop-type.service';
 import Swal from 'sweetalert2';
+import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 
 @Component({
   selector: 'app-crop-type-list',
@@ -11,7 +12,8 @@ import Swal from 'sweetalert2';
 })
 export class CropTypeListComponent {
 
-  public cropTypeList     : CropType[] = []
+  public cropTypeList: CropType[] = []
+  public actionsConfig: ActionConfig[] = [];
 
   public columns = [
     { key: 'name', label: 'Nombre' },
@@ -45,6 +47,7 @@ export class CropTypeListComponent {
 
 
   ngOnInit(): void {
+    this.setupActions();
     this.activatedRoute.paramMap.subscribe(params => {
       let page = +params.get('page')! || 0;
       this.loadItems(page);
@@ -72,6 +75,23 @@ export class CropTypeListComponent {
       });
   }
 
+  private setupActions(): void {
+    this.actionsConfig = [
+      {
+        label: 'Editar',
+        visible: () => true,
+        emitEvent: new EventEmitter<number>()
+      },
+      {
+        label: 'Eliminar',
+        visible: () => true,
+        emitEvent: new EventEmitter<number>()
+      }
+    ];
+
+    this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id));
+    this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id));
+  }
 
   public onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;

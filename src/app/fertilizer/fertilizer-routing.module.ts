@@ -15,7 +15,7 @@ const routes: Routes = [
     component: FertilizerListComponent
   },
   {
-    path: 'new-fertilizer',
+    path: 'new',
     component: FertilizerFormComponent
   },
   {
