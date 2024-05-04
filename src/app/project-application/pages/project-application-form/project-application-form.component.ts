@@ -115,6 +115,7 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         Swal.fire('Error', `Operación fallida, error: ${error.description}`, 'error');
+        console.log({error})
       }
     });
   }

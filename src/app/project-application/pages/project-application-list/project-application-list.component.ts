@@ -16,10 +16,10 @@ export class ProjectApplicationListComponent {
   public actionsConfig: ActionConfig[] = [];
 
   public columns = [
-    { key: 'id',      label: 'Aplication id' },
+
     { key: 'applicationStatus', label: 'Status' },
     { key: 'applicationDate',   label: 'applicationDate' },
-
+    { key: 'applicant.id',      label: 'Aplication id' },
   ];
 
   public baseRoute = '/project-application';
