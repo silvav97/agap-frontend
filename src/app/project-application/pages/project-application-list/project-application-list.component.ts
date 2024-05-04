@@ -19,7 +19,9 @@ export class ProjectApplicationListComponent {
 
     { key: 'applicationStatus', label: 'Status' },
     { key: 'applicationDate',   label: 'applicationDate' },
-    { key: 'applicant.id',      label: 'Aplication id' },
+    { key: 'applicant.firstName',      label: 'Aplicante' },
+    { key: 'project.cropType.fertilizer.brand',      label: 'Proyecto' },
+
   ];
 
   public baseRoute = '/project-application';
