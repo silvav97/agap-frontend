@@ -26,7 +26,7 @@
           <button type="button" class="btn btn-danger btn-sm" (click)="delete.emit(item.id)">Eliminar</button> -->
 
           <ng-container *ngFor="let action of actionsConfig">
-            <button *ngIf="action.visible(item)"
+            <button *ngIf="action.visible(item) && action.type === 'rowAction'"
                     type="button" class="btn btn-primary btn-sm m-2"
                     (click)="action.emitEvent.emit(item.id)">
               {{ action.label }}

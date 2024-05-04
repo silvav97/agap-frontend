@@ -67,17 +67,17 @@ export class FertilizerListComponent {
       {
         label: 'Editar',
         visible: () => true,
-        emitEvent: new EventEmitter<number>()
+        emitEvent: new EventEmitter<number | void>()
       },
       {
         label: 'Eliminar',
         visible: () => true,
-        emitEvent: new EventEmitter<number>()
+        emitEvent: new EventEmitter<number | void>()
       }
     ];
 
-    this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id));
-    this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id));
+    this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id!));
+    this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id!));
   }
 
   onPageSizeChange(newSize: number): void {

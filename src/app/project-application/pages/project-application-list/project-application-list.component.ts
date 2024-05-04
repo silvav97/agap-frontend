@@ -69,18 +69,27 @@ export class ProjectApplicationListComponent {
     this.actionsConfig = [
       {
         label: 'Aprobar',
+        type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
-        emitEvent: new EventEmitter<number>()
+        emitEvent: new EventEmitter<number | void>()
       },
       {
         label: 'Rechazar',
+        type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
-        emitEvent: new EventEmitter<number>()
+        emitEvent: new EventEmitter<number | void>()
+      },
+      {
+        label: 'Agregar ' + this.listTitle,
+        type: 'generalAction',
+        visible: () => true,
+        emitEvent: new EventEmitter<number | void>()
       }
     ];
 
-    this.actionsConfig[0].emitEvent.subscribe(id => this.approveApplication(id));
-    this.actionsConfig[1].emitEvent.subscribe(id => this.rejectApplication(id));
+    this.actionsConfig[0].emitEvent.subscribe(id => this.approveApplication(id!));
+    this.actionsConfig[1].emitEvent.subscribe(id => this.rejectApplication(id!));
+    this.actionsConfig[2].emitEvent.subscribe(() => this.onCreate());
   }
 
   public approveApplication(id: number) {

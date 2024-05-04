@@ -30,8 +30,12 @@ export class GenericListComponent {
   // public edit = new EventEmitter<number>();
   // @Output()
   // public delete = new EventEmitter<number>();
-  @Output()
-  public create = new EventEmitter<void>();
+
+
+  // @Output()
+  // public create = new EventEmitter<void>();
+
+
   @Output()
   public pageSizeChange = new EventEmitter<number>();
 
@@ -41,7 +45,7 @@ export class GenericListComponent {
     this.pageSizeChange.emit(newSize);
   }
 
-  onCreate(): void {
-    this.create.emit();
-  }
+  // onCreate(): void {
+  //   this.create.emit();
+  // }
 }

@@ -22,6 +22,7 @@ export class GenericTableComponent {
 
 export interface ActionConfig {
   label: string;
-  visible: (item: any) => boolean;   // es una funcion aunque podría ser un booleano si quisiera.
-  emitEvent: EventEmitter<number>;
+  type?: 'rowAction' | 'generalAction';
+  visible: (item?: any) => boolean;   // es una funcion aunque podría ser un booleano si quisiera.
+  emitEvent: EventEmitter<number | void>;
 }
