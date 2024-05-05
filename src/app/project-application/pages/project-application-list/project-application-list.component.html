@@ -1,4 +1,12 @@
 
+<div class="toolbar">
+  <label for="projectSelector">Proyecto:</label>
+  <select id="projectSelector" [(ngModel)]="selectedProjectId" (change)="loadItems(0)">
+    <option value="">Todos los proyectos</option>
+    <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}</option>
+  </select>
+</div>
+
 <shared-generic-list  [items]="projectApplicationList"
                       [columns]="columns"
                       [baseRoute]="baseRoute"

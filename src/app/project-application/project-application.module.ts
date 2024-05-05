@@ -5,6 +5,7 @@ import { ProjectApplicationRoutingModule } from './project-application-routing.m
 import { ProjectApplicationFormComponent } from './pages/project-application-form/project-application-form.component';
 import { ProjectApplicationListComponent } from './pages/project-application-list/project-application-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     ProjectApplicationRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ]
 })
 export class ProjectApplicationModule { }
