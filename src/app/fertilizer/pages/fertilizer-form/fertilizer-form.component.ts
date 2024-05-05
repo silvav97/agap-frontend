@@ -1,10 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Fertilizer } from '../../interfaces';
 import { FertilizerService } from '../../services/fertilizer.service';
 import Swal from 'sweetalert2';
-import { catchError, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FieldConfig } from '../../../shared/interfaces/field-config.interface';
 
 @Component({
   selector: 'app-fertilizer-form',
@@ -13,64 +12,66 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class FertilizerFormComponent implements OnInit {
 
-  private formBuilder       = inject( FormBuilder );
-  private fertilizerService = inject( FertilizerService );
-  private router            = inject( Router );
-  private activatedRoute   = inject( ActivatedRoute );
+  public form: FormGroup;
+  public title: string = '';
 
-  public fertilizerForm: FormGroup = this.formBuilder.group({
-    id: [''],
-    name: ['admin@yopmail.com', [ Validators.required ]],
-    brand: ['admin@yopmail.com', [ Validators.required ]],
-    pricePerGram: ['', [ Validators.required, Validators.pattern(/^\d+(\.\d+)?$/) ]],
-  });
+  public formConfig: FieldConfig[] = [
+    { type: 'text', name: 'name', label: 'Nombre', validators: [Validators.required, Validators.maxLength(50)] },
+    { type: 'text', name: 'brand', label: 'Marca', validators: [Validators.required] },
+    { type: 'number', name: 'pricePerGram', label: 'Precio por Gramo', validators: [Validators.required, Validators.min(0)] }
+  ];
 
-  get currentFertilizer(): Fertilizer {
-    const fertilizer = this.fertilizerForm.value as Fertilizer;
-    return fertilizer;
-  }
+  constructor(
+    private fb: FormBuilder,
+    private fertilizerService: FertilizerService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.form = this.fb.group({
+      id: [null],
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      brand: ['', [Validators.required]],
+      pricePerGram: ['', [Validators.required, Validators.min(0)]]
+    });
 
-  constructor() {}
-
-  ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      const id = +params['id'];
+      const id = params['id'];
       if (id) {
-        let token = localStorage.getItem('access_token');
-        this.fertilizerService.getFertilizerById(id, token).subscribe(fertilizer => {
-          if (fertilizer) {
-            this.fertilizerForm.patchValue(fertilizer);
-          } else {
-            this.router.navigate(['/fertilizer']);
-          }
-        });
+        this.title = 'Editar Fertilizante';
+        this.loadFertilizer(id);
+      } else {
+        this.title = 'Agregar Fertilizante';
       }
     });
   }
 
+  ngOnInit(): void {}
 
-
-  public onSubmit() {
-    let token = localStorage.getItem('access_token');
-    let fertilizer : Fertilizer = this.currentFertilizer;
-
-    if (this.fertilizerForm.invalid) return;
-
-    const operation = fertilizer.id
-      ? this.fertilizerService.updateFertilizer(fertilizer, token)
-      : this.fertilizerService.addFertilizer(fertilizer, token);
-
-    operation.subscribe({
-      next: () => {
-        const message = fertilizer.id ? 'Fertilizante actualizado' : 'Fertilizante creado con éxito';
-        Swal.fire('Bien', message, 'success').then(() => {
-          this.router.navigateByUrl('/fertilizer');
-        });
-      },
-      error: () => Swal.fire('Error', 'Operación fallida', 'error')
+  loadFertilizer(id: number): void {
+    const token = localStorage.getItem('access_token');
+    this.fertilizerService.getFertilizerById(id, token).subscribe({
+      next: (fertilizer) => this.form.patchValue(fertilizer),
+      error: () => {
+        Swal.fire('Error', 'No se pudo cargar el fertilizante', 'error');
+        this.router.navigate(['/fertilizer']);
+      }
     });
   }
 
+  handleFormSubmit(value: any): void {
+    const token = localStorage.getItem('access_token');
+    const operation = this.form.get('id')?.value
+      ? this.fertilizerService.updateFertilizer(value, token)
+      : this.fertilizerService.addFertilizer(value, token);
 
+    operation.subscribe({
+      next: () => {
+        Swal.fire('Éxito', `Fertilizante ${this.form.get('id')?.value ? 'actualizado' : 'creado'} con éxito!`, 'success').then(() => this.router.navigateByUrl('/fertilizer'));
+      },
+      error: () => {
+        Swal.fire('Error', 'Operación fallida', 'error');
+      }
+    });
+  }
 
 }
