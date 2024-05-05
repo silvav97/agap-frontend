@@ -90,29 +90,76 @@ export class FertilizerListComponent {
     this.router.navigate([`${this.baseRoute}/edit`, id]);
   }
 
-  public onDelete(id: number):void {
-    Swal.fire({
-      title: 'Está seguro',
-      text: `Desea eliminar el fertilizer con id: ${id}?`,
-      icon: 'warning',
-      confirmButtonText: 'Si',
-      cancelButtonText: 'No',
-    }).then((result) => {
-      if ( result.isConfirmed ) {
-        let token = localStorage.getItem('access_token');
-        this.fertilizerService.deleteFertilizerById(id, token).subscribe({
-          next: () =>  {
-            Swal.fire('Eliminado', `Fertilizante ${id} eliminado con éxito!`, 'success');
-            this.fertilizerList = this.fertilizerList.filter(fertilizer => fertilizer.id != id);
-          },
-          error: () => Swal.fire('Error', `Fertilizante ${id} no pudo ser eliminado!`, 'error'),
-        });
+  // public onDelete(id: number):void {
+  //   Swal.fire({
+  //     title: 'Está seguro',
+  //     text: `Desea eliminar el fertilizer con id: ${id}?`,
+  //     icon: 'warning',
+  //     confirmButtonText: 'Si',
+  //     cancelButtonText: 'No',
+  //   }).then((result) => {
+  //     if ( result.isConfirmed ) {
+  //       let token = localStorage.getItem('access_token');
+  //       this.fertilizerService.deleteFertilizerById(id, token).subscribe({
+  //         next: () =>  {
+  //           Swal.fire('Eliminado', `Fertilizante ${id} eliminado con éxito!`, 'success');
+  //           this.fertilizerList = this.fertilizerList.filter(fertilizer => fertilizer.id != id);
+  //         },
+  //         error: () => Swal.fire('Error', `Fertilizante ${id} no pudo ser eliminado!`, 'error'),
+  //       });
+  //     }
+  //   });
+  // }
+
+  public onCreate(): void {
+    this.router.navigateByUrl(`${this.baseRoute}/new`);
+  }
+
+  public onDelete(id: number): void {
+    let token = localStorage.getItem('access_token');
+    this.fertilizerService.getRelatedCropTypes(id, token).subscribe({
+      next: (relatedCropTypes) => {
+        let cropTypeNamesList = relatedCropTypes.map(cropType => `- ${cropType}`).join('<br>');
+        let warningMessage = relatedCropTypes.length > 0
+          ? `Desea eliminar el Fertilizante con id: ${id}? Está asociado a los siguientes Tipos de cultivo:<br>${cropTypeNamesList}`
+          : `Desea eliminar el Fertilizante con id: ${id}?`;
+
+        this.showDeletionDialog(id, warningMessage);
+      },
+      error: (error) => {
+        console.error('Error al obtener tipos de cultivo relacionados:', error);
+        Swal.fire('Error', 'Error obteniendo tipos de cultivo relacionados al Fertilizante', 'error');
       }
     });
   }
 
-  public onCreate(): void {
-    this.router.navigateByUrl(`${this.baseRoute}/new`);
+  private showDeletionDialog(id: number, message: string): void {
+    Swal.fire({
+      title: 'Está seguro?',
+      html: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deletePesticideById(id);
+      }
+    });
+  }
+
+  private deletePesticideById(id: number): void {
+    let token = localStorage.getItem('access_token');
+    this.fertilizerService.deleteFertilizerById(id, token).subscribe({
+      next: () => {
+        Swal.fire('Eliminado', `Fertilizante ${id} eliminado con éxito!`, 'success');
+        this.fertilizerList = this.fertilizerList.filter(fertilizer => fertilizer.id !== id);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el Fertilizante:', error);
+        Swal.fire('Error', `Fertilizante ${id} no pudo ser eliminado!`, 'error');
+      }
+    });
   }
 
 }

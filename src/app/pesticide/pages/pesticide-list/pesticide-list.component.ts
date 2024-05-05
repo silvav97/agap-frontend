@@ -25,11 +25,9 @@ export class PesticideListComponent {
   public listTitle = 'Pesticidas';
   public paginator!: Pagination<Pesticide>;
 
-
+  private pesticideService = inject( PesticideService );
   private activatedRoute   = inject( ActivatedRoute );
   private router           = inject( Router );
-  private pesticideService = inject( PesticideService );
-
   public pageSize = 10;
   public pageSizes = [5, 10, 15];
 
@@ -90,29 +88,78 @@ export class PesticideListComponent {
     this.router.navigate([`${this.baseRoute}/edit`, id]);
   }
 
-  public onDelete(id: number):void {
-    Swal.fire({
-      title: 'Está seguro',
-      text: `Desea eliminar el pesticida con id: ${id}?`,
-      icon: 'warning',
-      confirmButtonText: 'Si',
-      cancelButtonText: 'No',
-    }).then((result) => {
-      if ( result.isConfirmed ) {
-        let token = localStorage.getItem('access_token');
-        this.pesticideService.deletePesticideById(id, token).subscribe({
-          next: () =>  {
-            Swal.fire('Eliminado', `Pesticida ${id} eliminado con éxito!`, 'success');
-            this.pesticideList = this.pesticideList.filter(pesticide => pesticide.id != id);
-          },
-          error: () => Swal.fire('Error', `Pesticida ${id} no pudo ser eliminado!`, 'error'),
-        });
+  // public onDeleteNOOOO(id: number):void {
+  //   Swal.fire({
+  //     title: 'Está seguro',
+  //     text: `Desea eliminar el pesticida con id: ${id}?`,
+  //     icon: 'warning',
+  //     confirmButtonText: 'Si',
+  //     cancelButtonText: 'No',
+  //   }).then((result) => {
+  //     if ( result.isConfirmed ) {
+  //       let token = localStorage.getItem('access_token');
+  //       this.pesticideService.deletePesticideById(id, token).subscribe({
+  //         next: () =>  {
+  //           Swal.fire('Eliminado', `Pesticida ${id} eliminado con éxito!`, 'success');
+  //           this.pesticideList = this.pesticideList.filter(pesticide => pesticide.id != id);
+  //         },
+  //         error: () => Swal.fire('Error', `Pesticida ${id} no pudo ser eliminado!`, 'error'),
+  //       });
+  //     }
+  //   });
+  // }
+
+  public onCreate(): void {
+    this.router.navigateByUrl(`${this.baseRoute}/new`);
+  }
+
+
+
+  public onDelete(id: number): void {
+    let token = localStorage.getItem('access_token');
+    this.pesticideService.getRelatedCropTypes(id, token).subscribe({
+      next: (relatedCropTypes) => {
+        let cropTypeNamesList = relatedCropTypes.map(cropType => `- ${cropType}`).join('<br>');
+        let warningMessage = relatedCropTypes.length > 0
+          ? `Desea eliminar el Pesticida con id: ${id}? Está asociado a los siguientes Tipos de cultivo:<br>${cropTypeNamesList}`
+          : `Desea eliminar el Pesticida con id: ${id}?`;
+
+        this.showDeletionDialog(id, warningMessage);
+      },
+      error: (error) => {
+        console.error('Error al obtener tipos de cultivo relacionados:', error);
+        Swal.fire('Error', 'Error obteniendo tipos de cultivo relacionados al Pesticida', 'error');
       }
     });
   }
 
-  public onCreate(): void {
-    this.router.navigateByUrl(`${this.baseRoute}/new`);
+  private showDeletionDialog(id: number, message: string): void {
+    Swal.fire({
+      title: 'Está seguro?',
+      html: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deletePesticideById(id);
+      }
+    });
+  }
+
+  private deletePesticideById(id: number): void {
+    let token = localStorage.getItem('access_token');
+    this.pesticideService.deletePesticideById(id, token).subscribe({
+      next: () => {
+        Swal.fire('Eliminado', `Pesticida ${id} eliminado con éxito!`, 'success');
+        this.pesticideList = this.pesticideList.filter(pesticide => pesticide.id !== id);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el Pesticida:', error);
+        Swal.fire('Error', `Pesticida ${id} no pudo ser eliminado!`, 'error');
+      }
+    });
   }
 
 }

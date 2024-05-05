@@ -71,6 +71,15 @@ export class FertilizerService {
     )
   }
 
+  public getRelatedCropTypes(id: number, token: string | null): Observable<string[]> {
+    const url = `${ this.baseUrl }/api/v1/fertilizer/${id}/relatedCropTypes`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<string[]>( url, {headers} ).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
   public addFertilizer( fertilizer: Fertilizer, token: string | null ): Observable<Fertilizer> {
     const url = `${ this.baseUrl }/api/v1/fertilizer`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

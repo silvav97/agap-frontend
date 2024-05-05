@@ -69,18 +69,19 @@ export class ProjectApplicationListComponent {
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-danger'
       },
-      {
-        label: 'Agregar ' + this.listTitle,
-        type: 'generalAction',
-        visible: () => true,
-        emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-add'
-      }
+      // NO DEBO TENER BOTON DE AGREGAR PROJECT APPLICATION YA QUE ESO SE HACE EN PROJECT, EN 'APLICAR'
+      // {
+      //   label: 'Agregar ' + this.listTitle,
+      //   type: 'generalAction',
+      //   visible: () => false,
+      //   emitEvent: new EventEmitter<number | void>(),
+      //   buttonClass: 'btn-add'
+      // }
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => this.approveApplication(id!));
     this.actionsConfig[1].emitEvent.subscribe(id => this.rejectApplication(id!));
-    this.actionsConfig[2].emitEvent.subscribe(() => this.onCreate());
+    //this.actionsConfig[2].emitEvent.subscribe(() => this.onCreate());
   }
 
   public approveApplication(id: number) {

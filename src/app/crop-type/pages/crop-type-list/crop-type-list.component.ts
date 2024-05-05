@@ -31,21 +31,11 @@ export class CropTypeListComponent {
   public listTitle = 'Tipos de Cultivo';
   public paginator!: Pagination<CropType>;
 
-
-  private activatedRoute    = inject( ActivatedRoute );
-  private router            = inject( Router );
-
-
-
-
+  private cropTypeService = inject( CropTypeService );
+  private activatedRoute  = inject( ActivatedRoute );
+  private router          = inject( Router );
   public pageSize = 10;
   public pageSizes = [5, 10, 15];
-
-
-
-
-  private cropTypeService = inject( CropTypeService );
-
 
   ngOnInit(): void {
     this.setupActions();
@@ -108,8 +98,7 @@ export class CropTypeListComponent {
     let token = localStorage.getItem('access_token');
     this.cropTypeService.getRelatedProjects(id, token).subscribe({
       next: (relatedProjects) => {
-        // Cambia '\n' a '<br>' para que sea interpretado como HTML
-        let projectNamesList = relatedProjects.map(proj => `- ${proj}`).join('<br>');
+        let projectNamesList = relatedProjects.map(project => `- ${project}`).join('<br>');
         let warningMessage = relatedProjects.length > 0
           ? `Desea eliminar el TipoDeCultivo con id: ${id}? Está asociado a los siguientes proyectos:<br>${projectNamesList}`
           : `Desea eliminar el TipoDeCultivo con id: ${id}?`;
@@ -126,7 +115,7 @@ export class CropTypeListComponent {
   private showDeletionDialog(id: number, message: string): void {
     Swal.fire({
       title: 'Está seguro?',
-      html: message, // Utiliza 'html' en lugar de 'text' para interpretar HTML
+      html: message,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí',
