@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Pagination } from '../../interfaces/pagination.interface';
 
 @Component({
   selector: 'shared-paginator',
@@ -8,7 +9,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input()
-  public paginador: any;
+  public paginador!: Pagination<any>;
   @Input()
   public pageRoute?: string = ''; // Ruta base para construir los enlaces
 

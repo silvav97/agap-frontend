@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectApplicationService } from '../../services/project-application.service';
 import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
+import { Pagination } from '../../../shared/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-project-application-list',
@@ -26,12 +27,11 @@ export class ProjectApplicationListComponent {
 
   public baseRoute = '/project-application';
   public listTitle = 'Aplicaciones a proyectos';
-  public paginator: any;
+  public paginator!: Pagination<ProjectApplicationResponse>;
 
-  private activatedRoute   = inject( ActivatedRoute );
-  private router           = inject( Router );
   private projectApplicationService = inject( ProjectApplicationService );
-
+  private activatedRoute            = inject( ActivatedRoute );
+  private router                    = inject( Router );
   public pageSize = 10;
   public pageSizes = [5, 10, 15];
 
@@ -49,19 +49,7 @@ export class ProjectApplicationListComponent {
       .subscribe( response => {
         console.log({response})
         this.projectApplicationList = response.content
-        this.paginator = {
-                content: response.content,
-                pageable: response.pageable,
-                last: response.last,
-                totalPages: response.totalPages,
-                totalElements: response.totalElements,
-                size: response.size,
-                number: response.number,
-                sort: response.sort,
-                first: response.first,
-                numberOfElements: response.numberOfElements,
-                empty: response.empty
-        };
+        this.paginator = response;
       });
   }
 

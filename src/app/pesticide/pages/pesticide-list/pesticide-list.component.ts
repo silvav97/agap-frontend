@@ -4,6 +4,7 @@ import { PesticideService } from '../../services/pesticide.service';
 import Swal from 'sweetalert2';
 import { Pesticide } from '../../interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
+import { Pagination } from '../../../shared/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-pesticide-list',
@@ -22,7 +23,7 @@ export class PesticideListComponent {
   ];
   public baseRoute = '/pesticide';
   public listTitle = 'Pesticidas';
-  public paginator: any;
+  public paginator!: Pagination<Pesticide>;
 
 
   private activatedRoute   = inject( ActivatedRoute );
@@ -45,19 +46,7 @@ export class PesticideListComponent {
     this.pesticideService.getPesticidePaginated(page, this.pageSize, token)
       .subscribe( response => {
         this.pesticideList = response.content
-        this.paginator = {
-                content: response.content,
-                pageable: response.pageable,
-                last: response.last,
-                totalPages: response.totalPages,
-                totalElements: response.totalElements,
-                size: response.size,
-                number: response.number,
-                sort: response.sort,
-                first: response.first,
-                numberOfElements: response.numberOfElements,
-                empty: response.empty
-        };
+        this.paginator = response;
       });
   }
 

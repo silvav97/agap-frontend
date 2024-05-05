@@ -2,7 +2,6 @@
 
   <li class="page-item" *ngIf="paginador.number > 0">
     <a class="page-link" [routerLink]="[pageRoute, paginador.number-1]"> &laquo; </a>
-    <!-- <a class="page-link" [routerLink]="['/fertilizer/page', paginador.number-1]"> &laquo; </a> -->
   </li>
 
   <li class="page-item" [ngClass]="paginador.first ? 'disabled' : ''">

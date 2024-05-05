@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CropTypeService } from '../../services/crop-type.service';
 import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
+import { Pagination } from '../../../shared/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-crop-type-list',
@@ -28,7 +29,7 @@ export class CropTypeListComponent {
 
   public baseRoute = '/crop-type';
   public listTitle = 'Tipos de Cultivo';
-  public paginator: any;
+  public paginator!: Pagination<CropType>;
 
 
   private activatedRoute    = inject( ActivatedRoute );
@@ -59,19 +60,7 @@ export class CropTypeListComponent {
     this.cropTypeService.getCropTypePaginated(page, this.pageSize, token)
       .subscribe( response => {
         this.cropTypeList = response.content
-        this.paginator = {
-                content: response.content,
-                pageable: response.pageable,
-                last: response.last,
-                totalPages: response.totalPages,
-                totalElements: response.totalElements,
-                size: response.size,
-                number: response.number,
-                sort: response.sort,
-                first: response.first,
-                numberOfElements: response.numberOfElements,
-                empty: response.empty
-        };
+        this.paginator = response;
       });
   }
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActionConfig } from '../generic-table/generic-table.component';
+import { Pagination } from '../../interfaces/pagination.interface';
 
 @Component({
   selector: 'shared-generic-list',
@@ -16,24 +17,14 @@ export class GenericListComponent {
   @Input()
   public listTitle?: string;
   @Input()
-  public paginator: any;
+  public paginator!: Pagination<any>;
   public pageSize = 10;
 
   @Input()  // creo que no necesita el input
-  public pageSizes: number[] = [5, 10, 15];  // Default sizes
+  public pageSizes: number[] = [5, 10, 15];
 
   @Input() actionsConfig?: ActionConfig[];
 
-
-
-  // @Output()
-  // public edit = new EventEmitter<number>();
-  // @Output()
-  // public delete = new EventEmitter<number>();
-
-
-  // @Output()
-  // public create = new EventEmitter<void>();
 
 
   @Output()
@@ -45,7 +36,4 @@ export class GenericListComponent {
     this.pageSizeChange.emit(newSize);
   }
 
-  // onCreate(): void {
-  //   this.create.emit();
-  // }
 }

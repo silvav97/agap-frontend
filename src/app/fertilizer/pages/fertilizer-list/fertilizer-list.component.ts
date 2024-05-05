@@ -4,6 +4,7 @@ import { Fertilizer } from '../../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
+import { Pagination } from '../../../shared/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-fertilizer-list',
@@ -22,7 +23,7 @@ export class FertilizerListComponent {
   ];
   public baseRoute = '/fertilizer';
   public listTitle = 'Fertilizantes';
-  public paginator: any;
+  public paginator!: Pagination<Fertilizer>;
 
 
   private activatedRoute   = inject( ActivatedRoute );
@@ -46,19 +47,7 @@ export class FertilizerListComponent {
     this.fertilizerService.getFertilizerPaginated(page, this.pageSize, token)
       .subscribe( response => {
         this.fertilizerList = response.content
-        this.paginator = {
-                content: response.content,
-                pageable: response.pageable,
-                last: response.last,
-                totalPages: response.totalPages,
-                totalElements: response.totalElements,
-                size: response.size,
-                number: response.number,
-                sort: response.sort,
-                first: response.first,
-                numberOfElements: response.numberOfElements,
-                empty: response.empty
-        };
+        this.paginator = response;
       });
   }
 
