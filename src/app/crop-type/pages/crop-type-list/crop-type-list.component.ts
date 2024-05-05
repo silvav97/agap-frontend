@@ -79,18 +79,31 @@ export class CropTypeListComponent {
     this.actionsConfig = [
       {
         label: 'Editar',
+        type: 'rowAction',
         visible: () => true,
-        emitEvent: new EventEmitter<number | void>()
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-primary'
       },
       {
         label: 'Eliminar',
+        type: 'rowAction',
         visible: () => true,
-        emitEvent: new EventEmitter<number | void>()
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-danger'
+      },
+      {
+        label: 'Agregar ' + this.listTitle,
+        type: 'generalAction',
+        visible: () => true,
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-add'
       }
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id!));
     this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id!));
+    this.actionsConfig[2].emitEvent.subscribe(() => this.onCreate());
+
   }
 
   public onPageSizeChange(newSize: number): void {

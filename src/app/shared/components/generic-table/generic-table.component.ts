@@ -25,4 +25,5 @@ export interface ActionConfig {
   type?: 'rowAction' | 'generalAction';
   visible: (item?: any) => boolean;   // es una funcion aunque podría ser un booleano si quisiera.
   emitEvent: EventEmitter<number | void>;
+  buttonClass?: string;
 }

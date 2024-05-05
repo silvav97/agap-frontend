@@ -71,19 +71,22 @@ export class ProjectApplicationListComponent {
         label: 'Aprobar',
         type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
-        emitEvent: new EventEmitter<number | void>()
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-primary'
       },
       {
         label: 'Rechazar',
         type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
-        emitEvent: new EventEmitter<number | void>()
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-danger'
       },
       {
         label: 'Agregar ' + this.listTitle,
         type: 'generalAction',
         visible: () => true,
-        emitEvent: new EventEmitter<number | void>()
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-add'
       }
     ];
 
