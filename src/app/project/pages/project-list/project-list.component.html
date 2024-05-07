@@ -3,8 +3,15 @@
 <div class="container">
   <h1>Lista de proyectos</h1>
 
+  <div>
+    <label for="pageSize">Items por página:</label>
+    <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mb-5">
-    <div class="col" *ngFor="let project of projects">
+    <div class="col" *ngFor="let project of projectList">
 
 
       <shared-generic-card class="d-flex flex-column h-100"
@@ -18,4 +25,8 @@
 
     </div>
   </div>
+
+  <shared-paginator [paginador]="paginator" [pageRoute]="baseRoute + '/page'"></shared-paginator>
+
+
 </div>

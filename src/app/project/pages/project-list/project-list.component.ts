@@ -6,7 +6,8 @@ import { User } from '../../../auth/interfaces';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Pagination } from '../../../shared/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-project-list',
@@ -15,20 +16,44 @@ import { Router } from '@angular/router';
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
 
+  public projectList: ProjectResponse[] = [];
+  public baseRoute = '/project';
+  public paginator!: Pagination<ProjectResponse>;
+
+  public pageSize = 2;
+  public pageSizes = [2, 3, 6];
+
   private userSubscription?: Subscription;
   public user: User | null = null;
-  projects: ProjectResponse[] = [];
 
   private projectService = inject( ProjectService );
   private authService    = inject( AuthService );
+  private activatedRoute = inject( ActivatedRoute );
   private router         = inject( Router );
 
   constructor() {}
 
   ngOnInit(): void {
-    this.loadProjects();
+    //this.loadProjects(0);  // esto del params
     this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
       this.user = currentUser;
+    });
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page = +params.get('page')! || 0;
+      this.loadProjects(page);
+    });
+  }
+
+  loadProjects(page: number): void {
+    let token = localStorage.getItem('access_token');
+    this.projectService.getProjectPaginated(page, this.pageSize, token).subscribe({
+      next: (response) => {
+        this.projectList = response.content;
+        this.paginator = response;
+      },
+      error: (err) => {
+        console.error('Error loading projects:', err);
+      }
     });
   }
 
@@ -36,16 +61,11 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.userSubscription?.unsubscribe();
   }
 
-  loadProjects(): void {
-    let token = localStorage.getItem('access_token');
-    this.projectService.getProjectList(token).subscribe({
-      next: (projects) => {
-        this.projects = projects;
-      },
-      error: (err) => {
-        console.error('Error loading projects:', err);
-      }
-    });
+
+
+  public onPageSizeChange(newSize: number): void {
+    this.pageSize = newSize;
+    this.loadProjects(0); // Recarga proyectos al cambiar el tamaño de página
   }
 
   getCardFields(project: ProjectResponse): any[] {
@@ -62,7 +82,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       { text: 'Más',              action: 'more',   visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
       { text: 'Aplicar',          action: 'apply',  visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
       { text: 'Editar',           action: 'edit',   visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-regular', isDropdownItem: true },
-      { text: 'Ver aplicaciones', action: 'verApp', visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-regular', isDropdownItem:true },
+      { text: 'Ver aplicaciones', action: 'verApp', visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-regular', isDropdownItem: true },
       { text: 'Finalizar',        action: 'finish', visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-delete',  isDropdownItem: true },
       { text: 'Eliminar',         action: 'delete', visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-delete',  isDropdownItem: true },
 
@@ -71,17 +91,23 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   handleButtonClick(action: string, projectId: number): void {
     switch (action) {
-      case 'edit':
-        // código para editar
-        break;
       case 'more':
         // código para más detalles
         break;
-      case 'delete':
-        // código para eliminar
-        break;
       case 'apply':
         this.onApply(projectId);
+        break;
+      case 'edit':
+        // código para editar
+        break;
+      case 'verApp':
+        this.onVerApp(projectId);
+        break;
+      case 'finish':
+        // código para editar
+        break;
+      case 'delete':
+        // código para eliminar
         break;
       default:
         console.error('Acción no reconocida');
@@ -92,4 +118,10 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     //Swal.fire('Bien', `Aplicaste al proyecto con id ${projectId}`, 'success');
     this.router.navigate(['/project-application/new', projectId]);
   }
+
+  public onVerApp(projectId: number) {
+    //Swal.fire('Bien', `Aplicaste al proyecto con id ${projectId}`, 'success');
+    this.router.navigate(['/project-application/project', projectId]);
+  }
+
 }

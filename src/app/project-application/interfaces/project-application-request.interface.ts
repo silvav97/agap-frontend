@@ -6,7 +6,12 @@ export interface ProjectApplicationRequest {
   projectId: number;
   applicantId: number;
   //applicationStatus: string;
-  applicationDate: Date;
-  reviewDate?: Date;
-  adminComment?: string;
+  //applicationDate: Date;
+  //reviewDate?: Date;
+  //adminComment?: string;
+  farmName: string;
+  area: number;
+  municipality: string;
+  weather: string;
+
 }

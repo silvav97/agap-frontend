@@ -1,22 +1,18 @@
 import { Component, EventEmitter, inject } from '@angular/core';
 import { ProjectApplicationResponse } from '../../interfaces';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectApplicationService } from '../../services/project-application.service';
-import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
-import { ProjectResponse } from '../../../project/interfaces';
-import { ProjectService } from '../../../project/services/project.service';
+import { ProjectApplicationService } from '../../services/project-application.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-project-application-list',
-  templateUrl: './project-application-list.component.html',
-  styleUrl: './project-application-list.component.css'
+  selector: 'app-my-project-application-list',
+  templateUrl: './my-project-application-list.component.html',
+  styleUrl: './my-project-application-list.component.css'
 })
-export class ProjectApplicationListComponent {
+export class MyProjectApplicationListComponent {
 
-  public projects: ProjectResponse[] = [];
-  public selectedProjectId?: number;
   public projectApplicationList: ProjectApplicationResponse[] = [];
 
   public actionsConfig: ActionConfig[] = [];
@@ -27,17 +23,15 @@ export class ProjectApplicationListComponent {
     { key: 'applicationDate',   label: 'applicationDate' },
     { key: 'applicant.firstName',      label: 'Aplicante' },
     //{ key: 'project.cropType.fertilizer.brand',      label: 'Marca de Fertilizante' },
-    //{ key: 'farmName',      label: 'Finca' },
     { key: 'municipality',      label: 'Municipio' },
 
   ];
 
-  public baseRoute = '/project-application';
+  public baseRoute = '/project-application/mine';
   public listTitle = 'Aplicaciones a proyectos';
   public paginator!: Pagination<ProjectApplicationResponse>;
 
   private projectApplicationService = inject( ProjectApplicationService );
-  private projectService            = inject( ProjectService );
   private activatedRoute            = inject( ActivatedRoute );
   private router                    = inject( Router );
   public pageSize = 10;
@@ -45,25 +39,15 @@ export class ProjectApplicationListComponent {
 
   ngOnInit(): void {
     this.setupActions();
-    this.loadProjects();
     this.activatedRoute.paramMap.subscribe(params => {
       let page = +params.get('page')! || 0;
-      this.selectedProjectId = +params.get('projectId')! || undefined;
       this.loadItems(page);
-    });
-  }
-
-  loadProjects(): void {
-    var token = localStorage.getItem('access_token')
-    this.projectService.getProjectList(token).subscribe({
-      next: (projects) => this.projects = projects,
-      error: (error) => Swal.fire('Error', 'Error al cargar los proyectos', 'error')
     });
   }
 
   loadItems(page: number): void {
     var token = localStorage.getItem('access_token')
-    this.projectApplicationService.getProjectApplicationPaginated(page, this.pageSize, token, this.selectedProjectId).subscribe({
+    this.projectApplicationService.getMyProjectApplicationPaginated(page, this.pageSize, token).subscribe({
       next: (response) => {
         this.projectApplicationList = response.content;
         this.paginator = response;
@@ -75,39 +59,29 @@ export class ProjectApplicationListComponent {
   private setupActions(): void {
     this.actionsConfig = [
       {
-        label: 'Aprobar',
+        label: 'Editar',
         type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-primary'
       },
       {
-        label: 'Rechazar',
+        label: 'Eliminar',
         type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-danger'
+        buttonClass: 'btn-warning'
       },
-      // NO DEBO TENER BOTON DE AGREGAR PROJECT APPLICATION YA QUE ESO SE HACE EN PROJECT, EN 'APLICAR'
-      // {
-      //   label: 'Agregar ' + this.listTitle,
-      //   type: 'generalAction',
-      //   visible: () => false,
-      //   emitEvent: new EventEmitter<number | void>(),
-      //   buttonClass: 'btn-add'
-      // }
+
     ];
 
-    this.actionsConfig[0].emitEvent.subscribe(id => this.approveApplication(id!));
-    this.actionsConfig[1].emitEvent.subscribe(id => this.rejectApplication(id!));
-  }
+    this.actionsConfig[0].emitEvent.subscribe(id => {
+      const projectApplication = this.projectApplicationList.find(app =>app.id === id);
+      if (projectApplication && projectApplication.project) this.onEdit(projectApplication.id, projectApplication.project.id);
+    });
 
-  public approveApplication(id: number) {
-    Swal.fire('Bien', `Aplicacion con id ${id} ha sido aprobada`, 'success');
-  }
+    this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id!));
 
-  public rejectApplication(id: number) {
-    Swal.fire('Bien', `Aplicacion con id ${id} ha sido rechazada`, 'info');
   }
 
   public onPageSizeChange(newSize: number): void {
@@ -115,8 +89,8 @@ export class ProjectApplicationListComponent {
     this.loadItems(0);
   }
 
-  public onEdit(id: number): void {
-    this.router.navigate([`${this.baseRoute}/edit`, id]);
+  public onEdit(id: number, projectId: number): void {
+    this.router.navigate([`project-application//edit`, id, projectId]);
   }
 
   public onDelete(id: number):void {

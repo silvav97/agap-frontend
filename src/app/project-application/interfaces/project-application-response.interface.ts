@@ -6,8 +6,12 @@ export interface ProjectApplicationResponse {
   id: number;
   project: ProjectResponse;
   applicant: User;
+
   applicationStatus: string;
   applicationDate: Date;
-  reviewDate?: Date;
-  adminComment?: string;
+  reviewDate: Date;
+  farmName: string;
+  area: number;
+  municipality: string;
+  weather: string;
 }

@@ -2,13 +2,14 @@
 
 
 <div class="card">
-  <img *ngIf="image" [src]="image" class="card-img-top img-fluid" alt="Card Image" style="height: 300px; object-fit: cover;">
+  <img *ngIf="image" [src]="image" class="card-img-top img-fluid" alt="Card Image" style="height: 250px; object-fit: cover;">
 
   <div class="card-body d-flex flex-column">
     <h5 class="card-title">{{ title }}</h5>
     <div *ngFor="let field of fields">
-      <strong>{{ field.label }}:</strong>
-      <p>{{ field.value }}</p>
+      <!-- <strong>{{ field.label }}:</strong>
+      <p>{{ field.value }}</p> -->
+      <p>{{ field.label }}: {{ field.value }}</p>
     </div>
   </div>
 

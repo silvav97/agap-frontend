@@ -24,7 +24,15 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
   public user: User | null = null;
 
   public formConfig: FieldConfig[] = [
-    { type: 'text', name: 'adminComment', label: 'Finca', validators: [Validators.required] },
+    { type: 'text',   name: 'farmName',     label: 'Finca',     validators: [Validators.required] },
+    { type: 'number', name: 'area',         label: 'Area',      validators: [Validators.required] },
+    { type: 'text',   name: 'municipality', label: 'Municipio', validators: [Validators.required] },
+    { type: 'select', name: 'weather',      label: 'Clima',     validators: [Validators.required], options: [
+      { value: 'CALIDO',  label: 'CALIDO'},
+      { value: 'FRIO', label: 'FRIO' },
+      { value: 'TEMPLADO', label: 'TEMPLADO' },
+      { value: 'TROPICAL', label: 'TROPICAL' }
+  ] },
     //{ type: 'text', name: 'brand', label: 'Marca', validators: [Validators.required] },
     //{ type: 'number', name: 'pricePerGram', label: 'Precio por Gramo', validators: [Validators.required, Validators.min(0)] }
   ];
@@ -40,24 +48,14 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
       id:           [null],
       projectId:    [null, [Validators.required]],
       applicantId:  [null, [Validators.required]],
-      adminComment: ['', [Validators.required]],
-      //brand: ['', [Validators.required]],
-      //pricePerGram: ['', [Validators.required, Validators.min(0)]]
+      farmName:     ['', [Validators.required]],
+      area:         [null, [Validators.required]],
+      municipality: ['', [Validators.required]],
+      weather:      ['', [Validators.required]],
     });
-
-    // this.activatedRoute.params.subscribe(params => {
-    //   const id = params['id'];
-    //   if (id) {
-    //     this.title = 'Editar Aplicación a Proyecto';
-    //     this.loadProjectApplication(id);
-    //   } else {
-    //     this.title = 'Aplicar a proyecto';
-    //   }
-    // });
   }
 
   ngOnInit(): void {
-    // obtener el applicantId (userId)
     this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
       this.user = currentUser;
       this.applicantId = currentUser?.id;

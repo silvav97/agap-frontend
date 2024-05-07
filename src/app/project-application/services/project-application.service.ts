@@ -43,22 +43,18 @@ export class ProjectApplicationService {
   }
 
 
-  /*public getProjectApplicationPaginated(page: number, pageSize: number, projectId?: number): Observable<Pagination<ProjectApplicationResponse>> {
-    return this.authService.getUserRoles().pipe(
-      concatMap(roles => {
-        const isAdmin = roles.includes('ADMIN');
-        const endpoint = isAdmin ? '/page' : '/mine/page';
-        let params = new HttpParams().set('pageNumber', page.toString()).set('pageSize', pageSize.toString());
-        if (projectId && isAdmin) params = params.set('projectId', projectId.toString());
-
-        return this.http.get<Pagination<ProjectApplicationResponse>>(`${this.baseUrl}/api/v1/project-application${endpoint}`, { params }).pipe(
-          tap( (response) => {console.log('ProjectApplication.Service.getProjectApplicationPaginated', response);}),
-          catchError(err => throwError(() => err.error)),
-        );
+  public getMyProjectApplicationPaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<ProjectApplicationResponse>> {
+    const url = `${this.baseUrl}/api/v1/project-application/mine/page?pageNumber=${page}&pageSize=${pageSize}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Pagination<ProjectApplicationResponse>>(url, { headers }).pipe(
+      tap( (response) => {
+        console.log('ProjectApplication.Service.getMyProjectApplicationPaginated', response);
       }),
-      catchError(err => throwError(() => new Error(err.message || "Network error")))
+      catchError(err => throwError(() => err.error))
     );
-  }*/
+}
+
+
 
 
 
