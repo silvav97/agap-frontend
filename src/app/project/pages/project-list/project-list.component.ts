@@ -98,7 +98,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         this.onApply(projectId);
         break;
       case 'edit':
-        // código para editar
+        this.onEdit(projectId);
         break;
       case 'verApp':
         this.onVerApp(projectId);
@@ -122,6 +122,14 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   public onVerApp(projectId: number) {
     //Swal.fire('Bien', `Aplicaste al proyecto con id ${projectId}`, 'success');
     this.router.navigate(['/project-application/project', projectId]);
+  }
+
+  public onEdit(id: number): void {
+    this.router.navigate([`${this.baseRoute}/edit`, id]);
+  }
+
+  navigateToNewProject(): void {
+    this.router.navigate(['/project/new']);  // Asegúrate de que esta ruta está configurada en tu routing module
   }
 
 }

@@ -18,8 +18,12 @@ const routes: Routes = [
   },
   {
     path: 'new',
-    canActivate: [ roleGuard ],
-    data: { roles: ['ADMIN'] },
+    // canActivate: [ roleGuard ],
+    // data: { roles: ['ADMIN'] },
+    component: ProjectFormComponent
+  },
+  {
+    path: 'edit/:id',
     component: ProjectFormComponent
   }
 
