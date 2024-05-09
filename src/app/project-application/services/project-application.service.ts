@@ -98,4 +98,13 @@ export class ProjectApplicationService {
     );
   }
 
+  public rejectProjectApplication(id: number, token: string | null ): Observable<any> {
+    const url = `${ this.baseUrl }/api/v1/project-application/${id}/reject`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<any>( url, {}, { headers } ).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
 }

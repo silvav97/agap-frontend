@@ -80,5 +80,13 @@ export class ProjectService {
     );
   }
 
+  public getRelatedProjectApplications(id: number, token: string | null): Observable<string[]> {
+    const url = `${ this.baseUrl }/api/v1/project/${id}/relatedProjectApplications`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<string[]>( url, {headers} ).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
 
 }

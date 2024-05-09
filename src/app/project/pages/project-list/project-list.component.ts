@@ -70,10 +70,11 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   getCardFields(project: ProjectResponse): any[] {
     return [
-      { label: 'Municipio', value: project.municipality },
       // { label: 'Presupuesto Total', value: `$${project.totalBudget}` },
       // { label: 'Fecha de Inicio', value: project.startDate },  // Asegúrate de que la fecha se muestre correctamente
-      // { label: 'Estado', value: project.status }
+       { label: 'Cultivo', value: project.cropType?.name },
+       { label: 'Municipio', value: project.municipality },
+
     ];
   }
 
@@ -107,7 +108,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         // código para editar
         break;
       case 'delete':
-        // código para eliminar
+        console.log({'message': 'About to delete'});
+        this.onDelete(projectId);
         break;
       default:
         console.error('Acción no reconocida');
@@ -130,6 +132,54 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   navigateToNewProject(): void {
     this.router.navigate(['/project/new']);  // Asegúrate de que esta ruta está configurada en tu routing module
+  }
+
+
+  public onDelete(id: number): void {
+    let token = localStorage.getItem('access_token');
+    this.projectService.getRelatedProjectApplications(id, token).subscribe({
+      next: (relatedProjectApplications) => {
+        let projectApplicationFarmNamesList = relatedProjectApplications.map(projectApplication => `- ${projectApplication}`).join('<br>');
+        let warningMessage = relatedProjectApplications.length > 0
+          ? `Desea eliminar el Proyecto con id: ${id}? Está asociado a las siguientes fincas:<br>${projectApplicationFarmNamesList}`
+          : `Desea eliminar el Proyecto con id: ${id}?`;
+
+        this.showDeletionDialog(id, warningMessage);
+      },
+      error: (error) => {
+        console.error('Error al obtener Aplicaciones a proyecto relacionados:', error);
+        Swal.fire('Error', 'Error obteniendo Aplicaciones a proyecto relacionados al Proyecto', 'error');
+      }
+    });
+  }
+
+  private showDeletionDialog(id: number, message: string): void {
+    Swal.fire({
+      title: 'Está seguro?',
+      html: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteProjectById(id);
+      }
+    });
+  }
+
+  private deleteProjectById(id: number): void {
+    let token = localStorage.getItem('access_token');
+    this.projectService.deleteProjectById(id, token).subscribe({
+      next: () => {
+        Swal.fire('Eliminado', `Proyecto ${id} eliminado con éxito!`, 'success');
+        this.projectList = this.projectList.filter(project => project.id !== id);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el Proyecto:', error);
+        Swal.fire('Error', `Proyecto ${id} no pudo ser eliminado!`, 'error');
+      }
+    });
   }
 
 }

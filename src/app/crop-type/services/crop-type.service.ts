@@ -69,20 +69,20 @@ export class CropTypeService {
     )
   }
 
-  public getRelatedProjects(id: number, token: string | null): Observable<string[]> {
-    const url = `${ this.baseUrl }/api/v1/cropType/${id}/relatedProjects`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<string[]>( url, {headers} ).pipe(
-      catchError(err => throwError(() => err.error))
-    );
-  }
-
   public addCropType( cropType: CropTypeRequest, token: string | null ): Observable<CropType> {
     const url = `${ this.baseUrl }/api/v1/cropType`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.post<CropType>( url, cropType, { headers } ).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
+  public getRelatedProjects(id: number, token: string | null): Observable<string[]> {
+    const url = `${ this.baseUrl }/api/v1/cropType/${id}/relatedProjects`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<string[]>( url, {headers} ).pipe(
       catchError(err => throwError(() => err.error))
     );
   }

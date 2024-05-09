@@ -23,12 +23,16 @@ export class ProjectApplicationListComponent {
 
   public columns = [
 
+    { key: 'project.name',      label: 'Proyecto' },
+    { key: 'municipality',      label: 'Municipio' },
+
     { key: 'applicationStatus', label: 'Status' },
     { key: 'applicationDate',   label: 'applicationDate' },
     { key: 'applicant.firstName',      label: 'Aplicante' },
     //{ key: 'project.cropType.fertilizer.brand',      label: 'Marca de Fertilizante' },
     //{ key: 'farmName',      label: 'Finca' },
-    { key: 'municipality',      label: 'Municipio' },
+
+
 
   ];
 
@@ -42,6 +46,7 @@ export class ProjectApplicationListComponent {
   private router                    = inject( Router );
   public pageSize = 10;
   public pageSizes = [5, 10, 15];
+  public currentPage: number = 0;
 
   ngOnInit(): void {
     this.setupActions();
@@ -107,7 +112,18 @@ export class ProjectApplicationListComponent {
   }
 
   public rejectApplication(id: number) {
-    Swal.fire('Bien', `Aplicacion con id ${id} ha sido rechazada`, 'info');
+    this.currentPage = this.paginator.pageable.pageNumber;
+    var token = localStorage.getItem('access_token')
+    this.projectApplicationService.rejectProjectApplication(id, token).subscribe({
+      next: (response) => {
+        Swal.fire('Bien', response.message, 'success');
+        console.log({'result: ': 'bien'});
+        this.loadItems(this.currentPage);
+      },
+      error: (error) => {
+        console.log({'result: ': 'error: '+ error.description});
+      }
+    })
   }
 
   public onPageSizeChange(newSize: number): void {
