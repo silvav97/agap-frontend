@@ -13,7 +13,7 @@ const routes: Routes = [
     //children: [{ path: 'list', component: FertilizerListComponent }]
   },
   {
-    path: 'page/:page',
+    path: 'page/:page/:projectId',
     component: ProjectApplicationListComponent
   },
   {

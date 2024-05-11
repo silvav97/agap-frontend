@@ -7,6 +7,7 @@ import { ActionConfig } from '../../../shared/components/generic-table/generic-t
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
 import { ProjectResponse } from '../../../project/interfaces';
 import { ProjectService } from '../../../project/services/project.service';
+import { ApplicationStatus } from '../../../shared/interfaces/application-status.enum';
 
 @Component({
   selector: 'app-project-application-list',
@@ -15,46 +16,42 @@ import { ProjectService } from '../../../project/services/project.service';
 })
 export class ProjectApplicationListComponent {
 
-  public projects: ProjectResponse[] = [];
-  public selectedProjectId?: number;
-  public projectApplicationList: ProjectApplicationResponse[] = [];
-
-  public actionsConfig: ActionConfig[] = [];
-
-  public columns = [
-
-    { key: 'project.name',      label: 'Proyecto' },
-    { key: 'municipality',      label: 'Municipio' },
-
-    { key: 'applicationStatus', label: 'Status' },
-    { key: 'applicationDate',   label: 'applicationDate' },
-    { key: 'applicant.firstName',      label: 'Aplicante' },
-    //{ key: 'project.cropType.fertilizer.brand',      label: 'Marca de Fertilizante' },
-    //{ key: 'farmName',      label: 'Finca' },
-
-
-
-  ];
-
-  public baseRoute = '/project-application';
-  public listTitle = 'Aplicaciones a proyectos';
-  public paginator!: Pagination<ProjectApplicationResponse>;
-
   private projectApplicationService = inject( ProjectApplicationService );
   private projectService            = inject( ProjectService );
   private activatedRoute            = inject( ActivatedRoute );
   private router                    = inject( Router );
+  public projectApplicationList: ProjectApplicationResponse[] = [];
+  public projects: ProjectResponse[] = [];
+  public paginator!: Pagination<ProjectApplicationResponse>;
+  public baseRoute = '/project-application';
+  public listTitle = 'Aplicaciones a proyectos';
   public pageSize = 10;
   public pageSizes = [5, 10, 15];
   public currentPage: number = 0;
+  public actionsConfig: ActionConfig[] = [];
+  public selectedProjectId?: number;
+
+  public columns = [
+
+    { key: 'project.name',         label: 'Proyecto' },
+    { key: 'farmName',             label: 'Finca' },
+    { key: 'area',                 label: 'Area' },
+    { key: 'project.municipality', label: 'Municipio' },
+    { key: 'applicationStatus',    label: 'Status' },
+    { key: 'applicationDate',      label: 'applicationDate' },
+    { key: 'applicant.firstName',  label: 'Aplicante' },
+
+  ];
 
   ngOnInit(): void {
     this.setupActions();
     this.loadProjects();
     this.activatedRoute.paramMap.subscribe(params => {
-      let page = +params.get('page')! || 0;
+      this.currentPage = +params.get('page')! || 0;
       this.selectedProjectId = +params.get('projectId')! || undefined;
-      this.loadItems(page);
+
+      //let page = +params.get('page')! || 0;
+      this.loadItems(this.currentPage);
     });
   }
 
@@ -72,6 +69,10 @@ export class ProjectApplicationListComponent {
       next: (response) => {
         this.projectApplicationList = response.content;
         this.paginator = response;
+
+        // Mantener la URL con el projectId Actual
+        this.router.navigate(['/project-application/page', page, this.selectedProjectId || '']);
+
       },
       error: (error) => Swal.fire('Error', 'Error al cargar las aplicaciones', 'error')
     });
@@ -82,25 +83,17 @@ export class ProjectApplicationListComponent {
       {
         label: 'Aprobar',
         type: 'rowAction',
-        visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
+        visible: (item: ProjectApplicationResponse) => item.applicationStatus === ApplicationStatus.PENDIENTE,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-primary'
       },
       {
         label: 'Rechazar',
         type: 'rowAction',
-        visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
+        visible: (item: ProjectApplicationResponse) => item.applicationStatus === ApplicationStatus.PENDIENTE,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-danger'
       },
-      // NO DEBO TENER BOTON DE AGREGAR PROJECT APPLICATION YA QUE ESO SE HACE EN PROJECT, EN 'APLICAR'
-      // {
-      //   label: 'Agregar ' + this.listTitle,
-      //   type: 'generalAction',
-      //   visible: () => false,
-      //   emitEvent: new EventEmitter<number | void>(),
-      //   buttonClass: 'btn-add'
-      // }
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => this.approveApplication(id!));
@@ -108,39 +101,51 @@ export class ProjectApplicationListComponent {
   }
 
   public approveApplication(id: number) {
-    Swal.fire('Bien', `Aplicacion con id ${id} ha sido aprobada`, 'success');
+    //Swal.fire('Bien', `Aplicacion con id ${id} ha sido aprobada`, 'success');
+    this.router.navigate(['/crop/new', id]);
   }
 
   public rejectApplication(id: number) {
+    Swal.fire({
+      title: 'Está seguro?',
+      text: `Desea rechazar el proyecto ${id}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rejectApplicationById(id);
+      }
+    });
+  }
+
+  public rejectApplicationById(id: number) {
+    let token = localStorage.getItem('access_token');
     this.currentPage = this.paginator.pageable.pageNumber;
-    var token = localStorage.getItem('access_token')
     this.projectApplicationService.rejectProjectApplication(id, token).subscribe({
-      next: (response) => {
-        Swal.fire('Bien', response.message, 'success');
+      next: () => {
+        Swal.fire('Bien', `Aplicación rechazada exitosamente`, 'success');
         console.log({'result: ': 'bien'});
         this.loadItems(this.currentPage);
       },
       error: (error) => {
         console.log({'result: ': 'error: '+ error.description});
+        Swal.fire('Error', `La Aplicación al proyecto ${id} no pudo ser rechazada!`, 'error');
       }
     })
   }
 
-  public onPageSizeChange(newSize: number): void {
+  /*public onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
     this.loadItems(0);
+  }*/
+
+  public onPageSizeChange(newSize: number): void {
+    this.pageSize = newSize;
+    // Actualiza la navegación para incluir el projectId
+    this.router.navigate(['/project-application/page', 0, this.selectedProjectId]);
   }
 
-  public onEdit(id: number): void {
-    this.router.navigate([`${this.baseRoute}/edit`, id]);
-  }
-
-  public onDelete(id: number):void {
-
-  }
-
-  public onCreate(): void {
-
-  }
 
 }

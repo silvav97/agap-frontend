@@ -1,12 +1,11 @@
-import { User } from "../../auth/interfaces";
 import { ProjectResponse } from "../../project/interfaces";
+import { UserResponse } from "../../user/interfaces";
 
 
 export interface ProjectApplicationResponse {
   id: number;
   project: ProjectResponse;
-  applicant: User;
-
+  applicant: UserResponse;
   applicationStatus: string;
   applicationDate: Date;
   reviewDate: Date;

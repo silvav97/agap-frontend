@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FieldConfig } from '../../../shared/interfaces/field-config.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Subscription } from 'rxjs';
 import { User } from '../../../auth/interfaces';
+import { MunicipalityService } from '../../../shared/services/municipality.service';
 
 @Component({
   selector: 'app-project-application-form',
@@ -15,6 +16,13 @@ import { User } from '../../../auth/interfaces';
 })
 export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
 
+  private projectApplicationService = inject( ProjectApplicationService);
+  private municipalityService       = inject( MunicipalityService );
+  private activatedRoute            = inject( ActivatedRoute);
+  private authService               = inject( AuthService );
+  private router                    = inject( Router);
+  private fb                        = inject( FormBuilder );
+  public municipalityOptions:       { value: number, label: string }[] = [];
   public form: FormGroup;
   public title: string = '';
   public projectId?: number;
@@ -26,33 +34,22 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
   public formConfig: FieldConfig[] = [
     { type: 'text',   name: 'farmName',     label: 'Finca',     validators: [Validators.required] },
     { type: 'number', name: 'area',         label: 'Area',      validators: [Validators.required] },
-    { type: 'text',   name: 'municipality', label: 'Municipio', validators: [Validators.required] },
-    { type: 'select', name: 'weather',      label: 'Clima',     validators: [Validators.required], options: [
-      { value: 'CALIDO',  label: 'CALIDO'},
-      { value: 'FRIO', label: 'FRIO' },
-      { value: 'TEMPLADO', label: 'TEMPLADO' },
-      { value: 'TROPICAL', label: 'TROPICAL' }
-  ] },
-    //{ type: 'text', name: 'brand', label: 'Marca', validators: [Validators.required] },
-    //{ type: 'number', name: 'pricePerGram', label: 'Precio por Gramo', validators: [Validators.required, Validators.min(0)] }
+    { type: 'select', name: 'municipality', label: 'Municipio', validators: [Validators.required], options: this.municipalityOptions },
+
   ];
 
-  constructor(
-    private fb: FormBuilder,
-    private projectApplicationService: ProjectApplicationService,
-    private authService:               AuthService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
+  constructor() {
     this.form = this.fb.group({
       id:           [null],
       projectId:    [null, [Validators.required]],
       applicantId:  [null, [Validators.required]],
-      farmName:     ['', [Validators.required]],
+      farmName:     ['',   [Validators.required]],
       area:         [null, [Validators.required]],
-      municipality: ['', [Validators.required]],
-      weather:      ['', [Validators.required]],
+      municipality: [null, [Validators.required]],
     });
+
+    const token = localStorage.getItem('access_token');
+    this.loadSelectOptions(token);
   }
 
   ngOnInit(): void {
@@ -90,6 +87,15 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
     this.userSubscription?.unsubscribe();
   }
 
+  private loadSelectOptions(token: string | null): void {
+    this.municipalityOptions = this.municipalityService
+    .getAllMunicipalities().map(municipality => ({ value: municipality.id, label: municipality.name}));
+    const municipalityField = this.formConfig.find(muni => muni.name === 'municipality');
+    if ( municipalityField ) {
+      municipalityField.options = this.municipalityOptions;
+    }
+  }
+
   loadProjectApplication(id: number): void {
     const token = localStorage.getItem('access_token');
     this.projectApplicationService.getProjectApplicationById(id, token).subscribe({
@@ -103,13 +109,20 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
 
   handleFormSubmit(value: any): void {
     const token = localStorage.getItem('access_token');
+    value.municipality = this.getMunicipalityNameById(value.municipality);
+
     const operation = this.form.get('id')?.value
       ? this.projectApplicationService.updateProjectApplication(value, token)
       : this.projectApplicationService.addProjectApplication(value, token);
 
     operation.subscribe({
       next: () => {
-        Swal.fire('Éxito', `Ha aplicado a este proyecto, pronto nos pondremos en contacto`, 'success').then(() => this.router.navigateByUrl('/project'));
+        if ( this.applicationId ) {
+          Swal.fire('Éxito', `Ha editado la aplicación a este proyecto exitosamente`, 'success').then(() => this.router.navigateByUrl('/project-application/mine'));
+
+        } else {
+          Swal.fire('Éxito', `Ha aplicado a este proyecto, pronto nos pondremos en contacto`, 'success').then(() => this.router.navigateByUrl('/project'));
+        }
       },
       error: (error) => {
         Swal.fire('Error', `Operación fallida, error: ${error.description}`, 'error');
@@ -118,5 +131,10 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  getMunicipalityNameById(id: number): string {
+    const municipality = this.municipalityService.getAllMunicipalities().find(m => Number(m.id) === Number(id));
+    console.log("Municipio encontrado: ", municipality);
+    return municipality ? municipality.name : '';
+  }
 
 }

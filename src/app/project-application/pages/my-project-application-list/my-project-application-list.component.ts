@@ -5,6 +5,7 @@ import { Pagination } from '../../../shared/interfaces/pagination.interface';
 import { ProjectApplicationService } from '../../services/project-application.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ApplicationStatus } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-my-project-application-list',
@@ -13,29 +14,29 @@ import Swal from 'sweetalert2';
 })
 export class MyProjectApplicationListComponent {
 
-  public projectApplicationList: ProjectApplicationResponse[] = [];
+  private projectApplicationService = inject( ProjectApplicationService );
+  private activatedRoute            = inject( ActivatedRoute );
+  private router                    = inject( Router );
 
+  public projectApplicationList: ProjectApplicationResponse[] = [];
+  public paginator!: Pagination<ProjectApplicationResponse>;
+  public baseRoute = '/project-application/mine';
+  public listTitle = 'Aplicaciones a proyectos';
+  public pageSize = 10;
+  public pageSizes = [5, 10, 15];
   public actionsConfig: ActionConfig[] = [];
 
   public columns = [
 
-    { key: 'applicationStatus', label: 'Status' },
-    { key: 'applicationDate',   label: 'applicationDate' },
-    { key: 'applicant.firstName',      label: 'Aplicante' },
-    //{ key: 'project.cropType.fertilizer.brand',      label: 'Marca de Fertilizante' },
-    { key: 'municipality',      label: 'Municipio' },
+    { key: 'project.name',         label: 'Proyecto' },
+    { key: 'farmName',             label: 'Finca' },
+    { key: 'area',                 label: 'Area' },
+    { key: 'project.municipality', label: 'Municipio' },
+    { key: 'applicationStatus',    label: 'Status' },
+    { key: 'applicationDate',      label: 'applicationDate' },
+    { key: 'applicant.firstName',  label: 'Aplicante' },
 
   ];
-
-  public baseRoute = '/project-application/mine';
-  public listTitle = 'Aplicaciones a proyectos';
-  public paginator!: Pagination<ProjectApplicationResponse>;
-
-  private projectApplicationService = inject( ProjectApplicationService );
-  private activatedRoute            = inject( ActivatedRoute );
-  private router                    = inject( Router );
-  public pageSize = 10;
-  public pageSizes = [5, 10, 15];
 
   ngOnInit(): void {
     this.setupActions();
@@ -61,14 +62,14 @@ export class MyProjectApplicationListComponent {
       {
         label: 'Editar',
         type: 'rowAction',
-        visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
+        visible: (item: ProjectApplicationResponse) => item.applicationStatus ===  ApplicationStatus.PENDIENTE,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-primary'
       },
       {
         label: 'Eliminar',
         type: 'rowAction',
-        visible: (item: ProjectApplicationResponse) => item.applicationStatus === 'PENDING',
+        visible: (item: ProjectApplicationResponse) => item.applicationStatus === ApplicationStatus.PENDIENTE,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-warning'
       },
@@ -94,11 +95,32 @@ export class MyProjectApplicationListComponent {
   }
 
   public onDelete(id: number):void {
-
+    Swal.fire({
+      title: 'Está seguro?',
+      text: `Desea eliminar la aplicación ${id}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteApplicationById(id);
+      }
+    });
   }
 
-  public onCreate(): void {
-
+  public deleteApplicationById(id: number): void {
+    let token = localStorage.getItem('access_token');
+    this.projectApplicationService.deleteProjectApplicationById(id, token).subscribe({
+      next: () => {
+        Swal.fire('Eliminado', `Aplicación ${id} eliminada con éxito!`, 'success');
+        this.projectApplicationList = this.projectApplicationList.filter(projectApplication => projectApplication.id !== id);
+      },
+      error: (error) => {
+        console.error('Error al eliminar La aplicación:', error);
+        Swal.fire('Error', `La Aplicación ${id} no pudo ser eliminada!`, 'error');
+      }
+    });
   }
 
 }
