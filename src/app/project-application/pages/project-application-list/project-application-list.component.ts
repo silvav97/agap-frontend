@@ -47,11 +47,9 @@ export class ProjectApplicationListComponent {
     this.setupActions();
     this.loadProjects();
     this.activatedRoute.paramMap.subscribe(params => {
-      this.currentPage = +params.get('page')! || 0;
+      let page = +params.get('page')! || 0;
       this.selectedProjectId = +params.get('projectId')! || undefined;
-
-      //let page = +params.get('page')! || 0;
-      this.loadItems(this.currentPage);
+      this.loadItems(page);
     });
   }
 
@@ -69,10 +67,6 @@ export class ProjectApplicationListComponent {
       next: (response) => {
         this.projectApplicationList = response.content;
         this.paginator = response;
-
-        // Mantener la URL con el projectId Actual
-        this.router.navigate(['/project-application/page', page, this.selectedProjectId || '']);
-
       },
       error: (error) => Swal.fire('Error', 'Error al cargar las aplicaciones', 'error')
     });
@@ -136,15 +130,9 @@ export class ProjectApplicationListComponent {
     })
   }
 
-  /*public onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
-    this.loadItems(0);
-  }*/
-
   public onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
-    // Actualiza la navegación para incluir el projectId
-    this.router.navigate(['/project-application/page', 0, this.selectedProjectId]);
+    this.loadItems(0);
   }
 
 
