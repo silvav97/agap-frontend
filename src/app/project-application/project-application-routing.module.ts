@@ -20,6 +20,12 @@ const routes: Routes = [
     path: 'project/:projectId',
     component: ProjectApplicationListComponent
   },
+
+  {
+    path: 'project/:projectId/page/:page',
+    component: ProjectApplicationListComponent
+  },
+
   {
     path: 'mine',
     component: MyProjectApplicationListComponent,

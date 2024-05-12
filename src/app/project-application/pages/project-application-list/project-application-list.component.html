@@ -1,7 +1,7 @@
 
 <div class="toolbar">
   <label for="projectSelector">Proyecto:</label>
-  <select id="projectSelector" [(ngModel)]="selectedProjectId" (change)="loadItems(0)">
+  <select id="projectSelector" [(ngModel)]="selectedProjectId" (change)="onProjectChange(selectedProjectId!)">
     <option value="">Todos los proyectos</option>
     <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}</option>
   </select>

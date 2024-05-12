@@ -48,8 +48,10 @@ export class ProjectApplicationListComponent {
     this.loadProjects();
     this.activatedRoute.paramMap.subscribe(params => {
       let page = +params.get('page')! || 0;
-      this.selectedProjectId = +params.get('projectId')! || undefined;
-      this.loadItems(page);
+      let projectId = +params.get('projectId')! || undefined;
+      this.selectedProjectId = projectId;
+      this.baseRoute = projectId ? `/project-application/project/${projectId}` : '/project-application';
+      this.loadProjectApplications(page);
     });
   }
 
@@ -61,8 +63,9 @@ export class ProjectApplicationListComponent {
     });
   }
 
-  loadItems(page: number): void {
+  loadProjectApplications(page: number): void {
     var token = localStorage.getItem('access_token')
+    console.log('projectId is: ', this.selectedProjectId)
     this.projectApplicationService.getProjectApplicationPaginated(page, this.pageSize, token, this.selectedProjectId).subscribe({
       next: (response) => {
         this.projectApplicationList = response.content;
@@ -95,7 +98,6 @@ export class ProjectApplicationListComponent {
   }
 
   public approveApplication(id: number) {
-    //Swal.fire('Bien', `Aplicacion con id ${id} ha sido aprobada`, 'success');
     this.router.navigate(['/crop/new', id]);
   }
 
@@ -121,7 +123,7 @@ export class ProjectApplicationListComponent {
       next: () => {
         Swal.fire('Bien', `Aplicación rechazada exitosamente`, 'success');
         console.log({'result: ': 'bien'});
-        this.loadItems(this.currentPage);
+        this.loadProjectApplications(this.currentPage);
       },
       error: (error) => {
         console.log({'result: ': 'error: '+ error.description});
@@ -132,8 +134,12 @@ export class ProjectApplicationListComponent {
 
   public onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
-    this.loadItems(0);
+    this.loadProjectApplications(0);
   }
 
+  onProjectChange(projectId: number): void {
+    // Navega a la misma vista con el nuevo projectId
+    this.router.navigate(['/project-application/project', projectId]);
+  }
 
 }
