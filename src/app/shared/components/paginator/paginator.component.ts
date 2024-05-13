@@ -22,7 +22,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['paginador'].currentValue) {
+    if ( changes['paginador'] && changes['paginador'].currentValue) {
       this.initPaginator();
     }
   }

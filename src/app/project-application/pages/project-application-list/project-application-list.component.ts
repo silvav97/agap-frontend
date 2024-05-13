@@ -8,6 +8,7 @@ import { Pagination } from '../../../shared/interfaces/pagination.interface';
 import { ProjectResponse } from '../../../project/interfaces';
 import { ProjectService } from '../../../project/services/project.service';
 import { ApplicationStatus } from '../../../shared/interfaces/application-status.enum';
+import { PageStateService } from '../../../shared/services/page-state.service';
 
 @Component({
   selector: 'app-project-application-list',
@@ -17,6 +18,7 @@ import { ApplicationStatus } from '../../../shared/interfaces/application-status
 export class ProjectApplicationListComponent {
 
   private projectApplicationService = inject( ProjectApplicationService );
+  private pageStateService          = inject ( PageStateService );
   private projectService            = inject( ProjectService );
   private activatedRoute            = inject( ActivatedRoute );
   private router                    = inject( Router );
@@ -25,8 +27,9 @@ export class ProjectApplicationListComponent {
   public paginator!: Pagination<ProjectApplicationResponse>;
   public baseRoute = '/project-application';
   public listTitle = 'Aplicaciones a proyectos';
-  public pageSize = 10;
-  public pageSizes = [5, 10, 15];
+
+  public pageSize?: number;
+  public pageSizes = [5, 6, 15];
   public currentPage: number = 0;
   public actionsConfig: ActionConfig[] = [];
   public selectedProjectId?: number;
@@ -43,16 +46,26 @@ export class ProjectApplicationListComponent {
 
   ];
 
+  constructor() {
+
+  }
+
   ngOnInit(): void {
-    this.setupActions();
-    this.loadProjects();
-    this.activatedRoute.paramMap.subscribe(params => {
-      let page = +params.get('page')! || 0;
-      let projectId = +params.get('projectId')! || undefined;
-      this.selectedProjectId = projectId;
-      this.baseRoute = projectId ? `/project-application/project/${projectId}` : '/project-application';
-      this.loadProjectApplications(page);
-    });
+    this.pageStateService.currentPageSize.subscribe(size => {
+      this.pageSize = size;
+
+      this.setupActions();
+      this.loadProjects();
+      this.activatedRoute.paramMap.subscribe(params => {
+        let page = +params.get('page')! || 0;
+        let projectId = +params.get('projectId')! || undefined;
+        this.selectedProjectId = projectId;
+        this.baseRoute = projectId ? `/project-application/project/${projectId}` : '/project-application';
+        this.loadProjectApplications(page);
+      });
+    })
+
+
   }
 
   loadProjects(): void {
@@ -66,7 +79,8 @@ export class ProjectApplicationListComponent {
   loadProjectApplications(page: number): void {
     var token = localStorage.getItem('access_token')
     console.log('projectId is: ', this.selectedProjectId)
-    this.projectApplicationService.getProjectApplicationPaginated(page, this.pageSize, token, this.selectedProjectId).subscribe({
+    console.log('Current PageSize: ', this.pageSize);
+    this.projectApplicationService.getProjectApplicationPaginated(page, this.pageSize!, token, this.selectedProjectId).subscribe({
       next: (response) => {
         this.projectApplicationList = response.content;
         this.paginator = response;
@@ -133,7 +147,11 @@ export class ProjectApplicationListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
+    //this.pageSize = newSize;
+
+    console.log('Changing page size to:', newSize);
+
+    this.pageStateService.changePageSize(newSize);
     this.loadProjectApplications(0);
   }
 

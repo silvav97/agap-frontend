@@ -21,6 +21,9 @@ export class CropListComponent {
     { key: 'assignedBudget', label: 'Presupuesto asignado' },
     { key: 'status', label: 'Estado' },
 
+    { key: 'projectApplication.applicant.firstName', label: 'Usuario' },
+
+
   ];
 
   public baseRoute = '/crop';
