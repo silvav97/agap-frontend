@@ -49,6 +49,12 @@ const routes: Routes = [
         loadChildren: () => import('../crop/crop.module').then(m => m.CropModule)
       },
 
+      {
+        path: 'expense',
+        canActivate: [ isAuthenticatedGuard ],
+        loadChildren: () => import('../expense/expense.module').then(m => m.ExpenseModule)
+      },
+
       { path: '**', redirectTo: '' },
     ]
   }

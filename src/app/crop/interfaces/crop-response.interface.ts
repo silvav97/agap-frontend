@@ -2,7 +2,7 @@ import { ProjectApplicationResponse } from "../../project-application/interfaces
 
 
 export interface CropResponse {
-  id?:                number;
+  id:                number;
   projectApplication: ProjectApplicationResponse;
   status:             string;
   startDate:          Date;

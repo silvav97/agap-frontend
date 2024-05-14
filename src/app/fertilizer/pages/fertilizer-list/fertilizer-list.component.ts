@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
+import { PageStateService } from '../../../shared/services/page-state.service';
 
 @Component({
   selector: 'app-fertilizer-list',
@@ -13,38 +14,41 @@ import { Pagination } from '../../../shared/interfaces/pagination.interface';
 })
 export class FertilizerListComponent {
 
+  private fertilizerService = inject( FertilizerService );
+  private pageStateService  = inject ( PageStateService );
+  private activatedRoute    = inject( ActivatedRoute );
+  private router            = inject( Router );
+  public baseRoute = '/fertilizer';
+  public listTitle = 'Fertilizantes';
+
   public fertilizerList: Fertilizer[] = []
+  public paginator!: Pagination<Fertilizer>;
   public actionsConfig: ActionConfig[] = [];
+
+  public pageSize?: number;
+  public pageSizes = [5, 6, 15];
 
   public columns = [
     { key: 'name',         label: 'Nombre' },
     { key: 'brand',        label: 'Marca' },
     { key: 'pricePerGram', label: 'Precio por gramo' }
   ];
-  public baseRoute = '/fertilizer';
-  public listTitle = 'Fertilizantes';
-  public paginator!: Pagination<Fertilizer>;
-
-
-  private activatedRoute   = inject( ActivatedRoute );
-  private router           = inject( Router );
-  private fertilizerService = inject( FertilizerService );
-
-  public pageSize = 10;
-  public pageSizes = [5, 10, 15];
-
 
   ngOnInit(): void {
-    this.setupActions();
-    this.activatedRoute.paramMap.subscribe(params => {
-      let page = +params.get('page')! || 0;
-      this.loadItems(page);
-    });
+    this.pageStateService.currentPageSize.subscribe(size => {
+      this.pageSize = size;
+
+        this.setupActions();
+        this.activatedRoute.paramMap.subscribe(params => {
+          let page = +params.get('page')! || 0;
+          this.loadFertilizers(page);
+        });
+      });
   }
 
-  loadItems(page: number): void {
+  loadFertilizers(page: number): void {
     var token = localStorage.getItem('access_token')
-    this.fertilizerService.getFertilizerPaginated(page, this.pageSize, token)
+    this.fertilizerService.getFertilizerPaginated(page, this.pageSize!, token)
       .subscribe( response => {
         this.fertilizerList = response.content
         this.paginator = response;
@@ -82,34 +86,14 @@ export class FertilizerListComponent {
   }
 
   onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
-    this.loadItems(0);
+    this.pageStateService.changePageSize(newSize);
+    this.loadFertilizers(0);
   }
 
   public onEdit(id: number): void {
     this.router.navigate([`${this.baseRoute}/edit`, id]);
   }
 
-  // public onDelete(id: number):void {
-  //   Swal.fire({
-  //     title: 'Está seguro',
-  //     text: `Desea eliminar el fertilizer con id: ${id}?`,
-  //     icon: 'warning',
-  //     confirmButtonText: 'Si',
-  //     cancelButtonText: 'No',
-  //   }).then((result) => {
-  //     if ( result.isConfirmed ) {
-  //       let token = localStorage.getItem('access_token');
-  //       this.fertilizerService.deleteFertilizerById(id, token).subscribe({
-  //         next: () =>  {
-  //           Swal.fire('Eliminado', `Fertilizante ${id} eliminado con éxito!`, 'success');
-  //           this.fertilizerList = this.fertilizerList.filter(fertilizer => fertilizer.id != id);
-  //         },
-  //         error: () => Swal.fire('Error', `Fertilizante ${id} no pudo ser eliminado!`, 'error'),
-  //       });
-  //     }
-  //   });
-  // }
 
   public onCreate(): void {
     this.router.navigateByUrl(`${this.baseRoute}/new`);

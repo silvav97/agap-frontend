@@ -22,16 +22,17 @@ export class ProjectApplicationListComponent {
   private projectService            = inject( ProjectService );
   private activatedRoute            = inject( ActivatedRoute );
   private router                    = inject( Router );
+  public baseRoute = '/project-application';
+  public listTitle = 'Aplicaciones a proyectos';
+
   public projectApplicationList: ProjectApplicationResponse[] = [];
   public projects: ProjectResponse[] = [];
   public paginator!: Pagination<ProjectApplicationResponse>;
-  public baseRoute = '/project-application';
-  public listTitle = 'Aplicaciones a proyectos';
+  public actionsConfig: ActionConfig[] = [];
 
   public pageSize?: number;
   public pageSizes = [5, 6, 15];
   public currentPage: number = 0;
-  public actionsConfig: ActionConfig[] = [];
   public selectedProjectId?: number;
 
   public columns = [
@@ -46,10 +47,6 @@ export class ProjectApplicationListComponent {
 
   ];
 
-  constructor() {
-
-  }
-
   ngOnInit(): void {
     this.pageStateService.currentPageSize.subscribe(size => {
       this.pageSize = size;
@@ -63,9 +60,7 @@ export class ProjectApplicationListComponent {
         this.baseRoute = projectId ? `/project-application/project/${projectId}` : '/project-application';
         this.loadProjectApplications(page);
       });
-    })
-
-
+    });
   }
 
   loadProjects(): void {
@@ -78,8 +73,6 @@ export class ProjectApplicationListComponent {
 
   loadProjectApplications(page: number): void {
     var token = localStorage.getItem('access_token')
-    console.log('projectId is: ', this.selectedProjectId)
-    console.log('Current PageSize: ', this.pageSize);
     this.projectApplicationService.getProjectApplicationPaginated(page, this.pageSize!, token, this.selectedProjectId).subscribe({
       next: (response) => {
         this.projectApplicationList = response.content;
@@ -136,27 +129,21 @@ export class ProjectApplicationListComponent {
     this.projectApplicationService.rejectProjectApplication(id, token).subscribe({
       next: () => {
         Swal.fire('Bien', `Aplicación rechazada exitosamente`, 'success');
-        console.log({'result: ': 'bien'});
+
         this.loadProjectApplications(this.currentPage);
       },
       error: (error) => {
-        console.log({'result: ': 'error: '+ error.description});
         Swal.fire('Error', `La Aplicación al proyecto ${id} no pudo ser rechazada!`, 'error');
       }
     })
   }
 
   public onPageSizeChange(newSize: number): void {
-    //this.pageSize = newSize;
-
-    console.log('Changing page size to:', newSize);
-
     this.pageStateService.changePageSize(newSize);
     this.loadProjectApplications(0);
   }
 
   onProjectChange(projectId: number): void {
-    // Navega a la misma vista con el nuevo projectId
     this.router.navigate(['/project-application/project', projectId]);
   }
 

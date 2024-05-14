@@ -46,6 +46,7 @@ export class ProjectApplicationService {
   public getMyProjectApplicationPaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<ProjectApplicationResponse>> {
     const url = `${this.baseUrl}/api/v1/project-application/mine/page?pageNumber=${page}&pageSize=${pageSize}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
     return this.http.get<Pagination<ProjectApplicationResponse>>(url, { headers }).pipe(
       tap( (response) => {
         console.log('ProjectApplication.Service.getMyProjectApplicationPaginated', response);

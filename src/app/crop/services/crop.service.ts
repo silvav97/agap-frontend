@@ -13,7 +13,6 @@ export class CropService {
 
   private readonly baseUrl: string = environment.baseUrl;
   private http = inject( HttpClient )
-  //private authService = inject( AuthService )
 
   constructor() {}
 
@@ -38,6 +37,21 @@ export class CropService {
       catchError(err => throwError(() => err.error))
     );
   }
+
+  public getMyCropPaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<CropResponse>> {
+    let url = `${ this.baseUrl }/api/v1/crop/mine/page?pageNumber=${page}&pageSize=${pageSize}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Pagination<CropResponse>>( url, {headers} ).pipe(
+      tap( (response) => {
+        console.log('Crop.Service.getMyCropPaginated', response);
+      }),
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
+
+
 
 
   public getCropById( id: number, token: string | null): Observable<CropResponse> {

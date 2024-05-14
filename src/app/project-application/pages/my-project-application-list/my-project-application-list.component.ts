@@ -6,6 +6,7 @@ import { ProjectApplicationService } from '../../services/project-application.se
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ApplicationStatus } from '../../../shared/interfaces';
+import { PageStateService } from '../../../shared/services/page-state.service';
 
 @Component({
   selector: 'app-my-project-application-list',
@@ -15,16 +16,18 @@ import { ApplicationStatus } from '../../../shared/interfaces';
 export class MyProjectApplicationListComponent {
 
   private projectApplicationService = inject( ProjectApplicationService );
+  private pageStateService          = inject ( PageStateService );
   private activatedRoute            = inject( ActivatedRoute );
   private router                    = inject( Router );
+  public baseRoute = '/project-application/mine';
+  public listTitle = 'Mis Aplicaciones a proyectos';
 
   public projectApplicationList: ProjectApplicationResponse[] = [];
   public paginator!: Pagination<ProjectApplicationResponse>;
-  public baseRoute = '/project-application/mine';
-  public listTitle = 'Aplicaciones a proyectos';
-  public pageSize = 10;
-  public pageSizes = [5, 10, 15];
   public actionsConfig: ActionConfig[] = [];
+
+  public pageSize?: number;
+  public pageSizes = [5, 6, 15];
 
   public columns = [
 
@@ -39,16 +42,20 @@ export class MyProjectApplicationListComponent {
   ];
 
   ngOnInit(): void {
-    this.setupActions();
-    this.activatedRoute.paramMap.subscribe(params => {
-      let page = +params.get('page')! || 0;
-      this.loadItems(page);
+    this.pageStateService.currentPageSize.subscribe(size => {
+      this.pageSize = size;
+
+      this.setupActions();
+      this.activatedRoute.paramMap.subscribe(params => {
+        let page = +params.get('page')! || 0;
+        this.loadProjectApplications(page);
+      });
     });
   }
 
-  loadItems(page: number): void {
+  loadProjectApplications(page: number): void {
     var token = localStorage.getItem('access_token')
-    this.projectApplicationService.getMyProjectApplicationPaginated(page, this.pageSize, token).subscribe({
+    this.projectApplicationService.getMyProjectApplicationPaginated(page, this.pageSize!, token).subscribe({
       next: (response) => {
         this.projectApplicationList = response.content;
         this.paginator = response;
@@ -86,8 +93,8 @@ export class MyProjectApplicationListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
-    this.loadItems(0);
+    this.pageStateService.changePageSize(newSize);
+    this.loadProjectApplications(0);
   }
 
   public onEdit(id: number, projectId: number): void {

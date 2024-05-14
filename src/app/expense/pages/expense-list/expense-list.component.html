@@ -1,6 +1,6 @@
 
 
-<shared-generic-list  [items]="fertilizerList"
+<shared-generic-list  [items]="expenseList"
                       [columns]="columns"
                       [baseRoute]="baseRoute"
                       [listTitle]="listTitle"
@@ -12,3 +12,15 @@
 
                       (pageSizeChange)="onPageSizeChange($event)">
 </shared-generic-list>
+
+<!-- this.cropService.getCropById(cropId!, token).subscribe({
+  next: (response) => {
+    this.listTitle = "Gastos de " + response.projectApplication.farmName;
+    console.log("expense-list.   cropService.getCropById")
+  },
+  error:() => console.log("error"),
+});
+
+
+this.selectedCropId = cropId;
+          this.loadExpenses(page); -->
