@@ -17,6 +17,8 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    console.log('HomeLayoutComponent INICIALIZADO');
+
     this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
       this.user = currentUser;
     });

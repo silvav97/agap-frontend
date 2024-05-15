@@ -31,9 +31,9 @@ export class ProjectService {
 
   public getProjectPaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<ProjectResponse>> {
     const url = `${ this.baseUrl }/api/v1/project/page?pageNumber=${page}&pageSize=${pageSize}`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Pagination<ProjectResponse>>( url, {headers} ).pipe(
+    //const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // headers
+    return this.http.get<Pagination<ProjectResponse>>( url, {} ).pipe(
       tap( (response) => {
         console.log('Project.Service.getProjectPaginated', response);
       }),

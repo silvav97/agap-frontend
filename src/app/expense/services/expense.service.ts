@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { environment } from "../../../environments/environments";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, catchError, tap, throwError } from "rxjs";
-import { ExpenseResponse } from "../interfaces";
+import { ExpenseRequest, ExpenseResponse } from "../interfaces";
 import { Pagination } from "../../shared/interfaces";
 
 
@@ -47,6 +47,48 @@ export class ExpenseService {
       tap( (response) => {
         console.log('Expense.Service.getExpensesByCropIdPaginated', response);
       }),
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
+
+
+  public getExpenseById( id: number, token: string | null): Observable<ExpenseResponse> {
+    const url = `${ this.baseUrl }/api/v1/expense/${id}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<ExpenseResponse>( url, {headers} ).pipe(
+      tap( (response) => {
+        console.log('Expense.Service.getExpenseById', response);
+      }),
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
+
+  public updateExpense( expenseRequest: ExpenseRequest, token: string | null): Observable<ExpenseResponse> {
+    const url = `${ this.baseUrl }/api/v1/expense/${expenseRequest.id}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put<ExpenseResponse>( url, expenseRequest, {headers} ).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
+  public deleteExpenseById(id: number, token: string | null): Observable<boolean> {
+    const url = `${ this.baseUrl }/api/v1/expense/${id}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.delete<boolean>( url, {headers} ).pipe(
+      catchError(err => throwError(() => err.error))
+    )
+  }
+
+  public addExpense( expenseRequest: ExpenseRequest, token: string | null ): Observable<ExpenseResponse> {
+    const url = `${ this.baseUrl }/api/v1/expense`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<ExpenseResponse>( url, expenseRequest, { headers } ).pipe(
       catchError(err => throwError(() => err.error))
     );
   }

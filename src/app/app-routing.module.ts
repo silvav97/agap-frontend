@@ -12,9 +12,16 @@ const routes: Routes = [
 
   {
     path: '',
-    //canActivate: [ isAuthenticatedGuard ],
+    //pathMatch: 'full',
     loadChildren: () => import('./home/home.module').then( m => m.HomeModule ),
   },
+
+  // {
+  //   path: '',
+  //   pathMatch:'full',
+  //   redirectTo: 'home'
+  // },
+
 
   {
     path: '**',
@@ -27,4 +34,10 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+  ngOnInit(): void {
+    console.log('AppRoutingModule INICIALIZADO');
+  }
+
+}

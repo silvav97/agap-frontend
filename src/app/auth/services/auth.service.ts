@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environments';
 import { BehaviorSubject, Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { AuthStatus, LoginResponse, RefreshTokenResponse, RegisterResponse, User } from '../interfaces';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -11,6 +12,7 @@ import { AuthStatus, LoginResponse, RefreshTokenResponse, RegisterResponse, User
 export class AuthService {
 
   private readonly baseUrl: string = environment.baseUrl;
+  private router = inject( Router );
   private http = inject( HttpClient );
 
   private _currentUser = new BehaviorSubject<User|null>(null);
@@ -141,6 +143,7 @@ export class AuthService {
     localStorage.removeItem('refresh_token');
     this._currentUser.next(null);
     this._authStatus.next( AuthStatus.notAuthenticated );
+    //this.router.navigateByUrl('auth/login');
   }
 
   private refreshToken(refresh_token: string): Observable<boolean> {

@@ -18,6 +18,9 @@ import { FormsModule } from '@angular/forms';
     ProjectRoutingModule,
     SharedModule,
     FormsModule
-  ]
+  ],
+  exports: [
+    ProjectListComponent
+  ],
 })
 export class ProjectModule { }
