@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CropFormComponent } from './pages/crop-form/crop-form.component';
 import { CropListComponent } from './pages/crop-list/crop-list.component';
 import { MyCropListComponent } from './pages/my-crop-list/my-crop-list.component';
+import { CloseCropFormComponent } from './pages/close-crop-form/close-crop-form.component';
 
 
 const routes: Routes = [
@@ -32,9 +33,15 @@ const routes: Routes = [
     path: 'new/:projectApplicationId',
     component: CropFormComponent,
   },
+
   {
     path: 'edit/:id/:projectApplicationId',
     component: CropFormComponent,
+  },
+
+  {
+    path: 'mine/close-crop/:id',
+    component: CloseCropFormComponent,
   }
 
 ];

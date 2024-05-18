@@ -76,11 +76,21 @@ export class CropService {
     );
   }
 
+
   public deleteCropById(id: number, token: string | null): Observable<boolean> {
     const url = `${ this.baseUrl }/api/v1/crop/${id}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.delete<boolean>( url, {headers} ).pipe(
+      catchError(err => throwError(() => err.error))
+    )
+  }
+
+  public finishCrop(id: number, saleValue: number, token: string | null): Observable<boolean> {
+    const url = `${ this.baseUrl }/api/v1/crop/${id}/finish`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put<boolean>( url, saleValue, {headers} ).pipe(
       catchError(err => throwError(() => err.error))
     )
   }
@@ -93,20 +103,5 @@ export class CropService {
       catchError(err => throwError(() => err.error))
     );
   }
-
-
-  public finishCrop( id: number, token: string | null ): Observable<any> {
-    const url = `${ this.baseUrl }/api/v1/crop/${id}/finish`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.post<any>( url, {}, { headers } ).pipe(
-      tap( (response) => {
-        console.log('Crop.Service.finishCrop', response);
-      }),
-      catchError(err => throwError(() => err.error))
-    );
-  }
-
-
 
 }

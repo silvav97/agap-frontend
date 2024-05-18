@@ -5,7 +5,6 @@ import { CropService } from '../../services/crop.service';
 import { CropResponse } from '../../interfaces';
 import { Pagination } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-crop-list',
@@ -107,8 +106,7 @@ export class MyCropListComponent {
   }
 
   public onFinishCrop(id: number): void {
-    //Swal.fire('Bien','Finalizar Cultivo', 'success');
-    this.cropService
+    this.router.navigate([`${this.baseRoute}/close-crop`, id]);
   }
 
   public onSeeExpenses(id: number): void {

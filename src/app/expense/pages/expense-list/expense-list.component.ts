@@ -33,10 +33,10 @@ export class ExpenseListComponent {
 
 
   public columns = [
-    { key: 'id',                                          label: 'Id' },
-    { key: 'crop.projectApplication.farmName',            label: 'Presupuesto asignado' },
-    { key: 'expenseValue',                                label: 'Valor ' },
-    { key: 'crop.projectApplication.applicant.firstName', label: 'Usuario' },
+
+    { key: 'expenseDescription', label: 'Tipo ' },
+    { key: 'expenseValue',       label: 'Valor ' },
+    { key: 'expenseDate',        label: 'Fecha del Gasto' },
   ];
 
   ngOnInit(): void {
