@@ -3,7 +3,10 @@
 <div class="container">
   <h1>Lista de proyectos</h1>
 
-  <button class="btn btn-success mb-3" (click)="navigateToNewProject()">Crear Nuevo Proyecto</button>
+  @if (user && user.roles.includes(roleAdmin)) {
+    <button class="btn btn-success mb-3" (click)="navigateToNewProject()">Crear Nuevo Proyecto</button>
+  }
+
 
   <div>
     <label for="pageSize">Items por página:</label>

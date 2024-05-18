@@ -95,5 +95,18 @@ export class CropService {
   }
 
 
+  public finishCrop( id: number, token: string | null ): Observable<any> {
+    const url = `${ this.baseUrl }/api/v1/crop/${id}/finish`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<any>( url, {}, { headers } ).pipe(
+      tap( (response) => {
+        console.log('Crop.Service.finishCrop', response);
+      }),
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
+
 
 }

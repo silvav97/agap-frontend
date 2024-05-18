@@ -4,6 +4,7 @@ import { ProjectListComponent } from './pages/project-list/project-list.componen
 import { isAuthenticatedGuard } from '../auth/guards';
 import { roleGuard } from '../auth/guards/role.guard';
 import { ProjectFormComponent } from './pages/project-form/project-form.component';
+import { ProjectInfoComponent } from './pages/project-info/project-info.component';
 
 const routes: Routes = [
 
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: ProjectFormComponent
+  },
+
+  {
+    path: 'info/:id',
+    component: ProjectInfoComponent
   }
 
 ];

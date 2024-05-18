@@ -5,6 +5,7 @@ import { CropService } from '../../services/crop.service';
 import { CropResponse } from '../../interfaces';
 import { Pagination } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-crop-list',
@@ -49,8 +50,6 @@ export class MyCropListComponent {
 
   loadCrops(page: number): void {
     var token = localStorage.getItem('access_token')
-    // Cambia a
-    // my crops
     this.cropService.getMyCropPaginated(page, this.pageSize!, token)
       .subscribe( response => {
         this.cropList = response.content
@@ -81,6 +80,13 @@ export class MyCropListComponent {
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-danger'
       },
+      {
+        label: 'Cerrar Cultivo',
+        type: 'rowAction',
+        visible: () => true,
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-primary'
+      },
 
     ];
 
@@ -90,6 +96,7 @@ export class MyCropListComponent {
     });
     this.actionsConfig[1].emitEvent.subscribe(id => this.onSeeExpenses(id!));
     this.actionsConfig[2].emitEvent.subscribe(id => this.onDelete(id!));
+    this.actionsConfig[3].emitEvent.subscribe(id => this.onFinishCrop(id!));
 
   }
 
@@ -97,6 +104,11 @@ export class MyCropListComponent {
     this.router.navigate([`${this.baseRoute}/edit`, id, projectApplicationId]);
   }
   public onDelete(id: number): void {
+  }
+
+  public onFinishCrop(id: number): void {
+    //Swal.fire('Bien','Finalizar Cultivo', 'success');
+    this.cropService
   }
 
   public onSeeExpenses(id: number): void {

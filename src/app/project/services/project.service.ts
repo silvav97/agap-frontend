@@ -43,9 +43,9 @@ export class ProjectService {
 
   public getProjectById( id: number, token: string | null): Observable<ProjectResponse> {
     const url = `${ this.baseUrl }/api/v1/project/${id}`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<ProjectResponse>( url, {headers} ).pipe(
+    //const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // headers
+    return this.http.get<ProjectResponse>( url, {} ).pipe(
       tap( (response) => {
         console.log('Project.Service.getProjectById', response);
       }),

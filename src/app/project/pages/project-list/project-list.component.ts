@@ -8,6 +8,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
+import { Role } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-project-list',
@@ -25,6 +26,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   private userSubscription?: Subscription;
   public user: User | null = null;
+  public roleAdmin = Role.ADMIN;
+
 
   private projectService = inject( ProjectService );
   private authService    = inject( AuthService );
@@ -94,7 +97,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   handleButtonClick(action: string, projectId: number): void {
     switch (action) {
       case 'more':
-        // código para más detalles
+        this.onMore(projectId);
         break;
       case 'apply':
         this.onApply(projectId);
@@ -109,7 +112,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         // código para editar
         break;
       case 'delete':
-        console.log({'message': 'About to delete'});
         this.onDelete(projectId);
         break;
       default:
@@ -117,8 +119,11 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onMore(projectId: number) {
+    this.router.navigate(['/project/info', projectId]);
+  }
+
   public onApply(projectId: number) {
-    //Swal.fire('Bien', `Aplicaste al proyecto con id ${projectId}`, 'success');
     this.router.navigate(['/project-application/new', projectId]);
   }
 

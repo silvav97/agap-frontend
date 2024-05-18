@@ -7,7 +7,8 @@
 
           <form [formGroup]="form" (ngSubmit)="handleSubmit()">
             <h1>{{ title }}</h1>
-            <div *ngFor="let field of config" class="mb-3">
+
+            <div *ngFor="let field of config" class="mb-3 ">
               <label [attr.for]="field.name" class="form-label">{{ field.label }}</label>
 
               <div [ngSwitch]="field.type">

@@ -73,7 +73,7 @@ export class ProjectFormComponent {
     });
     this.municipalityOptions = this.municipalityService
     .getAllMunicipalities().map(municipality => ({ value: municipality.id, label: municipality.name}));
-    const municipalityField = this.formConfig.find(muni => muni.name === 'municipality');
+    const municipalityField = this.formConfig.find(municipality => municipality.name === 'municipality');
     if ( municipalityField ) {
       municipalityField.options = this.municipalityOptions;
     }
@@ -83,8 +83,9 @@ export class ProjectFormComponent {
     const token = localStorage.getItem('access_token');
     this.projectService.getProjectById(id, token).subscribe({
       next: (project) => this.form.patchValue({
-        ...project,
-        cropTypeId: project.cropType?.id
+          ...project,
+          cropTypeId:   project.cropType?.id,
+          municipality: this.getMunicipalityIdByName(project.municipality)?.id
       }),
       error: (error) => {
         Swal.fire('Error', 'No se pudo cargar el proyecto', 'error');
@@ -117,6 +118,12 @@ export class ProjectFormComponent {
     const municipality = this.municipalityService.getAllMunicipalities().find(m => Number(m.id) === Number(id));
     console.log("Municipio encontrado: ", municipality);
     return municipality ? municipality.name : '';
+  }
+
+  getMunicipalityIdByName(name: string) {
+    const municipality = this.municipalityService.getAllMunicipalities().find( m => m.name === name );
+    console.log("Municipio encontrado: ", municipality);
+    return municipality;
   }
 
 }
