@@ -16,8 +16,8 @@ export class GenericListComponent {
   @Input() public columns?: { key: string, label: string }[];
   @Input() public actionsConfig?: ActionConfig[];
   @Input() public paginator!: Pagination<any>;
-  @Input() public pageSize: number = 10;
-  @Input() public pageSizes?: number[] = [5, 10, 15];
+  @Input() public pageSize?: number;
+  @Input() public pageSizes?: number[];
 
   @Output() public pageSizeChange = new EventEmitter<number>();
 

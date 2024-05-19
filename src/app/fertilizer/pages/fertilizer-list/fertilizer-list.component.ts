@@ -18,12 +18,11 @@ export class FertilizerListComponent {
   private pageStateService  = inject ( PageStateService );
   private activatedRoute    = inject( ActivatedRoute );
   private router            = inject( Router );
-  public baseRoute = '/fertilizer';
-  public listTitle = 'Fertilizantes';
-
-  public fertilizerList: Fertilizer[] = []
-  public paginator!: Pagination<Fertilizer>;
-  public actionsConfig: ActionConfig[] = [];
+  public baseRoute          = '/fertilizer';
+  public listTitle          = 'Fertilizantes';
+  public fertilizerList: Fertilizer[] = [];
+  public paginator!:     Pagination<Fertilizer>;
+  public actionsConfig:  ActionConfig[] = [];
 
   public pageSize?: number;
   public pageSizes = [5, 6, 15];
@@ -94,7 +93,6 @@ export class FertilizerListComponent {
     this.router.navigate([`${this.baseRoute}/edit`, id]);
   }
 
-
   public onCreate(): void {
     this.router.navigateByUrl(`${this.baseRoute}/new`);
   }
@@ -103,10 +101,11 @@ export class FertilizerListComponent {
     let token = localStorage.getItem('access_token');
     this.fertilizerService.getRelatedCropTypes(id, token).subscribe({
       next: (relatedCropTypes) => {
-        let cropTypeNamesList = relatedCropTypes.map(cropType => `- ${cropType}`).join('<br>');
+
         let warningMessage = relatedCropTypes.length > 0
-          ? `Desea eliminar el Fertilizante con id: ${id}? Está asociado a los siguientes Tipos de cultivo:<br>${cropTypeNamesList}`
-          : `Desea eliminar el Fertilizante con id: ${id}?`;
+        ? `Desea eliminar el Fertilizante? Está relacionado a ${relatedCropTypes.length} tipo${relatedCropTypes.length > 1 ? 's' : ''} de cultivo.
+        ${relatedCropTypes.length > 1 ? 'Estos' : 'Este'} quedará${relatedCropTypes.length > 1 ? 'n' : ''} sin fertilizante asociado.`
+        : `Desea eliminar el Fertilizante?`;
 
         this.showDeletionDialog(id, warningMessage);
       },
@@ -119,7 +118,7 @@ export class FertilizerListComponent {
 
   private showDeletionDialog(id: number, message: string): void {
     Swal.fire({
-      title: 'Está seguro?',
+      title: '¿Está seguro?',
       html: message,
       icon: 'warning',
       showCancelButton: true,
