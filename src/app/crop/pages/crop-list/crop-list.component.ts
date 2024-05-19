@@ -63,33 +63,18 @@ export class CropListComponent {
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-primary'
-      },
-      {
-        label: 'Eliminarr',
-        type: 'rowAction',
-        visible: () => true,
-        emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-danger'
-      },
+      }
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => {
       const crop = this.cropList.find(c => c.id === id);
       if ( crop && crop.projectApplication ) this.onEdit(crop.id, crop.projectApplication.id)
     });
-    this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id!));
-
   }
-
-
 
   public onEdit(id: number, projectApplicationId: number): void {
     this.router.navigate([`${this.baseRoute}/edit`, id, projectApplicationId]);
   }
-
-  public onDelete(id: number): void {
-  }
-
 
   public onPageSizeChange(newSize: number): void {
     this.pageStateService.changePageSize(newSize);

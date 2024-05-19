@@ -40,7 +40,7 @@ export class ReportService {
   }
 
   public getCropReportById( id: number, token: string | null): Observable<CropReportResponse> {
-    const url = `${ this.baseUrl }/api/v1/report/${id}`;
+    const url = `${ this.baseUrl }/api/v1/report/crop/${id}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.get<CropReportResponse>( url, {headers} ).pipe(

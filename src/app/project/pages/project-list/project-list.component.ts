@@ -21,7 +21,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   public baseRoute = '/project';
   public paginator!: Pagination<ProjectResponse>;
 
-  public pageSize = 3;
+  public pageSize = 6;
   public pageSizes = [2, 3, 6];
 
   private userSubscription?: Subscription;

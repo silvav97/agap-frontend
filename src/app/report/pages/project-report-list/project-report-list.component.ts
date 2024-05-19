@@ -52,7 +52,7 @@ export class ProjectReportListComponent {
         this.projectReportList = response.content;
         this.paginator = response;
       },
-      error: (error) => Swal.fire('Error', 'Error al cargar reportes', 'error')
+      error: (error) => Swal.fire('Error', 'Error al cargar Reportes de Proyectos', 'error')
     });
   }
 
@@ -64,31 +64,14 @@ export class ProjectReportListComponent {
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-primary'
-      },
-      {
-        label: 'Cultivos',
-        type: 'rowAction',
-        visible: () => true,
-        emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
       }
-
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => this.onInfo(id!));
-    this.actionsConfig[1].emitEvent.subscribe(id => {
-      const projectReport = this.projectReportList.find(prl => prl.id === id);
-      console.log('ProjectReport__Project__Name: ', projectReport?.project.name);
-      if ( projectReport && projectReport.project ) this.onCrops(projectReport.project.id!);
-    });
-
   }
+
   public onInfo(id: number): void {
     this.router.navigate([`${this.baseRoute}/info`, id]);
-  }
-
-  public onCrops(projectId: number): void {
-    this.router.navigate(['/report/crop', projectId]);
   }
 
   public onPageSizeChange(newSize: number): void {

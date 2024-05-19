@@ -73,13 +73,6 @@ export class MyCropListComponent {
         buttonClass: 'btn-info'
       },
       {
-        label: 'Eliminar',
-        type: 'rowAction',
-        visible: () => true,
-        emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-danger'
-      },
-      {
         label: 'Cerrar Cultivo',
         type: 'rowAction',
         visible: () => true,
@@ -94,15 +87,12 @@ export class MyCropListComponent {
       if ( crop && crop.projectApplication ) this.onEdit(crop.id, crop.projectApplication.id)
     });
     this.actionsConfig[1].emitEvent.subscribe(id => this.onSeeExpenses(id!));
-    this.actionsConfig[2].emitEvent.subscribe(id => this.onDelete(id!));
-    this.actionsConfig[3].emitEvent.subscribe(id => this.onFinishCrop(id!));
+    this.actionsConfig[2].emitEvent.subscribe(id => this.onFinishCrop(id!));
 
   }
 
   public onEdit(id: number, projectApplicationId: number): void {
     this.router.navigate([`${this.baseRoute}/edit`, id, projectApplicationId]);
-  }
-  public onDelete(id: number): void {
   }
 
   public onFinishCrop(id: number): void {

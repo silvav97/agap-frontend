@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { Fertilizer } from '../../../fertilizer/interfaces';
-import { FertilizerService } from '../../../fertilizer/services/fertilizer.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'shared-generic-table',
