@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { ProjectService } from '../../../project/services/project.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectResponse } from '../../../project/interfaces';
 import { ReportService } from '../../services/report.service';
-import { CropReportResponse, ProjectReportResponse } from '../../interfaces';
 import { CropResponse } from '../../../crop/interfaces';
 import { CropService } from '../../../crop/services/crop.service';
+import { CropReportResponse, ProjectReportResponse } from '../../interfaces';
 
 @Component({
   selector: 'app-project-report-info',
