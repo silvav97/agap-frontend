@@ -32,11 +32,11 @@ export class ProjectInfoComponent implements OnInit  {
   }
 
   goBack(): void {
-    this.router.navigate(['/project']); // Asegúrate de que la ruta es correcta
+    this.router.navigate(['/project']);
   }
 
   applyToProject(projectId: number): void {
-    this.router.navigate(['/project-application/new', projectId]); // Asegúrate de que la ruta es correcta
+    this.router.navigate(['/project-application/new', projectId]);
   }
 
 }

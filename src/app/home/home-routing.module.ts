@@ -56,6 +56,12 @@ const routes: Routes = [
         loadChildren: () => import('../expense/expense.module').then(m => m.ExpenseModule)
       },
 
+      {
+        path: 'report',
+        canActivate: [ isAuthenticatedGuard ],
+        loadChildren: () => import('../report/report.module').then(m => m.ReportModule)
+      },
+
       { path: '**', redirectTo: '' },
     ]
   }

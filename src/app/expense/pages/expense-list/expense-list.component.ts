@@ -54,7 +54,7 @@ export class ExpenseListComponent {
           this.cropService.getCropById(cropId!, token).subscribe({
             next: (response) => {
               this.listTitle = "Gastos de " + response.projectApplication.farmName;
-              console.log("expense-list.   cropService.getCropById")
+              console.log("expense-list.   cropService.getCropById");
             },
             error:() => console.log("error"),
           });
