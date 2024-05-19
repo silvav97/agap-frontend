@@ -1,8 +1,11 @@
-import { ProjectReportResponse } from './../../interfaces/project-report-response.interface';
 import { Component, inject } from '@angular/core';
+import { ProjectService } from '../../../project/services/project.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectResponse } from '../../../project/interfaces';
 import { ReportService } from '../../services/report.service';
-import { CropReportResponse } from '../../interfaces';
+import { CropReportResponse, ProjectReportResponse } from '../../interfaces';
+import { CropResponse } from '../../../crop/interfaces';
+import { CropService } from '../../../crop/services/crop.service';
 
 @Component({
   selector: 'app-project-report-info',
