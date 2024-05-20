@@ -59,13 +59,6 @@ export class MyCropListComponent {
   private setupActions(): void {
     this.actionsConfig = [
       {
-        label: 'Editar',
-        type: 'rowAction',
-        visible: () => true,
-        emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
-      },
-      {
         label: 'Gastos',
         type: 'rowAction',
         visible: () => true,
@@ -79,20 +72,10 @@ export class MyCropListComponent {
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-primary'
       },
-
     ];
 
-    this.actionsConfig[0].emitEvent.subscribe(id => {
-      const crop = this.cropList.find(c => c.id === id);
-      if ( crop && crop.projectApplication ) this.onEdit(crop.id, crop.projectApplication.id)
-    });
-    this.actionsConfig[1].emitEvent.subscribe(id => this.onSeeExpenses(id!));
-    this.actionsConfig[2].emitEvent.subscribe(id => this.onFinishCrop(id!));
-
-  }
-
-  public onEdit(id: number, projectApplicationId: number): void {
-    this.router.navigate([`${this.baseRoute}/edit`, id, projectApplicationId]);
+    this.actionsConfig[0].emitEvent.subscribe(id => this.onSeeExpenses(id!));
+    this.actionsConfig[1].emitEvent.subscribe(id => this.onFinishCrop(id!));
   }
 
   public onFinishCrop(id: number): void {

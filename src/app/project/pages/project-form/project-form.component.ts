@@ -46,7 +46,9 @@ export class ProjectFormComponent {
       totalBudget:  ['',   [Validators.required, Validators.min(0)]],
       imageUrl:     ['']
     });
+  }
 
+  ngOnInit(): void {
     const token = localStorage.getItem('access_token');
     this.loadSelectOptions(token);
 
@@ -61,8 +63,6 @@ export class ProjectFormComponent {
     });
   }
 
-  ngOnInit(): void {}
-
   private loadSelectOptions(token: string | null): void {
     this.cropTypeService.getCropTypeList(token).subscribe(cropTypes => {
       this.cropTypeOptions = cropTypes.map(ct => ({ value: ct.id, label: ct.name }));
@@ -71,6 +71,7 @@ export class ProjectFormComponent {
         cropTypeField.options = this.cropTypeOptions;
       }
     });
+
     this.municipalityOptions = this.municipalityService
     .getAllMunicipalities().map(municipality => ({ value: municipality.id, label: municipality.name}));
     const municipalityField = this.formConfig.find(municipality => municipality.name === 'municipality');
