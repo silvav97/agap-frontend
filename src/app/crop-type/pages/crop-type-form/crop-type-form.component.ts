@@ -30,17 +30,17 @@ export class CropTypeFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.form = this.fb.group({
-      id: [null],
-      name: ['', [Validators.required, Validators.maxLength(50)]],
-      weather: ['', [Validators.required]],
+      id:                          [null],
+      name:                        ['', [Validators.required, Validators.maxLength(50)]],
+      weather:                     ['', [Validators.required]],
       plantQuantityPerSquareMeter: ['', [Validators.required, Validators.min(1)]],
-      harvestTime: ['', [Validators.required, Validators.min(1)]],
-      fertilizerQuantityPerPlant: ['', [Validators.required, Validators.min(0)]],
-      fertilizerFrequency: ['', [Validators.required, Validators.min(1)]],
-      pesticideQuantityPerPlant: ['', [Validators.required, Validators.min(0)]],
-      pesticideFrequency: ['', [Validators.required, Validators.min(1)]],
-      fertilizerId: ['', [Validators.required]],
-      pesticideId: ['', [Validators.required]]
+      harvestTime:                 ['', [Validators.required, Validators.min(1)]],
+      fertilizerQuantityPerPlant:  ['', [Validators.required, Validators.min(0)]],
+      fertilizerFrequency:         ['', [Validators.required, Validators.min(1)]],
+      pesticideQuantityPerPlant:   ['', [Validators.required, Validators.min(0)]],
+      pesticideFrequency:          ['', [Validators.required, Validators.min(1)]],
+      fertilizerId:                ['', [Validators.required]],
+      pesticideId:                 ['', [Validators.required]]
     });
 
     this.formConfig = [
