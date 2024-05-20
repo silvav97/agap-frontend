@@ -38,6 +38,7 @@ export class CloseCropFormComponent {
 
   handleFormSubmit(value: any): void {
     const token = localStorage.getItem('access_token');
+    console.log('value a gaurdar : ', value);
 
 
     this.cropService.finishCrop(this.cropId!, value.saleValue, token).subscribe({

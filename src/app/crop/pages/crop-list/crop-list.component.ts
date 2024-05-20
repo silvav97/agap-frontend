@@ -29,6 +29,7 @@ export class CropListComponent {
 
   public columns = [
     { key: 'projectApplication.farmName',            label: 'Nombre' },
+    { key: 'projectApplication.project.id',            label: 'Proyecto' },
     { key: 'assignedBudget',                         label: 'Presupuesto asignado' },
     { key: 'status',                                 label: 'Estado' },
     { key: 'projectApplication.applicant.firstName', label: 'Usuario' },
