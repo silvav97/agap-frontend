@@ -5,6 +5,7 @@ import { Observable, catchError, tap, throwError } from "rxjs";
 import { ProjectResponse } from "../interfaces/project-response.interface";
 import { Pagination } from "../../shared/interfaces/pagination.interface";
 import { ProjectRequest } from "../interfaces/project-request.interface";
+import { CropResponse } from "../../crop/interfaces";
 
 
 @Injectable({
@@ -31,9 +32,9 @@ export class ProjectService {
 
   public getProjectPaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<ProjectResponse>> {
     const url = `${ this.baseUrl }/api/v1/project/page?pageNumber=${page}&pageSize=${pageSize}`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Pagination<ProjectResponse>>( url, {headers} ).pipe(
+    //const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // headers
+    return this.http.get<Pagination<ProjectResponse>>( url, {} ).pipe(
       tap( (response) => {
         console.log('Project.Service.getProjectPaginated', response);
       }),
@@ -43,9 +44,9 @@ export class ProjectService {
 
   public getProjectById( id: number, token: string | null): Observable<ProjectResponse> {
     const url = `${ this.baseUrl }/api/v1/project/${id}`;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<ProjectResponse>( url, {headers} ).pipe(
+    //const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // headers
+    return this.http.get<ProjectResponse>( url, {} ).pipe(
       tap( (response) => {
         console.log('Project.Service.getProjectById', response);
       }),
@@ -86,6 +87,16 @@ export class ProjectService {
 
     return this.http.get<string[]>( url, {headers} ).pipe(
       catchError(err => throwError(() => err.error))
+    );
+  }
+
+  public getCropListByProjectId(id: number, token: string | null): Observable<CropResponse[]> {
+    const url = `${ this.baseUrl }/api/v1/project/${id}/relatedCrops`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<CropResponse[]>( url, {headers} ).pipe(
+
+        catchError( err => throwError( () => err.error )),
     );
   }
 

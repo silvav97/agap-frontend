@@ -42,51 +42,37 @@
   </nav>
 
   <!-- Sidebar and Content in the grid system -->
-  <div class="container-fluid flex-grow-1">
-      <div class="row h-100">
-          <div class="col-md-3 col-lg-2 d-none d-md-block bg-dark sidebar py-3">
-              <ul class="nav nav-pills flex-column mb-auto">
+  <div class="container-fluid flex-grow-1" >
+      <div class="row h-100" >
+        <!-- <div> -->
 
-                @if (user?.roles?.includes('ADMIN')) {
-                  <!-- <p>Eres un Admin</p> -->
-                  <li>
-                      <a routerLink="/fertilizer" class="nav-link text-white">Fertilizantes</a>
-                  </li>
-                  <li>
-                      <a routerLink="/pesticide" class="nav-link text-white">Pesticidas</a>
-                  </li>
-                  <li>
-                      <a routerLink="/crop-type" class="nav-link text-white">Tipo de Cultivos</a>
-                  </li>
-                  <li>
-                    <a routerLink="/project-application" class="nav-link text-white">Aplicaciones a Proyectos</a>
-                  </li>
-                }
-                @if (user?.roles?.includes('FARMER')) {
-                  <!-- <p>Eres un Farmer</p> -->
-                }
+        @if (user) {
+          <div *ngIf="user" class="col-md-3 col-lg-2 d-none d-md-block bg-dark sidebar py-3" >
+            <ul class="nav nav-pills flex-column mb-auto" >
 
-                <li>
-                  <a routerLink="/project-application/mine" class="nav-link text-white">Mis Aplicaciones a Proyectos</a>
-                </li>
-                <li>
-                  <a routerLink="/project" class="nav-link text-white">Proyectos</a>
-                </li>
-                <li>
-                  <a routerLink="/crop" class="nav-link text-white">Cultivos</a>
-                </li>
+              @if (user.roles.includes('ADMIN')) {
+                <li><a routerLink="/fertilizer" class="nav-link text-white">Fertilizantes</a></li>
+                <li><a routerLink="/pesticide" class="nav-link text-white">Pesticidas</a></li>
+                <li><a routerLink="/crop-type" class="nav-link text-white">Tipo de Cultivos</a></li>
+                <li><a routerLink="/project-application" class="nav-link text-white">Aplicaciones a Proyectos</a></li>
+                <li><a routerLink="/crop" class="nav-link text-white">Cultivos</a></li>
+                <li><a routerLink="/report/project" class="nav-link text-white">Reportes</a></li>
 
-                <li>
-                  <a routerLink="/crop/mine" class="nav-link text-white">Mis Cultivos</a>
-                </li>
+              }
 
-              </ul>
+              <li><a routerLink="/project-application/mine" class="nav-link text-white">Mis Aplicaciones a Proyectos</a></li>
+              <li><a routerLink="/project" class="nav-link text-white">Proyectos</a></li>
+              <li><a routerLink="/crop/mine" class="nav-link text-white">Mis Cultivos</a></li>
+            </ul>
+        </div>
+        }
+          <!-- <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4"> -->
+          <div [ngClass]="user ? 'col-10 col-sm-12 col-md-9 col-lg-10 ms-sm-auto px-md-4' : 'col-10 col-sm-12 col-md-12 col-lg-12'">
+            <div class="container">
+              <router-outlet></router-outlet>
+            </div>
           </div>
-          <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div>
-                <router-outlet></router-outlet>
-              </div>
-          </div>
+
       </div>
   </div>
 

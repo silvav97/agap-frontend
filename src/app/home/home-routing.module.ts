@@ -15,13 +15,14 @@ const routes: Routes = [
 
       {
         path: 'fertilizer',
-        canActivate: [ isAuthenticatedGuard ],
+
+        //canActivate: [ isAuthenticatedGuard ],
         loadChildren: () => import('../fertilizer/fertilizer.module').then(m => m.FertilizerModule)
       },
 
       {
         path: 'pesticide',
-        canActivate: [ isAuthenticatedGuard ],
+        //canActivate: [ isAuthenticatedGuard ],
         loadChildren: () => import('../pesticide/pesticide.module').then(m => m.PesticideModule)
       },
 
@@ -33,7 +34,7 @@ const routes: Routes = [
 
       {
         path: 'project',
-        canActivate: [ isAuthenticatedGuard ],
+       //canActivate: [ isAuthenticatedGuard ],
         loadChildren: () => import('../project/project.module').then(m => m.ProjectModule)
       },
 
@@ -55,6 +56,12 @@ const routes: Routes = [
         loadChildren: () => import('../expense/expense.module').then(m => m.ExpenseModule)
       },
 
+      {
+        path: 'report',
+        canActivate: [ isAuthenticatedGuard ],
+        loadChildren: () => import('../report/report.module').then(m => m.ReportModule)
+      },
+
       { path: '**', redirectTo: '' },
     ]
   }
@@ -65,4 +72,10 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {
+
+  ngOnInit(): void {
+    console.log('HomeRoutingModule INICIALIZADO');
+  }
+
+}

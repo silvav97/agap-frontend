@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Pesticide } from '../../interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
+import { PageStateService } from '../../../shared/services/page-state.service';
 
 @Component({
   selector: 'app-pesticide-list',
@@ -13,35 +14,40 @@ import { Pagination } from '../../../shared/interfaces/pagination.interface';
 })
 export class PesticideListComponent {
 
+  private pesticideService = inject( PesticideService );
+  private pageStateService = inject ( PageStateService );
+  private activatedRoute   = inject( ActivatedRoute );
+  private router           = inject( Router );
+  public baseRoute         = '/pesticide';
+  public listTitle         = 'Pesticidas';
   public pesticideList: Pesticide[] = [];
+  public paginator!:    Pagination<Pesticide>;
   public actionsConfig: ActionConfig[] = [];
+
+  public pageSize?: number;
+  public pageSizes = [5, 6, 15];
 
   public columns = [
     { key: 'name',         label: 'Nombre' },
     { key: 'brand',        label: 'Marca' },
     { key: 'pricePerGram', label: 'Precio por gramo' }
   ];
-  public baseRoute = '/pesticide';
-  public listTitle = 'Pesticidas';
-  public paginator!: Pagination<Pesticide>;
-
-  private pesticideService = inject( PesticideService );
-  private activatedRoute   = inject( ActivatedRoute );
-  private router           = inject( Router );
-  public pageSize = 10;
-  public pageSizes = [5, 10, 15];
 
   ngOnInit(): void {
-    this.setupActions();
-    this.activatedRoute.paramMap.subscribe(params => {
-      let page = +params.get('page')! || 0;
-      this.loadItems(page);
+    this.pageStateService.currentPageSize.subscribe(size => {
+      this.pageSize = size;
+
+      this.setupActions();
+      this.activatedRoute.paramMap.subscribe(params => {
+        let page = +params.get('page')! || 0;
+        this.loadPesticides(page);
+      });
     });
   }
 
-  loadItems(page: number): void {
+  loadPesticides(page: number): void {
     var token = localStorage.getItem('access_token')
-    this.pesticideService.getPesticidePaginated(page, this.pageSize, token)
+    this.pesticideService.getPesticidePaginated(page, this.pageSize!, token)
       .subscribe( response => {
         this.pesticideList = response.content
         this.paginator = response;
@@ -80,49 +86,26 @@ export class PesticideListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
-    this.loadItems(0);
+    this.pageStateService.changePageSize(newSize);
+    this.loadPesticides(0);
   }
 
   public onEdit(id: number): void {
     this.router.navigate([`${this.baseRoute}/edit`, id]);
   }
 
-  // public onDeleteNOOOO(id: number):void {
-  //   Swal.fire({
-  //     title: 'Está seguro',
-  //     text: `Desea eliminar el pesticida con id: ${id}?`,
-  //     icon: 'warning',
-  //     confirmButtonText: 'Si',
-  //     cancelButtonText: 'No',
-  //   }).then((result) => {
-  //     if ( result.isConfirmed ) {
-  //       let token = localStorage.getItem('access_token');
-  //       this.pesticideService.deletePesticideById(id, token).subscribe({
-  //         next: () =>  {
-  //           Swal.fire('Eliminado', `Pesticida ${id} eliminado con éxito!`, 'success');
-  //           this.pesticideList = this.pesticideList.filter(pesticide => pesticide.id != id);
-  //         },
-  //         error: () => Swal.fire('Error', `Pesticida ${id} no pudo ser eliminado!`, 'error'),
-  //       });
-  //     }
-  //   });
-  // }
-
   public onCreate(): void {
     this.router.navigateByUrl(`${this.baseRoute}/new`);
   }
-
-
 
   public onDelete(id: number): void {
     let token = localStorage.getItem('access_token');
     this.pesticideService.getRelatedCropTypes(id, token).subscribe({
       next: (relatedCropTypes) => {
-        let cropTypeNamesList = relatedCropTypes.map(cropType => `- ${cropType}`).join('<br>');
         let warningMessage = relatedCropTypes.length > 0
-          ? `Desea eliminar el Pesticida con id: ${id}? Está asociado a los siguientes Tipos de cultivo:<br>${cropTypeNamesList}`
-          : `Desea eliminar el Pesticida con id: ${id}?`;
+        ? `Desea eliminar el Pesticida? Está relacionado a ${relatedCropTypes.length} tipo${relatedCropTypes.length > 1 ? 's' : ''} de cultivo.
+        ${relatedCropTypes.length > 1 ? 'Estos' : 'Este'} quedará${relatedCropTypes.length > 1 ? 'n' : ''} sin pesticida asociado.`
+        : `Desea eliminar el Pesticida?`;
 
         this.showDeletionDialog(id, warningMessage);
       },

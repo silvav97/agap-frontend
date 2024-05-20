@@ -33,10 +33,10 @@ export class ExpenseListComponent {
 
 
   public columns = [
-    { key: 'id',                                          label: 'Id' },
-    { key: 'crop.projectApplication.farmName',            label: 'Presupuesto asignado' },
-    { key: 'expenseValue',                                label: 'Valor ' },
-    { key: 'crop.projectApplication.applicant.firstName', label: 'Usuario' },
+
+    { key: 'expenseDescription', label: 'Tipo ' },
+    { key: 'expenseValue',       label: 'Valor ' },
+    { key: 'expenseDate',        label: 'Fecha del Gasto' },
   ];
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class ExpenseListComponent {
           this.cropService.getCropById(cropId!, token).subscribe({
             next: (response) => {
               this.listTitle = "Gastos de " + response.projectApplication.farmName;
-              console.log("expense-list.   cropService.getCropById")
+              console.log("expense-list.   cropService.getCropById");
             },
             error:() => console.log("error"),
           });
@@ -88,10 +88,19 @@ export class ExpenseListComponent {
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-danger'
       },
+      {
+        label: 'Registrar Gasto',
+        type: 'generalAction',
+        visible: () => true,
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-add'
+      },
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id!));
     this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id!));
+    this.actionsConfig[2].emitEvent.subscribe(() => this.onCreate());
+
   }
 
   public onEdit(id: number): void {
@@ -99,7 +108,13 @@ export class ExpenseListComponent {
   }
 
   public onDelete(id: number): void {
-    this.router.navigate([`${this.baseRoute}/edit`, id]);
+    //
+  }
+
+  public onCreate(): void {
+    let id = this.selectedCropId;
+    console.log('El selectedCropId es: ', id);
+    this.router.navigate(['/expense/new', id]);
   }
 
   public onPageSizeChange(newSize: number): void {

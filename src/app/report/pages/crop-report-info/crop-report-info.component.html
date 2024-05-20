@@ -1,0 +1,32 @@
+<p>crop-report-info works!</p>
+
+
+<div *ngIf="cropReport" class="container mt-4">
+  <h1 class="text-center mb-3 project-title">{{ cropReport.crop.projectApplication.farmName }}</h1>
+
+  <div class="row">
+    <!-- <div class="col-md-6">
+      <img *ngIf="projectReport.project.imageUrl" [src]="projectReport.project.imageUrl" class="img-fluid" alt="Imagen del proyecto">
+    </div> -->
+
+    <div class="col-md-6">
+      <h2>Detalles del Reporte de Cultivo</h2>
+      <p><strong>Estado:</strong> {{ cropReport.crop.status }}</p>
+      <p><strong>Inicio:</strong> {{ cropReport.crop.startDate | date }}</p>
+      <p><strong>Municipio:</strong> {{ cropReport.crop.projectApplication.municipality }}</p>
+      <p><strong>Presupuesto Total:</strong> ${{ cropReport.crop.assignedBudget | number }}</p>
+
+      <!-- <p><strong>Gastos Esperados:</strong> {{ projectReport.expectedExpense }}</p>
+      <p><strong>Gastos Reales:</strong> {{ projectReport.realExpense }}</p>
+      <p><strong>Ventas Totales:</strong> {{ projectReport.totalSale }}</p>
+      <p><strong>Ganancias:</strong> {{ projectReport.profit }}</p>
+      <p><strong>Rentabilidad:</strong> {{ projectReport.profitability }}</p> -->
+
+    </div>
+  </div>
+
+
+
+  <div class="mt-4"><button class="btn btn-secondary" (click)="goBack()">Volver</button></div>
+
+</div>

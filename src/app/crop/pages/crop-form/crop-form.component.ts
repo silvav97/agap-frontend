@@ -15,9 +15,9 @@ import Swal from 'sweetalert2';
 })
 export class CropFormComponent {
 
-  private activatedRoute = inject( ActivatedRoute);
-  private cropService    = inject( CropService);
-  private router         = inject( Router);
+  private activatedRoute = inject( ActivatedRoute );
+  private cropService    = inject( CropService );
+  private router         = inject( Router );
   private fb             = inject( FormBuilder );
   public form: FormGroup;
   public title: string = '';

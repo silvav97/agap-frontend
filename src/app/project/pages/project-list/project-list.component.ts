@@ -8,6 +8,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
+import { Role } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-project-list',
@@ -20,11 +21,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   public baseRoute = '/project';
   public paginator!: Pagination<ProjectResponse>;
 
-  public pageSize = 2;
+  public pageSize = 3;
   public pageSizes = [2, 3, 6];
 
   private userSubscription?: Subscription;
   public user: User | null = null;
+  public roleAdmin = Role.ADMIN;
 
   private projectService = inject( ProjectService );
   private authService    = inject( AuthService );
@@ -34,8 +36,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    //this.loadProjects(0);  // esto del params
     this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
+      console.log('El actual user es: ', currentUser);
       this.user = currentUser;
     });
     this.activatedRoute.paramMap.subscribe(params => {
@@ -61,11 +63,9 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.userSubscription?.unsubscribe();
   }
 
-
-
   public onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
-    this.loadProjects(0); // Recarga proyectos al cambiar el tamaño de página
+    this.loadProjects(0);
   }
 
   getCardFields(project: ProjectResponse): any[] {
@@ -80,20 +80,19 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   getCardButtons(project: ProjectResponse): CardButton[] {
     return [
-      { text: 'Más',              action: 'more',   visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
-      { text: 'Aplicar',          action: 'apply',  visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
-      { text: 'Editar',           action: 'edit',   visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-regular', isDropdownItem: true },
-      { text: 'Ver aplicaciones', action: 'verApp', visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-regular', isDropdownItem: true },
-      { text: 'Finalizar',        action: 'finish', visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-delete',  isDropdownItem: true },
-      { text: 'Eliminar',         action: 'delete', visible: this.user!.roles.includes('ADMIN'), style: 'btn-card btn-delete',  isDropdownItem: true },
-
+      { text: 'Más',                 action: 'more',   visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
+      { text: 'Aplicar',             action: 'apply',  visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
+      { text: 'Editar',              action: 'edit',   visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
+      { text: 'Ver aplicaciones',    action: 'seeApp', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
+      { text: 'Finalizar',           action: 'finish', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-delete',  isDropdownItem: true },
+      { text: 'Eliminar',            action: 'delete', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-delete',  isDropdownItem: true },
     ];
   }
 
   handleButtonClick(action: string, projectId: number): void {
     switch (action) {
       case 'more':
-        // código para más detalles
+        this.onMore(projectId);
         break;
       case 'apply':
         this.onApply(projectId);
@@ -101,14 +100,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       case 'edit':
         this.onEdit(projectId);
         break;
-      case 'verApp':
-        this.onVerApp(projectId);
+      case 'seeApp':
+        this.onSeeApp(projectId);
         break;
       case 'finish':
-        // código para editar
         break;
       case 'delete':
-        console.log({'message': 'About to delete'});
         this.onDelete(projectId);
         break;
       default:
@@ -116,13 +113,15 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onMore(projectId: number) {
+    this.router.navigate(['/project/info', projectId]);
+  }
+
   public onApply(projectId: number) {
-    //Swal.fire('Bien', `Aplicaste al proyecto con id ${projectId}`, 'success');
     this.router.navigate(['/project-application/new', projectId]);
   }
 
-  public onVerApp(projectId: number) {
-    //Swal.fire('Bien', `Aplicaste al proyecto con id ${projectId}`, 'success');
+  public onSeeApp(projectId: number) {
     this.router.navigate(['/project-application/project', projectId]);
   }
 
@@ -131,9 +130,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   navigateToNewProject(): void {
-    this.router.navigate(['/project/new']);  // Asegúrate de que esta ruta está configurada en tu routing module
+    this.router.navigate(['/project/new']);
   }
-
 
   public onDelete(id: number): void {
     let token = localStorage.getItem('access_token');
@@ -146,10 +144,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
         this.showDeletionDialog(id, warningMessage);
       },
-      error: (error) => {
-        console.error('Error al obtener Aplicaciones a proyecto relacionados:', error);
-        Swal.fire('Error', 'Error obteniendo Aplicaciones a proyecto relacionados al Proyecto', 'error');
-      }
+      error: (error) => Swal.fire('Error', 'Error obteniendo Aplicaciones a proyecto relacionados al Proyecto', 'error'),
     });
   }
 

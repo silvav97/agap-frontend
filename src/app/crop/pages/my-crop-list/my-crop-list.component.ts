@@ -49,8 +49,6 @@ export class MyCropListComponent {
 
   loadCrops(page: number): void {
     var token = localStorage.getItem('access_token')
-    // Cambia a
-    // my crops
     this.cropService.getMyCropPaginated(page, this.pageSize!, token)
       .subscribe( response => {
         this.cropList = response.content
@@ -75,11 +73,11 @@ export class MyCropListComponent {
         buttonClass: 'btn-info'
       },
       {
-        label: 'Eliminar',
+        label: 'Cerrar Cultivo',
         type: 'rowAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-danger'
+        buttonClass: 'btn-primary'
       },
 
     ];
@@ -89,14 +87,16 @@ export class MyCropListComponent {
       if ( crop && crop.projectApplication ) this.onEdit(crop.id, crop.projectApplication.id)
     });
     this.actionsConfig[1].emitEvent.subscribe(id => this.onSeeExpenses(id!));
-    this.actionsConfig[2].emitEvent.subscribe(id => this.onDelete(id!));
+    this.actionsConfig[2].emitEvent.subscribe(id => this.onFinishCrop(id!));
 
   }
 
   public onEdit(id: number, projectApplicationId: number): void {
     this.router.navigate([`${this.baseRoute}/edit`, id, projectApplicationId]);
   }
-  public onDelete(id: number): void {
+
+  public onFinishCrop(id: number): void {
+    this.router.navigate([`${this.baseRoute}/close-crop`, id]);
   }
 
   public onSeeExpenses(id: number): void {

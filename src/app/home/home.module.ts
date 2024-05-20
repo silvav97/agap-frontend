@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ProjectModule } from '../project/project.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    ProjectModule
   ]
 })
 export class HomeModule { }

@@ -6,18 +6,23 @@ import { ProjectListComponent } from './pages/project-list/project-list.componen
 import { SharedModule } from '../shared/shared.module';
 import { ProjectFormComponent } from './pages/project-form/project-form.component';
 import { FormsModule } from '@angular/forms';
+import { ProjectInfoComponent } from './pages/project-info/project-info.component';
 
 
 @NgModule({
   declarations: [
     ProjectListComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
+    ProjectInfoComponent
   ],
   imports: [
     CommonModule,
     ProjectRoutingModule,
     SharedModule,
     FormsModule
-  ]
+  ],
+  exports: [
+    ProjectListComponent
+  ],
 })
 export class ProjectModule { }

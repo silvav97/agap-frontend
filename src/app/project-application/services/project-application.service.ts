@@ -15,7 +15,6 @@ export class ProjectApplicationService {
 
   private readonly baseUrl: string = environment.baseUrl;
   private http = inject( HttpClient )
-  //private authService = inject( AuthService )
 
   constructor() {}
 
@@ -42,7 +41,6 @@ export class ProjectApplicationService {
     );
   }
 
-
   public getMyProjectApplicationPaginated(page: number, pageSize: number, token: string | null): Observable<Pagination<ProjectApplicationResponse>> {
     const url = `${this.baseUrl}/api/v1/project-application/mine/page?pageNumber=${page}&pageSize=${pageSize}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -53,12 +51,7 @@ export class ProjectApplicationService {
       }),
       catchError(err => throwError(() => err.error))
     );
-}
-
-
-
-
-
+  }
 
   public getProjectApplicationById( id: number, token: string | null): Observable<ProjectApplicationResponse> {
     const url = `${ this.baseUrl }/api/v1/project-application/${id}`;

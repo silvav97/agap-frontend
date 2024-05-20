@@ -5,6 +5,7 @@ import { CropTypeService } from '../../services/crop-type.service';
 import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
+import { PageStateService } from '../../../shared/services/page-state.service';
 
 @Component({
   selector: 'app-crop-type-list',
@@ -13,8 +14,18 @@ import { Pagination } from '../../../shared/interfaces/pagination.interface';
 })
 export class CropTypeListComponent {
 
-  public cropTypeList: CropType[] = []
+  private pageStateService = inject ( PageStateService );
+  private cropTypeService  = inject( CropTypeService );
+  private activatedRoute   = inject( ActivatedRoute );
+  private router           = inject( Router );
+  public baseRoute         = '/crop-type';
+  public listTitle         = 'Tipos de Cultivo';
+  public cropTypeList:  CropType[] = [];
+  public paginator!:    Pagination<CropType>;
   public actionsConfig: ActionConfig[] = [];
+
+  public pageSize?: number;
+  public pageSizes = [5, 6, 15];
 
   public columns = [
     { key: 'name', label: 'Nombre' },
@@ -26,28 +37,21 @@ export class CropTypeListComponent {
 
   ];
 
-
-  public baseRoute = '/crop-type';
-  public listTitle = 'Tipos de Cultivo';
-  public paginator!: Pagination<CropType>;
-
-  private cropTypeService = inject( CropTypeService );
-  private activatedRoute  = inject( ActivatedRoute );
-  private router          = inject( Router );
-  public pageSize = 10;
-  public pageSizes = [5, 10, 15];
-
   ngOnInit(): void {
-    this.setupActions();
-    this.activatedRoute.paramMap.subscribe(params => {
-      let page = +params.get('page')! || 0;
-      this.loadItems(page);
+    this.pageStateService.currentPageSize.subscribe(size => {
+      this.pageSize = size;
+
+      this.setupActions();
+      this.activatedRoute.paramMap.subscribe(params => {
+        let page = +params.get('page')! || 0;
+        this.loadCropTypes(page);
+      });
     });
   }
 
-  loadItems(page: number): void {
+  loadCropTypes(page: number): void {
     var token = localStorage.getItem('access_token')
-    this.cropTypeService.getCropTypePaginated(page, this.pageSize, token)
+    this.cropTypeService.getCropTypePaginated(page, this.pageSize!, token)
       .subscribe( response => {
         this.cropTypeList = response.content
         this.paginator = response;
@@ -86,22 +90,27 @@ export class CropTypeListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
-    this.loadItems(0);
+    this.pageStateService.changePageSize(newSize);
+    this.loadCropTypes(0);
   }
 
   public onEdit(id: number): void {
     this.router.navigate([`${this.baseRoute}/edit`, id]);
   }
 
+  public onCreate(): void {
+    this.router.navigateByUrl(`${this.baseRoute}/new`);
+  }
+
   public onDelete(id: number): void {
     let token = localStorage.getItem('access_token');
     this.cropTypeService.getRelatedProjects(id, token).subscribe({
       next: (relatedProjects) => {
-        let projectNamesList = relatedProjects.map(project => `- ${project}`).join('<br>');
+
         let warningMessage = relatedProjects.length > 0
-          ? `Desea eliminar el TipoDeCultivo con id: ${id}? Está asociado a los siguientes proyectos:<br>${projectNamesList}`
-          : `Desea eliminar el TipoDeCultivo con id: ${id}?`;
+        ? `Desea eliminar el Tipo de Cultivo? Está relacionado a ${relatedProjects.length} Proyecto${relatedProjects.length > 1 ? 's' : ''}.
+        ${relatedProjects.length > 1 ? 'Estos' : 'Este'} quedará${relatedProjects.length > 1 ? 'n' : ''} sin tipo de cultivo asociado.`
+        : `Desea eliminar el Tipo de cultivo?`;
 
         this.showDeletionDialog(id, warningMessage);
       },
@@ -139,10 +148,6 @@ export class CropTypeListComponent {
         Swal.fire('Error', `TipoDeCultivo ${id} no pudo ser eliminado!`, 'error');
       }
     });
-  }
-
-  public onCreate(): void {
-    this.router.navigateByUrl(`${this.baseRoute}/new`);
   }
 
 }

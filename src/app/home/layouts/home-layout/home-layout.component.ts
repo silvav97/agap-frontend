@@ -11,10 +11,10 @@ import { User } from '../../../auth/interfaces';
 })
 export class HomeLayoutComponent implements OnInit, OnDestroy {
 
+  private authService = inject( AuthService );
+  private router      = inject( Router );
   private userSubscription?: Subscription;
   public user: User | null = null;
-
-  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
@@ -28,6 +28,7 @@ export class HomeLayoutComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.authService.logout();
+    this.router.navigateByUrl('');
   }
 
 }

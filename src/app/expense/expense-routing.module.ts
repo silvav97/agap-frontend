@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ExpenseListComponent } from './pages/expense-list/expense-list.component';
+import { ExpenseFormComponent } from './pages/expense-form/expense-form.component';
 
 const routes: Routes = [
 
@@ -24,6 +25,16 @@ const routes: Routes = [
     component: ExpenseListComponent
   },
 
+  {
+    path: 'new/:cropId',
+    //canActivate: [ roleGuard ],
+    //data: { roles: ['ADMIN'] },
+    component: ExpenseFormComponent
+  },
+  {
+    path: 'edit/:id/:cropId',
+    component: ExpenseFormComponent
+  }
 
 
 ];

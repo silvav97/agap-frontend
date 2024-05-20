@@ -1,0 +1,14 @@
+
+
+<shared-generic-list  [items]="projectReportList"
+                      [columns]="columns"
+                      [baseRoute]="baseRoute"
+                      [listTitle]="listTitle"
+                      [paginator]="paginator"
+                      [actionsConfig]="actionsConfig"
+
+                      [pageSize]="pageSize!"
+                      [pageSizes]="pageSizes"
+
+                      (pageSizeChange)="onPageSizeChange($event)">
+</shared-generic-list>
