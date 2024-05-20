@@ -1,4 +1,4 @@
-<h1>{{ listTitle  }}</h1>
+<h1 class="title">{{ listTitle  }}</h1>
 
 <div class="row">
   <div class="col">
@@ -22,9 +22,9 @@
     <shared-paginator [paginador]="paginator" [pageRoute]="baseRoute + '/page'"></shared-paginator>
   </div>
 
-  <div>
+  <div class="m-2">
     <label for="pageSize">Items por página:</label>
-    <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+    <select class="m-2" id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
       <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
     </select>
   </div>
