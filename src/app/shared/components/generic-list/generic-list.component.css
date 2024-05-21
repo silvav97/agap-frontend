@@ -35,3 +35,9 @@
   justify-content: center;
   padding-top: 25px;
 }
+
+.custom-paginator {
+  margin-top: 20px; /* Añadir espacio entre la lista y el paginador */
+  display: flex;
+  justify-content: center; /* Centrar el paginador */
+}

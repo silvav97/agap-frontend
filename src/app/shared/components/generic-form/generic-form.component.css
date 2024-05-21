@@ -95,6 +95,25 @@ body {
 .two-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 2rem; /* Ajusta el espacio lateral entre columnas */
-    row-gap: 0.5rem; /* Mantén el espacio vertical entre campos */
+    column-gap: 2rem; /* Espacio lateral entre columnas */
+    row-gap: 0.5rem; /* Espacio vertical entre campos */
+}
+
+select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg fill="%23046a30" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+    background-color: #fff;
+    background-size: 16px 16px;
+    padding-right: 30px; 
+    border-radius: 10px;
+    border: 1px solid #046a30;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select.form-control:focus {
+    border-color: #035026;
+    box-shadow: 0 0 5px rgba(4, 106, 48, 0.5);
 }
