@@ -12,6 +12,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
+  display: inline-block; /* Asegurar que el botón no ocupe todo el ancho */
 }
 
 .btn-add:hover {
@@ -40,4 +41,28 @@
   margin-top: 20px; /* Añadir espacio entre la lista y el paginador */
   display: flex;
   justify-content: center; /* Centrar el paginador */
+}
+
+.container {
+  max-width: 1000px; /* Ajusta esto según el ancho máximo deseado */
+  margin: 0 auto; /* Centrar el contenedor */
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end; /* Alinear el botón a la derecha */
+  margin-bottom: 10px; /* Añadir espacio debajo del botón */
+  margin-top: 10px; /* Añadir espacio debajo del botón */
+}
+
+.shared-generic-table {
+  width: 100%;
+}
+
+.row {
+  width: 100%;
+}
+
+.col {
+  width: 100%;
 }
