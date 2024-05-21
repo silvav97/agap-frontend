@@ -59,7 +59,7 @@ export class ProjectReportInfoComponent {
             { label: 'Ganancias',         value: projectReport.profit },
             { label: 'Rentabilidad',      value: projectReport.profitability }
           ],
-          description: 's'  // projectReport.description
+          //description: ''  // projectReport.description
         };
       },
       error: (error) => console.error('Failed to load projectReport', error)
