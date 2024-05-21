@@ -29,6 +29,12 @@
                     (click)="action.emitEvent.emit(item.id)">
               {{ action.label }}
             </button>
+            <button *ngIf="!action.visible(item) && action.type === 'rowAction'" disabled
+                    type="button" class="btn btn-sm m-2"
+                    [class]="action.buttonClass"
+                    >
+              {{ action.label }}
+            </button>
           </ng-container>
 
         </td>

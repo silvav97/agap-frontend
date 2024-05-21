@@ -3,7 +3,7 @@ import { PageStateService } from '../../../shared/services/page-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CropService } from '../../services/crop.service';
 import { CropResponse } from '../../interfaces';
-import { Pagination } from '../../../shared/interfaces';
+import { Pagination, ProcessStatus } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 
 @Component({
@@ -69,7 +69,7 @@ export class MyCropListComponent {
       {
         label: 'Cerrar Cultivo',
         type: 'rowAction',
-        visible: () => true,
+        visible: (item: CropResponse) => item.status === ProcessStatus.CREADO,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-primary'
       },
