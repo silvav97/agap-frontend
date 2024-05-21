@@ -71,7 +71,7 @@ export class MyCropListComponent {
         type: 'rowAction',
         visible: (item: CropResponse) => item.status === ProcessStatus.CREADO,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
+        buttonClass: 'btn-warning'
       },
     ];
 

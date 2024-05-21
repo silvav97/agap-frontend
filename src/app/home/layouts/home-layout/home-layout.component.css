@@ -1,0 +1,11 @@
+.header {
+    background-color: #046a30;
+    color: #FFFFFF;
+    margin-top: -8px;
+    padding: 0px;
+}
+
+.header_content {
+    padding-left: 30px;
+    padding-right: 30px;
+}

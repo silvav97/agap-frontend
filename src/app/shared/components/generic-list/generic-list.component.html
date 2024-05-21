@@ -1,34 +1,37 @@
-<h1>{{ listTitle  }}</h1>
+<h1 class="title">{{ listTitle }}</h1>
 
-<div class="row">
-  <div class="col">
-
-    <div class="button-group">
-      <ng-container *ngFor="let action of actionsConfig">
-        <button *ngIf="action.visible(true) && action.type === 'generalAction'"
-                (click)="action.emitEvent.emit()"
-                [class]="action.buttonClass"
-                class="btn">{{ action.label }}</button>
-      </ng-container>
+<div class="container">
+  <div class="row mb-2">
+    <div class="col text-right">
+      <div class="button-group">
+        <ng-container *ngFor="let action of actionsConfig">
+          <button *ngIf="action.visible(true) && action.type === 'generalAction'"
+                  (click)="action.emitEvent.emit()"
+                  [class]="action.buttonClass"
+                  class="btn btn-add">{{ action.label }}</button>
+        </ng-container>
+      </div>
     </div>
-
-    <hr>
-    <shared-generic-table
-                [items]="items"
-                [columns]="columns"
-                [actionsConfig]="actionsConfig">
-    </shared-generic-table>
-
-    <shared-paginator [paginador]="paginator" [pageRoute]="baseRoute + '/page'"></shared-paginator>
   </div>
 
-  <div>
-    <label for="pageSize">Items por página:</label>
-    <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize!)">
-      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
-    </select>
+  <div class="row">
+    <div class="col">
+      <shared-generic-table
+                  [items]="items"
+                  [columns]="columns"
+                  [actionsConfig]="actionsConfig">
+      </shared-generic-table>
+
+      <shared-paginator class="custom-paginator" [paginador]="paginator" [pageRoute]="baseRoute + '/page'"></shared-paginator>
+    </div>
   </div>
 
-
+  <div class="row mt-4">
+    <div class="col custom-paginator">
+      <label for="pageSize">Items por página:</label>
+      <select style="margin-left: 5px;" id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize!)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+  </div>
 </div>
-

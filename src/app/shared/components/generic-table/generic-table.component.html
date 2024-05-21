@@ -2,7 +2,6 @@
   No hay elementos que mostrar
 </div>
 
-
 <ng-template #table>
   <table class="table table-hover">
     <thead>
@@ -13,15 +12,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of items; let i = index">
-
-        <!-- <td *ngFor="let col of columns">{{ item[col.key] }}</td> -->
-
-        <td *ngFor="let col of columns">
+        <td *ngFor="let col of columns" class="cell-content">
           {{ col.key.includes('.') ? resolveNestedProperty(item, col.key) : item[col.key] }}
         </td>
 
         <td>
-
           <ng-container *ngFor="let action of actionsConfig">
             <button *ngIf="action.visible(item) && action.type === 'rowAction'"
                     type="button" class="btn btn-sm m-2"
@@ -36,11 +31,8 @@
               {{ action.label }}
             </button>
           </ng-container>
-
         </td>
       </tr>
     </tbody>
   </table>
 </ng-template>
-
-
