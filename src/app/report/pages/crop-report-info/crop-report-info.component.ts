@@ -13,28 +13,31 @@ import Swal from 'sweetalert2';
 export class CropReportInfoComponent {
 
   private reportService = inject( ReportService );
-  private projectService = inject( ProjectService );
   private route         = inject( ActivatedRoute );
   private router        = inject( Router );
   public cropReport: CropReportResponse | undefined;
   public projectReportList: ProjectReportResponse[] = [];
   public projectReportId?: number;
 
+  public cropReportData: any;       //
+  public buttons: any;              //
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const cropReportId = +params['id'];
-
       this.loadProjectReports(cropReportId);
     });
+
+    this.buttons = [
+      { label: 'Volver', class: 'btn btn-secondary', action: () => this.goBack() }
+    ];
   }
 
   private loadProjectReports(cropReportId: number) {
-    var token = localStorage.getItem('access_token')
+    const token = localStorage.getItem('access_token');
     this.reportService.getProjectReportList(token).subscribe({
       next: (response) => {
         this.projectReportList = response;
-        console.log('response es: ', response);
         this.loadCropReport(cropReportId);
       },
       error: (error) => Swal.fire('Error', 'Error al cargar Reportes de Proyectos', 'error')
@@ -42,15 +45,28 @@ export class CropReportInfoComponent {
   }
 
   private loadCropReport(id: number): void {
-    let token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
     this.reportService.getCropReportById(id, token).subscribe({
       next: (cropReport) => {
         this.cropReport = cropReport;
-        let projectReport = this.projectReportList.find(pr => cropReport.crop.projectApplication.project.id === pr.project.id);
-         this.projectReportId = projectReport?.id;
-        console.log('Crop Report:', this.cropReport);
-        console.log('EL Crop Report es del crop que pertenece al Project:', projectReport?.project.name);
-
+        const projectReport = this.projectReportList.find(pr => cropReport.crop.projectApplication.project.id === pr.project.id);
+        this.projectReportId = projectReport?.id;
+        this.cropReportData = {
+          title: cropReport.crop.projectApplication.farmName,
+          detailTitle: 'Detalles del Reporte de Cultivo',
+          details: [
+            { label: 'Estado', value: cropReport.crop.status },
+            { label: 'Inicio', value: cropReport.crop.startDate },
+            { label: 'Municipio', value: cropReport.crop.projectApplication.municipality },
+            { label: 'Presupuesto Total', value: cropReport.crop.assignedBudget },
+            { label: 'Gastos Esperados', value: cropReport.expectedExpense },
+            { label: 'Gastos Reales', value: cropReport.realExpense },
+            { label: 'Ventas Totales', value: cropReport.totalSale },
+            { label: 'Ganancias', value: cropReport.profit },
+            { label: 'Rentabilidad', value: cropReport.profitability }
+          ],
+          description: 'No hay descripción disponible.'  // cropReport.description
+        };
       },
       error: (error) => console.error('Failed to load cropReport', error)
     });
@@ -61,4 +77,4 @@ export class CropReportInfoComponent {
     this.router.navigate(['/report/project/info', this.projectReportId]);
   }
 
-}//
+}

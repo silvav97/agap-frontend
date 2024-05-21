@@ -1,4 +1,4 @@
-
+<!--
 <div *ngIf="project" class="container mt-4">
   <h1 class="text-center mb-3 project-title">{{ project.name }}</h1>
 
@@ -22,8 +22,7 @@
     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis molestias error non excepturi quisquam quas enim, dolore hic saepe! Sunt facilis perferendis soluta excepturi totam deserunt dolorem explicabo ipsa alias.
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, molestiae magni ducimus magnam facilis quia vel dolor ullam impedit similique debitis repellat quod nam sed quidem esse labore corrupti adipisci.
     </p>
-    <!-- Asumiendo que hay una descripción; si no la hay, agregarla en la interfaz y en el backend si es necesario -->
-    <!-- <p>{{ project.description }}</p> -->
+
   </div>
 
   <div class="mt-4">
@@ -31,4 +30,11 @@
     <button class="btn btn-primary" (click)="applyToProject(project.id)">Aplicar</button>
   </div>
 </div>
+ -->
 
+
+
+ <shared-generic-info
+        [data]="projectData"
+        [buttons]="buttons"
+></shared-generic-info>

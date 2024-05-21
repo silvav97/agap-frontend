@@ -1,4 +1,4 @@
-
+<!--
 <div *ngIf="projectReport" class="container mt-4">
   <h1 class="text-center mb-3 project-title">{{ projectReport.project.name }}</h1>
 
@@ -32,5 +32,20 @@
   <div class="mt-4"><button class="btn btn-secondary" (click)="goBack()">Volver</button></div>
 
 
-</div>
+</div> -->
+
+
+
+ <shared-generic-info
+        [data]="projectReportData"
+        [buttons]="buttons"
+  ></shared-generic-info>
+
+
+  <div *ngIf="projectReport" class="container mt-4">
+    <app-crop-report-list
+    [selectedProjectId]="projectReport.project.id"
+    [baseRoute]="'/report/project/info/'+projectReport.project.id"
+  ></app-crop-report-list>
+  </div>
 

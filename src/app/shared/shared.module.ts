@@ -7,6 +7,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
 import { GenericListComponent } from './components/generic-list/generic-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
+import { GenericInfoComponent } from './components/generic-info/generic-info.component';
 
 
 
@@ -16,7 +17,8 @@ import { GenericFormComponent } from './components/generic-form/generic-form.com
     GenericTableComponent,
     PaginatorComponent,
     GenericListComponent,
-    GenericFormComponent
+    GenericFormComponent,
+    GenericInfoComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { GenericFormComponent } from './components/generic-form/generic-form.com
     GenericTableComponent,
     PaginatorComponent,
     GenericListComponent,
-    GenericFormComponent
+    GenericFormComponent,
+    GenericInfoComponent
   ]
 })
 export class SharedModule { }

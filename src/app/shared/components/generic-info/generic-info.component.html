@@ -1,0 +1,24 @@
+<div *ngIf="data" class="container mt-4">
+  <h1 class="text-center mb-3 project-title">{{ data.title }}</h1>
+
+  <div class="row">
+    <div class="col-md-6" *ngIf="data.imageUrl">
+      <img [src]="data.imageUrl" class="img-fluid" alt="Imagen">
+    </div>
+    <div class="col-md-6">
+      <h2>{{ data.detailTitle }}</h2>
+      <div *ngFor="let detail of data.details">
+        <p><strong>{{ detail.label }}:</strong> {{ detail.value }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <h3 class="mb-2">Descripción</h3>
+    <p>{{ data.description }}</p>
+  </div>
+
+  <div class="mt-4" *ngIf="buttons">
+    <button *ngFor="let button of buttons" class="btn" [ngClass]="button.class" (click)="button.action()">{{ button.label }}</button>
+  </div>
+</div>

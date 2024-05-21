@@ -15,18 +15,41 @@ export class ProjectInfoComponent implements OnInit  {
   private router         = inject( Router );
   public project: ProjectResponse | undefined;
 
+  public projectData: any;  //
+  public buttons: any;      //
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const id = +params['id']; // El signo + convierte la cadena a número
+      const id = +params['id'];
       this.loadProject(id);
     });
+
+    this.buttons = [
+      { label: 'Volver', class: 'btn btn-secondary', action: () => this.goBack() },
+      { label: 'Aplicar', class: 'btn btn-primary', action: () => this.applyToProject(this.project!.id) }
+    ];
   }
 
   private loadProject(id: number): void {
     let token = localStorage.getItem('access_token');
     this.projectService.getProjectById(id, token).subscribe({
-      next: (project) => this.project = project,
+      next: (project) => {
+        this.project = project;
+        this.projectData = {
+          title: project.name,
+          detailTitle: 'Detalles del Proyecto',
+          imageUrl: project.imageUrl,
+          details: [
+            { label: 'Estado', value: project.status },
+            { label: 'Inicio', value: project.startDate },
+            { label: 'Fin', value: project.endDate },
+            { label: 'Municipio', value: project.municipality },
+            { label: 'Presupuesto Total', value: project.totalBudget },
+            { label: 'Cultivo', value: project.cropType?.name }
+          ],
+          description:  'Some description' //project.description
+        };
+      },
       error: (error) => console.error('Failed to load project', error)
     });
   }
