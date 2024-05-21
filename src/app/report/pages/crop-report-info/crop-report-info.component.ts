@@ -65,7 +65,7 @@ export class CropReportInfoComponent {
             { label: 'Ganancias', value: cropReport.profit },
             { label: 'Rentabilidad', value: cropReport.profitability }
           ],
-          description: 'No hay descripción disponible.'  // cropReport.description
+          description: ''  // cropReport.description
         };
       },
       error: (error) => console.error('Failed to load cropReport', error)

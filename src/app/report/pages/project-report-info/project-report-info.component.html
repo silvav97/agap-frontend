@@ -36,16 +36,17 @@
 
 
 
- <shared-generic-info
-        [data]="projectReportData"
-        [buttons]="buttons"
-  ></shared-generic-info>
+ <shared-generic-info [data]="projectReportData" [buttons]="buttons">
+
+    <div *ngIf="projectReport" class="container mt-4">
+        <app-crop-report-list
+              [selectedProjectId]="projectReport.project.id"
+              [baseRoute]="'/report/project/info/'+projectReport.project.id"
+          ></app-crop-report-list>
+    </div>
+
+</shared-generic-info>
 
 
-  <div *ngIf="projectReport" class="container mt-4">
-    <app-crop-report-list
-    [selectedProjectId]="projectReport.project.id"
-    [baseRoute]="'/report/project/info/'+projectReport.project.id"
-  ></app-crop-report-list>
-  </div>
+
 

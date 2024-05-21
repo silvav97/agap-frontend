@@ -26,7 +26,7 @@ interface InfoData {
   detailTitle: string;
   imageUrl?: string;
   details: InfoDetail[];
-  description: string;
+  description?: string;
 }
 
 interface InfoButton {

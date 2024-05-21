@@ -13,10 +13,17 @@
     </div>
   </div>
 
-  <div class="mt-4">
+  <div class="mt-4" *ngIf="data.description">
     <h3 class="mb-2">Descripción</h3>
     <p>{{ data.description }}</p>
   </div>
+
+
+  <div class="mt-4" *ngIf="!data.description">
+    <ng-content></ng-content>
+  </div>
+
+
 
   <div class="mt-4" *ngIf="buttons">
     <button *ngFor="let button of buttons" class="btn" [ngClass]="button.class" (click)="button.action()">{{ button.label }}</button>
