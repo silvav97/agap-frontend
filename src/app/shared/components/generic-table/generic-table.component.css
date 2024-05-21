@@ -15,7 +15,7 @@ body {
 /* Estilos para la tabla */
 .table {
     width: 100%;
-    max-width: 1000px; /* Ancho máximo de la tabla */
+    max-width: 1200px; /* Ancho máximo de la tabla */
     margin: 0 auto; 
     border-collapse: collapse;
     margin-bottom: 15px;
