@@ -49,17 +49,17 @@ export class ProjectReportInfoComponent {
           detailTitle: 'Detalles del Reporte de Proyecto',
           imageUrl: projectReport.project.imageUrl,
           details: [
-            { label: 'Estado', value: projectReport.project.status },
-            { label: 'Inicio', value: projectReport.project.startDate },
-            { label: 'Municipio', value: projectReport.project.municipality },
+            { label: 'Estado',            value: projectReport.project.status },
+            { label: 'Inicio',            value: projectReport.project.startDate },
+            { label: 'Municipio',         value: projectReport.project.municipality },
             { label: 'Presupuesto Total', value: projectReport.project.totalBudget },
-            { label: 'Gastos Esperados', value: projectReport.expectedExpense },
-            { label: 'Gastos Reales', value: projectReport.realExpense },
-            { label: 'Ventas Totales', value: projectReport.totalSale },
-            { label: 'Ganancias', value: projectReport.profit },
-            { label: 'Rentabilidad', value: projectReport.profitability }
+            { label: 'Gastos Esperados',  value: projectReport.expectedExpense },
+            { label: 'Gastos Reales',     value: projectReport.realExpense },
+            { label: 'Ventas Totales',    value: projectReport.totalSale },
+            { label: 'Ganancias',         value: projectReport.profit },
+            { label: 'Rentabilidad',      value: projectReport.profitability }
           ],
-          description: ''  // projectReport.description
+          description: 's'  // projectReport.description
         };
       },
       error: (error) => console.error('Failed to load projectReport', error)
