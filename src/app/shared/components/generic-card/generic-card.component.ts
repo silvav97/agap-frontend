@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { environment } from '../../../../environments/environments';
 
 
 @Component({
@@ -14,6 +15,9 @@ export class GenericCardComponent {
   @Input() buttons: CardButton[] = [];
 
   @Output() buttonClick = new EventEmitter<string>();
+
+  public baseUrl = environment.baseUrl;
+  public urlBackendImage = `${this.baseUrl}/api/v1/project/imagen`
 
   public onButtonClick(action: string): void {
     this.buttonClick.emit(action);

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { environment } from '../../../../environments/environments';
 
 @Component({
   selector: 'shared-generic-info',
@@ -9,6 +10,11 @@ export class GenericInfoComponent {
 
   @Input() data!: InfoData;
   @Input() buttons?: InfoButton[];
+
+  public baseUrl = environment.baseUrl;
+  public urlBackendImage = `${this.baseUrl}/api/v1/project/imagen`
+
+
 
 }
 
