@@ -126,7 +126,22 @@ export class ProjectService {
       }),
       catchError(err => throwError(() => err.error))
     );
-
   }
+
+
+
+  public saveProjectAndUploadFile(project: any, file: File, token: string | null): Observable<ProjectResponse> {
+    const url = `${this.baseUrl}/api/v1/project/save-with-file`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const formData = new FormData();
+    formData.append('project', JSON.stringify(project));
+    formData.append('file', file);
+
+    return this.http.post<ProjectResponse>(url, formData, { headers }).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
 
 }

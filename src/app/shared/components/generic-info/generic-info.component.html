@@ -3,7 +3,7 @@
 
   <div class="row">
     <div class="col-md-6" *ngIf="data.imageUrl">
-      <img src="{{urlBackendImage}}/{{data.imageUrl}}" class="img-fluid" alt="Imagen">
+      <img src="{{urlBackendImage}}/{{data.imageUrl}}" class="img-fluid" alt="Imagen" style="height: 300px; object-fit: cover;">
     </div>
     <div class="col-md-6">
       <h2>{{ data.detailTitle }}</h2>
