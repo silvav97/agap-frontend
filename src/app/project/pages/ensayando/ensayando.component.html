@@ -1,0 +1,16 @@
+
+<p>ensayando works!</p>
+
+
+<div class="container w-50 mx-auto pt-5">
+
+  <div class="mb-5">
+    <label for="image" class="form-label">Imagen</label>
+    <input type="file" id="image" class="form-control" accept="image/*" (change)="upload($event)">
+  </div>
+
+  <div *ngIf="url">
+    <img [src]="url" alt="" class="img-fluid img-thumbnail">
+  </div>
+
+</div>

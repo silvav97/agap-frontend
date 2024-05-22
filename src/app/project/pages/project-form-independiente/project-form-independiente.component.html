@@ -1,0 +1,99 @@
+<p>independiente</p>
+
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-agriculture">
+  <div class="row justify-content-center w-100 general-modal">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="card shadow-lg border-0 rounded-lg">
+        <div class="card-body p-4">
+          <form [formGroup]="form" (ngSubmit)="handleFormSubmit(form.value)" class="agri-form">
+            <h1 class="text-center text-green mb-4">{{ title }}</h1>
+
+            <div class="two-columns">
+              <div class="mb-3">
+                <label for="cropTypeId" class="form-label text-green">Tipo de Cultivo</label>
+                <select class="form-control" id="cropTypeId" formControlName="cropTypeId">
+                  <option *ngFor="let option of cropTypeOptions" [value]="option.value">{{ option.label }}</option>
+                </select>
+                <div *ngIf="form.get('cropTypeId')?.touched && form.get('cropTypeId')?.errors?.['required']" class="alert alert-danger mt-1">
+                  Este campo es requerido.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="name" class="form-label text-green">Nombre del Proyecto</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div *ngIf="form.get('name')?.touched && form.get('name')?.errors?.['required']" class="alert alert-danger mt-1">
+                  Este campo es requerido.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="startDate" class="form-label text-green">Fecha de Inicio</label>
+                <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                <div *ngIf="form.get('startDate')?.touched && form.get('startDate')?.errors?.['required']" class="alert alert-danger mt-1">
+                  Este campo es requerido.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="endDate" class="form-label text-green">Fecha de Fin</label>
+                <input type="date" class="form-control" id="endDate" formControlName="endDate">
+              </div>
+
+              <div class="mb-3">
+                <label for="municipality" class="form-label text-green">Municipio</label>
+                <select class="form-control" id="municipality" formControlName="municipality">
+                  <option *ngFor="let option of municipalityOptions" [value]="option.value">{{ option.label }}</option>
+                </select>
+                <div *ngIf="form.get('municipality')?.touched && form.get('municipality')?.errors?.['required']" class="alert alert-danger mt-1">
+                  Este campo es requerido.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="totalBudget" class="form-label text-green">Presupuesto</label>
+                <input type="number" class="form-control" id="totalBudget" formControlName="totalBudget">
+                <div *ngIf="form.get('totalBudget')?.touched && form.get('totalBudget')?.errors?.['required']" class="alert alert-danger mt-1">
+                  Este campo es requerido.
+                </div>
+                <div *ngIf="form.get('totalBudget')?.touched && form.get('totalBudget')?.errors?.['min']" class="alert alert-danger mt-1">
+                  El valor debe ser mayor que cero.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="imageUrl" class="form-label text-green">URL de la Imagen</label>
+                <input type="text" class="form-control" id="imageUrl" formControlName="imageUrl">
+              </div>
+
+
+
+              <!-- ******* SUBIR IMAGEN ******* -->
+              <div class="mb-3">
+                <label for="image" class="form-label text-green">Subir Imagen</label>
+                <input type="file" id="image" class="form-control" accept="image/*" (change)="upload($event)">
+              </div>
+
+
+            </div>
+
+            <!-- ******* MOSTRAR IMAGEN ******* -->
+            <div *ngIf="url">
+              <img [src]="url" alt="" class="img-fluid img-thumbnail">
+            </div>
+
+            <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-green">Guardar</button>
+            </div>
+          </form>
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
