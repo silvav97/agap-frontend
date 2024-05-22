@@ -50,42 +50,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     let token = localStorage.getItem('access_token');
     this.projectService.getProjectPaginated(page, this.pageSize, token).subscribe({
       next: (response) => {
-
         this.projectList = response.content;
-        this.projectList.forEach(project => {
-          console.log('my url_imagen es: ', project.imageUrl);
-          //this.loadProjectImage(project);
-          console.log('my url_imagen es: ', project.imageUrl);
-        });
-        this.paginator = response;
+        this.paginator   = response;
       },
       error: (err) => {
         console.error('Error loading projects:', err);
       }
     });
-  }
-
-  loadProjectImage(project: ProjectResponse): void {
-    let token = localStorage.getItem('access_token');
-    if (project.imageUrl) {
-      this.projectService.getImage(project.imageUrl, token).subscribe({
-        next: (blob) => {
-          if (blob.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = () => {
-              project.imageUrl = reader.result as string;
-            };
-            reader.readAsDataURL(blob);
-          } else {
-            console.log('Expected image blob but got: ', blob);
-          }
-        },
-        error: (err) => {
-          console.error('Project url: ', project.imageUrl);
-          console.error('Error loading project image:', err);
-        }
-      });
-    }
   }
 
   ngOnDestroy(): void {
@@ -99,22 +70,19 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   getCardFields(project: ProjectResponse): any[] {
     return [
-      // { label: 'Presupuesto Total', value: `$${project.totalBudget}` },
-      // { label: 'Fecha de Inicio', value: project.startDate },  // Asegúrate de que la fecha se muestre correctamente
        { label: 'Cultivo', value: project.cropType?.name },
        { label: 'Municipio', value: project.municipality },
-
     ];
   }
 
   getCardButtons(project: ProjectResponse): CardButton[] {
     return [
-      { text: 'Más',                 action: 'more',   visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
-      { text: 'Aplicar',             action: 'apply',  visible: true,                               style: 'btn-card btn-regular', isDropdownItem: false },
-      { text: 'Editar',              action: 'edit',   visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
-      { text: 'Ver aplicaciones',    action: 'seeApp', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
-      { text: 'Finalizar',           action: 'finish', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-delete',  isDropdownItem: true },
-      { text: 'Eliminar',            action: 'delete', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-delete',  isDropdownItem: true },
+      { text: 'Más',              action: 'more',   visible: true,                                               style: 'btn-card btn-regular', isDropdownItem: false },
+      { text: 'Aplicar',          action: 'apply',  visible: true,                                               style: 'btn-card btn-regular', isDropdownItem: false },
+      { text: 'Editar',           action: 'edit',   visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
+      { text: 'Ver aplicaciones', action: 'seeApp', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
+      { text: 'Finalizar',        action: 'finish', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-delete',  isDropdownItem: true },
+      { text: 'Eliminar',         action: 'delete', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-delete',  isDropdownItem: true },
     ];
   }
 
