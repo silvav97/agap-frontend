@@ -53,7 +53,9 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
         this.projectList = response.content;
         this.projectList.forEach(project => {
+          console.log('my url_imagen es: ', project.imageUrl);
           this.loadProjectImage(project);
+          console.log('my url_imagen es: ', project.imageUrl);
         });
         this.paginator = response;
       },

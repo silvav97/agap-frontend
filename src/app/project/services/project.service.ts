@@ -120,7 +120,7 @@ export class ProjectService {
     const url = `${this.baseUrl}/api/v1/project/imagen/${filename}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.get(url, { headers, responseType: 'blob' }).pipe(
+    return this.http.get(url, {  responseType: 'blob' }).pipe(
       tap( (response) => {
         console.log('Project.Service.getImage', response);
       }),
