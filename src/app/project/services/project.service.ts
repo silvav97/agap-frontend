@@ -36,7 +36,7 @@ export class ProjectService {
     // headers
     return this.http.get<Pagination<ProjectResponse>>( url, {} ).pipe(
       tap( (response) => {
-        console.log('Project.Service.getProjectPaginated', response);
+        //console.log('Project.Service.getProjectPaginated', response);
       }),
       catchError(err => throwError(() => err.error))
     );
@@ -100,6 +100,12 @@ export class ProjectService {
     );
   }
 
+
+
+
+
+
+
   public uploadFile(formData: FormData, token: string | null): Observable<any> {
     const url = `${ this.baseUrl }/api/v1/project/upload`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -108,6 +114,19 @@ export class ProjectService {
 
       catchError( err => throwError( () => err.error )),
     );
+  }
+
+  public getImage(filename: string, token: string | null): Observable<Blob> {
+    const url = `${this.baseUrl}/api/v1/project/imagen/${filename}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(url, { headers, responseType: 'blob' }).pipe(
+      tap( (response) => {
+        console.log('Project.Service.getImage', response);
+      }),
+      catchError(err => throwError(() => err.error))
+    );
+
   }
 
 }

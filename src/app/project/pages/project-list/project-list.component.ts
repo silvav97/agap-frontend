@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
 import { Role } from '../../../shared/interfaces';
+import { environment } from '../../../../environments/environments';
 
 @Component({
   selector: 'app-project-list',
@@ -37,7 +38,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
-      console.log('El actual user es: ', currentUser);
       this.user = currentUser;
     });
     this.activatedRoute.paramMap.subscribe(params => {
@@ -50,13 +50,40 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     let token = localStorage.getItem('access_token');
     this.projectService.getProjectPaginated(page, this.pageSize, token).subscribe({
       next: (response) => {
+
         this.projectList = response.content;
+        this.projectList.forEach(project => {
+          this.loadProjectImage(project);
+        });
         this.paginator = response;
       },
       error: (err) => {
         console.error('Error loading projects:', err);
       }
     });
+  }
+
+  loadProjectImage(project: ProjectResponse): void {
+    let token = localStorage.getItem('access_token');
+    if (project.imageUrl) {
+      this.projectService.getImage(project.imageUrl, token).subscribe({
+        next: (blob) => {
+          if (blob.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              project.imageUrl = reader.result as string;
+            };
+            reader.readAsDataURL(blob);
+          } else {
+            console.log('Expected image blob but got: ', blob);
+          }
+        },
+        error: (err) => {
+          console.error('Project url: ', project.imageUrl);
+          console.error('Error loading project image:', err);
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -176,5 +203,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 
 }
