@@ -2,7 +2,9 @@
 
 
 <div class="card">
-  <img *ngIf="image" [src]="image" class="card-img-top img-fluid" alt="Card Image" style="height: 250px; object-fit: cover;">
+  <!-- <img *ngIf="image" [src]="image" class="card-img-top img-fluid" alt="Card Image" style="height: 250px; object-fit: cover;"> -->
+  <img *ngIf="image" src="http://localhost:8080/api/v1/project/imagen/{{image}} " class="card-img-top img-fluid" alt="Card Image" style="height: 250px; object-fit: cover;">
+
 
   <div class="card-body d-flex flex-column">
     <h5 class="card-title">{{ title }}</h5>
