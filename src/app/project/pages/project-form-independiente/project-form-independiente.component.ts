@@ -25,7 +25,8 @@ export class ProjectFormIndependienteComponent {
   public municipalityOptions: { value: number, label: string }[] = [];
   public form: FormGroup;
   public title: string = '';
-  //private selectedFile: File | null = null;
+
+  public selectedFile: File | null = null;    //
 
   constructor() {
     this.form = this.fb.group({
@@ -35,8 +36,8 @@ export class ProjectFormIndependienteComponent {
       startDate:    [null, [Validators.required]],
       endDate:      [null],
       municipality: [null, [Validators.required]],
-      totalBudget:  ['', [Validators.required, Validators.min(0)]],
-      imageUrl:     ['']
+      totalBudget:  ['', [Validators.required, Validators.min(0)]]
+      //imageUrl:     ['']
     });
   }
 
@@ -84,25 +85,22 @@ export class ProjectFormIndependienteComponent {
     const token = localStorage.getItem('access_token');
     value.municipality = this.getMunicipalityNameById(value.municipality);
 
-    //const formData = new FormData();
-    //formData.append('project', JSON.stringify(this.form.getRawValue()));
-    //if (this.selectedFile) {
-    //  formData.append('image', this.selectedFile);
-    //}
+    if (this.selectedFile) {
+      const operation = this.form.get('id')?.value
+        ? this.projectService.updateProject(value, token)
+        : this.projectService.saveProjectAndUploadFile(value, this.selectedFile, token);
 
-
-    const operation = this.form.get('id')?.value
-      ? this.projectService.updateProject(value, token)
-      : this.projectService.addProject(value, token);
-
-    operation.subscribe({
-      next: () => {
-        Swal.fire('Éxito', `Proyecto ${this.form.get('id')?.value ? 'actualizado' : 'creado'} con éxito!`, 'success').then(() => this.router.navigateByUrl('/project'));
-      },
-      error: (error) => {
-        Swal.fire('Error', 'Operación fallida', 'error');
-      }
-    });
+      operation.subscribe({
+        next: () => {
+          Swal.fire('Éxito', `Proyecto ${this.form.get('id')?.value ? 'actualizado' : 'creado'} con éxito!`, 'success').then(() => this.router.navigateByUrl('/project'));
+        },
+        error: (error) => {
+          Swal.fire('Error', 'Operación fallida', 'error');
+        }
+      });
+    } else {
+      Swal.fire('Error', 'Debe seleccionar un archivo de imagen', 'error');
+    }
   }
 
 
@@ -117,7 +115,8 @@ export class ProjectFormIndependienteComponent {
   }
 
 
-  public upload(event: any) {
+  // Para borrar
+  public upload2(event: any) {
     const file = event.target.files[0];
 
     if (file) {
@@ -129,6 +128,20 @@ export class ProjectFormIndependienteComponent {
         console.log('response', response);
         this.url = response.url;
       });
+    }
+  }
+
+  public upload(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+
+       // Crear una URL temporal para previsualizar la imagen
+       const reader = new FileReader();
+       reader.onload = () => {
+         this.url = reader.result as string;
+       };
+       reader.readAsDataURL(file);
     }
   }
 }
