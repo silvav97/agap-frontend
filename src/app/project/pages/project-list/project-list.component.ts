@@ -29,7 +29,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   public paginator!: Pagination<ProjectResponse>;
 
   public pageSize?: number;
-  public pageSizes = [2, 3, 5, 6];
+  public pageSizes = [2, 3];
 
   private userSubscription?: Subscription;
   public user: User | null = null;
@@ -83,8 +83,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   getCardButtons(project: ProjectResponse): CardButton[] {
     return [
-      { text: 'Más',              action: 'more',   visible: true,                                               style: 'btn-card btn-regular', isDropdownItem: false },
-      { text: 'Aplicar',          action: 'apply',  visible: true,                                               style: 'btn-card btn-regular', isDropdownItem: false },
+      { text: 'Más',              action: 'more',   visible: true,                                               style: 'btn-info', isDropdownItem: false },
+      { text: 'Aplicar',          action: 'apply',  visible: true,                                               style: 'btn-info', isDropdownItem: false },
       { text: 'Editar',           action: 'edit',   visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
       { text: 'Ver aplicaciones', action: 'seeApp', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-regular', isDropdownItem: true },
       { text: 'Finalizar',        action: 'finish', visible: this.user?this.user!.roles.includes('ADMIN'):false, style: 'btn-card btn-delete',  isDropdownItem: true },
