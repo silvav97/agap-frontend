@@ -30,7 +30,7 @@ export class FertilizerListComponent {
   public columns = [
     { key: 'name',         label: 'Nombre' },
     { key: 'brand',        label: 'Marca' },
-    { key: 'pricePerGram', label: 'Precio por gramo' }
+    { key: 'pricePerGram', label: 'Precio/gr' }
   ];
 
   ngOnInit(): void {
