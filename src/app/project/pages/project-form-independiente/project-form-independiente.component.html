@@ -1,5 +1,3 @@
-<p>independiente</p>
-
 <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-agriculture">
   <div class="row justify-content-center w-100 general-modal">
     <div class="col-12 col-md-10 col-lg-8">
@@ -69,24 +67,25 @@
 
 
               <!-- ******* SUBIR IMAGEN ******* -->
-              <div class="mb-3">
+
+
+
+            </div>
+
+            <div class="mb-3 centered-upload">
+              <div class="upload-container text-center">
                 <label for="image" class="form-label text-green">Subir Imagen</label>
                 <input type="file" id="image" class="form-control" accept="image/*" (change)="upload($event)">
               </div>
-
-
             </div>
+
+
 
             <!-- ******* MOSTRAR IMAGEN ******* -->
-            <!-- <div *ngIf="url">
-              <img src="{{urlBackendImage}}/{{url}} " alt="" class="img-fluid img-thumbnail">
-            </div> -->
-            <!-- || form.get('imageUrl')?.value -->
-
-
-            <div *ngIf="url">
-              <img [src]="url.startsWith('data:') ? url : urlBackendImage + '/' + url" alt="" class="img-fluid img-thumbnail">
+            <div *ngIf="url" class="d-flex justify-content-center">
+              <img [src]="url.startsWith('data:') ? url : urlBackendImage + '/' + url" alt="" class="img-fluid img-thumbnail" style="height: 250px; object-fit: cover;">
             </div>
+
 
             <div class="d-flex justify-content-center">
               <button type="submit" class="btn btn-green">Guardar</button>

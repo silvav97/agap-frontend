@@ -5,6 +5,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { isAuthenticatedGuard } from '../auth/guards';
 import { roleGuard } from '../auth/guards/role.guard';
 import { ContactInfoComponent } from './pages/contact-info/contact-info.component';
+import { AboutUsInfoComponent } from './pages/about-us-info/about-us-info.component';
 
 const routes: Routes = [
 
@@ -66,6 +67,11 @@ const routes: Routes = [
       {
         path: 'contact',
         component: ContactInfoComponent
+      },
+
+      {
+        path: 'about',
+        component: AboutUsInfoComponent
       },
 
       { path: '**', redirectTo: '' },

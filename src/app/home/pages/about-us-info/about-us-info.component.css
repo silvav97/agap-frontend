@@ -1,0 +1,67 @@
+/* Importa Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* General styles */
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 12px 24px rgba(0,0,0,0.1);
+  margin-top: 4rem;
+}
+
+.project-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #000000;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23FFFFFF" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 20px 20px;
+  padding-left: 40px;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-info:active {
+  background-color: #117a8b;
+  transform: scale(0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.details-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+p {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: justify;
+}

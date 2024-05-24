@@ -2,7 +2,7 @@
   <h1 class="text-center mb-5 project-title">{{contactData.detailTitle}}</h1>
 
   <div class="row centered-table">
-    <div class="col-md-6 compact-table">
+    <div class="col-md-6">
       <div class="details-grid">
         <div *ngFor="let detail of contactData.details" class="detail-item">
           <span class="detail-label">{{ detail.label }}:</span>
@@ -12,10 +12,10 @@
     </div>
   </div>
 
-  <div class="mt-4" *ngIf="contactData.description">
+  <!-- <div class="mt-4" *ngIf="contactData.description">
     <h3 class="mb-2">Descripción</h3>
     <p>{{ contactData.description }}</p>
-  </div>
+  </div> -->
 
   <div class="mt-4">
     <button *ngFor="let button of buttons" [ngClass]="button.class" (click)="button.action()">{{ button.label }}</button>
