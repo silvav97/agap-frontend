@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contact-info',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './contact-info.component.css'
 })
 export class ContactInfoComponent {
+
+  private router = inject( Router );
 
   public contactData = {
     title: 'Contacto',
@@ -26,6 +29,6 @@ export class ContactInfoComponent {
   ];
 
   goBack(): void {
-    // Aquí puedes redirigir a otra ruta si es necesario
+    this.router.navigateByUrl("/home");
   }
 }

@@ -1,1 +1,15 @@
-<p>about-us-info works!</p>
+<div class="container">
+  <h1 class="text-center mb-5 project-title">Acerca de Nosotros</h1>
+
+  <div class="row centered-table">
+    <div class="col-md-12 compact-table">
+      <div class="details-grid">
+        <p *ngFor="let paragraph of aboutUsData.description">{{ paragraph }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <button *ngFor="let button of buttons" [ngClass]="button.class" (click)="button.action()">{{ button.label }}</button>
+  </div>
+</div>
