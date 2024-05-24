@@ -31,11 +31,36 @@
   background-color: #5a6268; /* Un gris oscuro para el hover */
 }
 
-
-
 .card-footer {
   display: flex;
   flex-wrap: wrap;
   gap: 10px; /* Espacio entre botones */
   justify-content: center; /* Centra los botones cuando no llenan completamente una línea */
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 18px; /* Incrementé el padding */
+  font-size: 14px; /* Incrementé el tamaño de la fuente */
+  border-radius: 25px; 
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-info:active {
+  background-color: #117a8b;
+  transform: scale(0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }

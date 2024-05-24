@@ -7,7 +7,7 @@ import { BehaviorSubject } from "rxjs";
 })
 export class PageStateProjectService {
 
-  private pageSizeSourceProject = new BehaviorSubject<number>(5);
+  private pageSizeSourceProject = new BehaviorSubject<number>(3);
   public currentPageSizeProject = this.pageSizeSourceProject.asObservable();
 
   changePageSizeProject(size: number) {
