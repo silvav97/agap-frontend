@@ -34,9 +34,9 @@ export class ExpenseListComponent {
 
   public columns = [
 
-    { key: 'expenseDescription', label: 'Tipo ' },
-    { key: 'expenseValue',       label: 'Valor ' },
-    { key: 'expenseDate',        label: 'Fecha del Gasto' },
+    { key: 'expenseDescription', label: 'Tipo' },
+    { key: 'expenseValue',       label: 'Valor' },
+    { key: 'expenseDate',        label: 'Fecha' },
   ];
 
   ngOnInit(): void {
@@ -79,7 +79,7 @@ export class ExpenseListComponent {
         type: 'rowAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
+        buttonClass: 'btn-info'
       },
       {
         label: 'Eliminar',

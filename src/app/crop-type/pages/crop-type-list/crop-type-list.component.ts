@@ -31,9 +31,9 @@ export class CropTypeListComponent {
     { key: 'name', label: 'Nombre' },
     { key: 'pesticide.name', label: 'Pesticida' },
     { key: 'fertilizer.name', label: 'Fertilizante' },
-    { key: 'plantQuantityPerSquareMeter', label: '# de Plantas / m^2' },
+    { key: 'plantQuantityPerSquareMeter', label: 'Plantas/m2' },
     { key: 'harvestTime', label: 'Tiempo de Cosecha' },
-    { key: 'weather', label: 'Tiempo de Cosecha' },
+    { key: 'weather', label: 'Clima' },
 
   ];
 
@@ -65,7 +65,7 @@ export class CropTypeListComponent {
         type: 'rowAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
+        buttonClass: 'btn-info'
       },
       {
         label: 'Eliminar',

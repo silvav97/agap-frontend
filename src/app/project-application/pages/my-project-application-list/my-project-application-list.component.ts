@@ -35,8 +35,8 @@ export class MyProjectApplicationListComponent {
     { key: 'farmName',             label: 'Finca' },
     { key: 'area',                 label: 'Area' },
     { key: 'project.municipality', label: 'Municipio' },
-    { key: 'applicationStatus',    label: 'Status' },
-    { key: 'applicationDate',      label: 'applicationDate' },
+    { key: 'applicationStatus',    label: 'Estado' },
+    { key: 'applicationDate',      label: 'Fecha' },
     { key: 'applicant.firstName',  label: 'Aplicante' },
 
   ];
@@ -71,14 +71,14 @@ export class MyProjectApplicationListComponent {
         type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus ===  ApplicationStatus.PENDIENTE,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
+        buttonClass: 'btn-info'
       },
       {
         label: 'Eliminar',
         type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === ApplicationStatus.PENDIENTE,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-warning'
+        buttonClass: 'btn-danger'
       },
 
     ];

@@ -1,6 +1,5 @@
-
 <div class="toolbar mt-2">
-  <label for="projectSelector">Proyecto:</label>
+  <label for="projectSelector">Filtrar por proyecto:</label>
   <select id="projectSelector" [(ngModel)]="selectedProjectId" (change)="onProjectChange(selectedProjectId!)">
     <option value="">Todos los proyectos</option>
     <option *ngFor="let project of projects" [value]="project.id">{{ project.name }}</option>
