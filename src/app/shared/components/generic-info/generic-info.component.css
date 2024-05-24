@@ -12,8 +12,7 @@ body {
     background-repeat: no-repeat;
 }
 
-/* Botón Informativo (info) */
-.btn-info {
+.btn-back {
   background-color: #17a2b8;
   color: #FFFFFF;
   border: none;
@@ -33,14 +32,43 @@ body {
   padding-left: 40px;
 }
 
-.btn-info:hover {
+.btn-back:hover {
   background-color: #138496;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-info:active {
+.btn-back:active {
   background-color: #117a8b;
+  transform: scale(0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Botón Warning (warning) */
+.btn-warning {
+  background-color: #ffc107;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 25px; 
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-warning:active {
+  background-color: #c69500;
   transform: scale(0.95);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }

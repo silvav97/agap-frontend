@@ -25,8 +25,8 @@ export class ProjectInfoComponent implements OnInit  {
     });
 
     this.buttons = [
-      { label: 'Volver', class: 'btn btn-secondary', action: () => this.goBack() },
-      { label: 'Aplicar', class: 'btn btn-primary', action: () => this.applyToProject(this.project!.id) }
+      { label: 'Volver', class: 'btn-back', action: () => this.goBack() },
+      { label: 'Aplicar', class: 'btn-warning', action: () => this.applyToProject(this.project!.id) }
     ];
   }
 
