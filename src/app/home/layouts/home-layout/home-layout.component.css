@@ -1,5 +1,5 @@
 .header {
-    background-color: #046a30;
+    background-color: #343a40; /* Dark background */
     color: #FFFFFF;
     margin-top: -8px;
     padding: 0px;
@@ -8,4 +8,29 @@
 .header_content {
     padding-left: 30px;
     padding-right: 30px;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #343a40; /* Dark background */
+}
+
+.sidebar .nav-link {
+    color: #dcdcdc; /* Light gray text */
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: #495057; /* Slightly lighter shade */
+    color: #ffffff; /* White text for hover and active */
+    border-radius: 5px; /* Rounded corners */
+    transform: translateY(-3px); /* Lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for lift effect */
+}
+
+/* Footer */
+.footer {
+    background-color: #343a40; /* Dark background */
 }

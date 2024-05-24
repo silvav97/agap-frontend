@@ -41,8 +41,8 @@ export class ProjectApplicationListComponent {
     { key: 'farmName',             label: 'Finca' },
     { key: 'area',                 label: 'Area' },
     { key: 'project.municipality', label: 'Municipio' },
-    { key: 'applicationStatus',    label: 'Status' },
-    { key: 'applicationDate',      label: 'applicationDate' },
+    { key: 'applicationStatus',    label: 'Estado' },
+    { key: 'applicationDate',      label: 'Fecha' },
     { key: 'applicant.firstName',  label: 'Aplicante' },
 
   ];
