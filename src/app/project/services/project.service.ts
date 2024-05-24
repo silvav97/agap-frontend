@@ -143,5 +143,17 @@ export class ProjectService {
     );
   }
 
+  public updateProjectAndUploadFile(project: any, file: File, token: string | null): Observable<ProjectResponse> {
+    const url = `${this.baseUrl}/api/v1/project/update-with-file/${project.id}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    const formData = new FormData();
+    formData.append('project', JSON.stringify(project));
+    formData.append('file', file);
+
+    return this.http.put<ProjectResponse>(url, formData, { headers }).pipe(
+      catchError(err => throwError(() => err.error))
+    );
+  }
 
 }

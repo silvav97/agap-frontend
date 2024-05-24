@@ -30,7 +30,7 @@ export class RegisterPageComponent {
     this.authService.register( firstname, lastname, email, password)
       .subscribe({
         next: (registerResponse: RegisterResponse) => {
-          Swal.fire('Hola!', 'Ve al correo a confirmar la cuenta', 'success');
+          Swal.fire('Hola!', 'Inicia sesión en tu correo electrónico para confirmar la cuenta', 'success');
           this.router.navigateByUrl('/home');
         },
         error: (error) => {

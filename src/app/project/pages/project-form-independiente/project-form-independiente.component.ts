@@ -5,6 +5,7 @@ import { ProjectService } from '../../services/project.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { environment } from '../../../../environments/environments';
 
 @Component({
   selector: 'app-project-form-independiente',
@@ -27,6 +28,8 @@ export class ProjectFormIndependienteComponent {
   public title: string = '';
 
   public selectedFile: File | null = null;    //
+  public baseUrl = environment.baseUrl;
+  public urlBackendImage = `${this.baseUrl}/api/v1/project/imagen`
 
   constructor() {
     this.form = this.fb.group({
@@ -36,8 +39,8 @@ export class ProjectFormIndependienteComponent {
       startDate:    [null, [Validators.required]],
       endDate:      [null],
       municipality: [null, [Validators.required]],
-      totalBudget:  ['', [Validators.required, Validators.min(0)]]
-      //imageUrl:     ['']
+      totalBudget:  ['', [Validators.required, Validators.min(0)]],
+      imageUrl:     ['']
     });
   }
 
@@ -68,11 +71,16 @@ export class ProjectFormIndependienteComponent {
   loadProject(id: number): void {
     const token = localStorage.getItem('access_token');
     this.projectService.getProjectById(id, token).subscribe({
-      next: (project) => this.form.patchValue({
-        ...project,
-        cropTypeId: project.cropType?.id,
-        municipality: this.getMunicipalityIdByName(project.municipality)?.id
-      }),
+      next: (project) => {
+        this.form.patchValue({
+            ...project,
+            cropTypeId: project.cropType?.id,
+            municipality: this.getMunicipalityIdByName(project.municipality)?.id,
+            imageUrl: project.imageUrl
+        });
+        this.url = project.imageUrl;
+        console.log("el URL de la imagen a editar es: ", this.url);
+      },
       error: (error) => {
         Swal.fire('Error', 'No se pudo cargar el proyecto', 'error');
         console.log({'errorObtenido': error});
@@ -85,14 +93,18 @@ export class ProjectFormIndependienteComponent {
     const token = localStorage.getItem('access_token');
     value.municipality = this.getMunicipalityNameById(value.municipality);
 
-    if (this.selectedFile) {
-      const operation = this.form.get('id')?.value
-        ? this.projectService.updateProject(value, token)
-        : this.projectService.saveProjectAndUploadFile(value, this.selectedFile, token);
+    const isEditMode = !!this.form.get('id')?.value;
+
+    if (this.selectedFile || isEditMode) {
+      const operation = isEditMode
+        ? (this.selectedFile
+            ? this.projectService.updateProjectAndUploadFile(value, this.selectedFile, token)
+            : this.projectService.updateProject(value, token))
+        : this.projectService.saveProjectAndUploadFile(value, this.selectedFile!, token);
 
       operation.subscribe({
         next: () => {
-          Swal.fire('Éxito', `Proyecto ${this.form.get('id')?.value ? 'actualizado' : 'creado'} con éxito!`, 'success').then(() => this.router.navigateByUrl('/project'));
+          Swal.fire('Éxito', `Proyecto ${isEditMode ? 'actualizado' : 'creado'} con éxito!`, 'success').then(() => this.router.navigateByUrl('/project'));
         },
         error: (error) => {
           Swal.fire('Error', 'Operación fallida', 'error');
@@ -139,7 +151,9 @@ export class ProjectFormIndependienteComponent {
        // Crear una URL temporal para previsualizar la imagen
        const reader = new FileReader();
        reader.onload = () => {
+
          this.url = reader.result as string;
+         console.log('La url es: ', this.url);
        };
        reader.readAsDataURL(file);
     }

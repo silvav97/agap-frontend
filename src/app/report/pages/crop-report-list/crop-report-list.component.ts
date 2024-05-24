@@ -48,10 +48,13 @@ export class CropReportListComponent {
         let page = +params.get('page')! || 0;
         this.loadCropReports(page);
 
-        this.reportService.getProjectReportById(projectId!, token).subscribe({
-          next: (response) => this.listTitle = "Reportes de cultivos de " + response.project.name,
-          error:(err) => console.log("error: ", err),
-        });
+        if (projectId) {
+          this.reportService.getProjectReportById(projectId!, token).subscribe({
+            next: (response) => this.listTitle = "Reportes de cultivos de " + response.project.name,
+            error:(err) => console.log("error: ", err),
+          });
+        }
+
       });
     });
   }
@@ -62,6 +65,7 @@ export class CropReportListComponent {
       next: (response) => {
         this.cropReportList = response.content;
         this.paginator = response;
+        console.log({cropReportList : this.cropReportList});
       },
       error: (error) => Swal.fire('Error', 'Error al cargar reportes de cultivos', 'error')
     });

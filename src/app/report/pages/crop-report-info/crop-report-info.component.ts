@@ -57,7 +57,7 @@ export class CropReportInfoComponent {
           details: [
             { label: 'Estado', value: cropReport.crop.status },
             { label: 'Inicio', value: cropReport.crop.startDate },
-            { label: 'Municipio', value: cropReport.crop.projectApplication.municipality },
+            { label: 'Municipio', value: cropReport.crop.projectApplication.project.municipality },
             { label: 'Presupuesto Total', value: cropReport.crop.assignedBudget },
             { label: 'Gastos Esperados', value: cropReport.expectedExpense },
             { label: 'Gastos Reales', value: cropReport.realExpense },

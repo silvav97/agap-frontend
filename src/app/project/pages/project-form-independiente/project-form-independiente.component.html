@@ -78,8 +78,14 @@
             </div>
 
             <!-- ******* MOSTRAR IMAGEN ******* -->
+            <!-- <div *ngIf="url">
+              <img src="{{urlBackendImage}}/{{url}} " alt="" class="img-fluid img-thumbnail">
+            </div> -->
+            <!-- || form.get('imageUrl')?.value -->
+
+
             <div *ngIf="url">
-              <img [src]="url" alt="" class="img-fluid img-thumbnail">
+              <img [src]="url.startsWith('data:') ? url : urlBackendImage + '/' + url" alt="" class="img-fluid img-thumbnail">
             </div>
 
             <div class="d-flex justify-content-center">

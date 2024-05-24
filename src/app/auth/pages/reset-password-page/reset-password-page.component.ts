@@ -22,7 +22,7 @@ export class ResetPasswordPageComponent implements OnInit {
   constructor() {}
 
   public myForm: FormGroup = this.formBuilder.group({
-    newPassword: ['password2', [ Validators.required, Validators.minLength(8) ]],
+    newPassword:          ['password2', [ Validators.required, Validators.minLength(8) ]],
     confirmationPassword: ['password2', [ Validators.required, Validators.minLength(8) ]],
   });
 
@@ -41,16 +41,22 @@ export class ResetPasswordPageComponent implements OnInit {
 
       this.authService.resetPassword(newPassword, confirmationPassword, this.token).subscribe({
         next: (response) => {
-          Swal.fire('Excelete', 'Cambio de contraseña exitoso', 'success');
-          //this.success = response;
-          // Opcional: redirigir al usuario después de un cierto tiempo o basado en una acción
-          //setTimeout(() => this.router.navigate(['/']), 3000);
+          Swal.fire({
+            title: '',
+            text: 'Cambio de contraseña exitoso',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/home']);
+            }
+          });
         },
         error: (error) => {
           console.log({ error: 'Reseteo de contraseña falló. Please try again.'+ error.message})
           //this.success = false;
           //this.message = error;
-          Swal.fire('Error', error.description, 'error');
+          Swal.fire('Error', 'Error al intentar restrablecer la contraseña', 'error');
         }
       });
     }
