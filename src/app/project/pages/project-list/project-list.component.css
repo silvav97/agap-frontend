@@ -17,7 +17,7 @@
 }
 
 .btn-add {
-    background-image: linear-gradient(to right, #4caf50, #8bc34a);
+    background-image: linear-gradient(to right, #282828, #343a40);
     color: white;
     font-weight: bold;
     font-size: 16px;
@@ -32,19 +32,19 @@
     letter-spacing: 1px;
     display: inline-block; /* Asegurar que el botón no ocupe todo el ancho */
     margin-bottom: 20px;
-}
-
-.btn-add:hover {
-    background-image: linear-gradient(to right, #66bb6a, #9ccc65);
+  }
+  
+  .btn-add:hover {
+    background-image: linear-gradient(to right, #343a40, #5a6268);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
-}
-
-.btn-add:active {
-    background-image: linear-gradient(to right, #388e3c, #689f38);
+  }
+  
+  .btn-add:active {
+    background-image: linear-gradient(to right, #212529, #343a40);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     transform: scale(0.95);
-}
+  }
 
 .button-container {
     display: flex;

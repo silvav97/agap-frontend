@@ -47,30 +47,22 @@
         <!-- <div> -->
 
         @if (user) {
-          <div *ngIf="user" class="col-md-3 col-lg-2 d-none d-md-block bg-dark sidebar py-3" >
-            <ul class="nav nav-pills flex-column mb-auto" >
-
-              <li><a routerLink="/project" class="nav-link text-white">Proyectos</a></li>
-
-              <li *ngIf="user.roles.includes('ADMIN')"><a routerLink="/project-application" class="nav-link text-white">Aplicaciones</a></li>
-
-              <li *ngIf="user.roles.includes('FARMER') && !user.roles.includes('ADMIN')"><a routerLink="/project-application/mine" class="nav-link text-white">Mis Aplicaciones</a></li>
-
-              <li *ngIf="user.roles.includes('ADMIN')"><a routerLink="/crop" class="nav-link text-white">Cultivos</a></li>
-
-              <li *ngIf="user.roles.includes('FARMER') && !user.roles.includes('ADMIN')"><a routerLink="/crop/mine" class="nav-link text-white">Mis Cultivos</a></li>
-
-              @if (user.roles.includes('ADMIN')) {
-                <li><a routerLink="/crop-type" class="nav-link text-white">Opciones de Cultivo</a></li>
-                <li><a routerLink="/fertilizer" class="nav-link text-white">Fertilizantes</a></li>
-                <li><a routerLink="/pesticide" class="nav-link text-white">Pesticidas</a></li>
-                <li><a routerLink="/report/project" class="nav-link text-white">Reportes</a></li>
-              }
-
-            </ul>
-        </div>
+            <div *ngIf="user" class="col-md-3 col-lg-2 d-none d-md-block bg-dark sidebar py-3">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li><a routerLink="/project" routerLinkActive="active" class="nav-link">Proyectos</a></li>
+                    <li *ngIf="user.roles.includes('ADMIN')"><a routerLink="/project-application" routerLinkActive="active" class="nav-link">Aplicaciones</a></li>
+                    <li *ngIf="user.roles.includes('FARMER') && !user.roles.includes('ADMIN')"><a routerLink="/project-application/mine" routerLinkActive="active" class="nav-link">Mis Aplicaciones</a></li>
+                    <li *ngIf="user.roles.includes('ADMIN')"><a routerLink="/crop" routerLinkActive="active" class="nav-link">Cultivos</a></li>
+                    <li *ngIf="user.roles.includes('FARMER') && !user.roles.includes('ADMIN')"><a routerLink="/crop/mine" routerLinkActive="active" class="nav-link">Mis Cultivos</a></li>
+                    @if (user.roles.includes('ADMIN')) {
+                        <li><a routerLink="/crop-type" routerLinkActive="active" class="nav-link">Opciones de Cultivo</a></li>
+                        <li><a routerLink="/fertilizer" routerLinkActive="active" class="nav-link">Fertilizantes</a></li>
+                        <li><a routerLink="/pesticide" routerLinkActive="active" class="nav-link">Pesticidas</a></li>
+                        <li><a routerLink="/report/project" routerLinkActive="active" class="nav-link">Reportes</a></li>
+                    }
+                </ul>
+            </div>                    
         }
-          <!-- <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4"> -->
           <div [ngClass]="user ? 'col-10 col-sm-12 col-md-9 col-lg-10 ms-sm-auto px-md-4' : 'col-10 col-sm-12 col-md-12 col-lg-12'">
             <div class="container">
               <router-outlet></router-outlet>
@@ -80,7 +72,7 @@
       </div>
   </div>
 
-  <footer class="footer bg-dark text-white text-center py-3 mt-auto">
+  <footer class="text-white text-center py-3 mt-auto footer">
       <p>© 2024 AGAP. Todos los derechos reservados.</p>
   </footer>
 
