@@ -1,40 +1,4 @@
-<!--
-<div *ngIf="project" class="container mt-4">
-  <h1 class="text-center mb-3 project-title">{{ project.name }}</h1>
-
-  <div class="row">
-    <div class="col-md-6">
-      <img *ngIf="project.imageUrl" [src]="project.imageUrl" class="img-fluid" alt="Imagen del proyecto">
-    </div>
-    <div class="col-md-6">
-      <h2>Detalles del Proyecto</h2>
-      <p><strong>Estado:</strong> {{ project.status }}</p>
-      <p><strong>Inicio:</strong> {{ project.startDate | date }}</p>
-      <p *ngIf="project.endDate"><strong>Fin:</strong> {{ project.endDate | date }}</p>
-      <p><strong>Municipio:</strong> {{ project.municipality }}</p>
-      <p><strong>Presupuesto Total:</strong> ${{ project.totalBudget | number }}</p>
-      <p><strong>Cultivo:</strong> {{ project.cropType?.name }}</p>
-    </div>
-  </div>
-
-  <div class="mt-4">
-    <h3 class="mb-2">Descripción</h3>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis molestias error non excepturi quisquam quas enim, dolore hic saepe! Sunt facilis perferendis soluta excepturi totam deserunt dolorem explicabo ipsa alias.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, molestiae magni ducimus magnam facilis quia vel dolor ullam impedit similique debitis repellat quod nam sed quidem esse labore corrupti adipisci.
-    </p>
-
-  </div>
-
-  <div class="mt-4">
-    <button class="btn btn-secondary" (click)="goBack()">Volver</button>
-    <button class="btn btn-primary" (click)="applyToProject(project.id)">Aplicar</button>
-  </div>
-</div>
- -->
-
-
-
- <shared-generic-info
+<shared-generic-info
         [data]="projectData"
         [buttons]="buttons"
 ></shared-generic-info>

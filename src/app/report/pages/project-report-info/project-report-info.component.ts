@@ -34,7 +34,7 @@ export class ProjectReportInfoComponent {
     });
 
     this.buttons = [
-      { label: 'Volver', class: 'btn-info', action: () => this.goBack() }
+      { label: 'Volver', class: 'btn-back', action: () => this.goBack() }
     ];
   }
 
