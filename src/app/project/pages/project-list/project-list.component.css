@@ -1,0 +1,46 @@
+.title {
+    display: flex;
+    justify-content: center;
+    padding-top: 25px;
+  }
+
+.paginator {
+    margin-top: 7px; /* Añadir espacio entre la lista y el paginador */
+    display: flex;
+    justify-content: center; /* Centrar el paginador */
+    font-size: small;
+  }
+  
+.items-per-page {
+    margin-top: 10px;
+}
+
+.btn-add {
+    background-image: linear-gradient(to right, #4caf50, #8bc34a);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block; /* Asegurar que el botón no ocupe todo el ancho */
+    margin-bottom: 20px;
+  }
+  
+  .btn-add:hover {
+    background-image: linear-gradient(to right, #66bb6a, #9ccc65);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+  }
+  
+  .btn-add:active {
+    background-image: linear-gradient(to right, #388e3c, #689f38);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    transform: scale(0.95);
+  }

@@ -1,24 +1,12 @@
-
-
 <div class="container">
-  <h1>Lista de proyectos</h1>
+  <h1 class="title">Lista de proyectos</h1>
 
   @if (user && user.roles.includes(roleAdmin)) {
-    <button class="btn btn-success mb-3" (click)="navigateToNewProject()">Crear Nuevo Proyecto</button>
+    <button class="btn-add" (click)="navigateToNewProject()">AGREGAR</button>
   }
-
-
-  <div>
-    <label for="pageSize">Items por página:</label>
-    <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
-      <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
-    </select>
-  </div>
 
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mb-5">
     <div class="col" *ngFor="let project of projectList">
-
-
       <shared-generic-card class="d-flex flex-column h-100"
             [image]="project.imageUrl"
             [title]="project.name"
@@ -26,12 +14,16 @@
             [buttons]="getCardButtons(project)"
             (buttonClick)="handleButtonClick($event, project.id)">
       </shared-generic-card>
-
-
     </div>
   </div>
 
-  <shared-paginator [paginador]="paginator" [pageRoute]="baseRoute + '/page'"></shared-paginator>
-
-
+  <div class="d-flex flex-column align-items-center paginator">
+    <shared-paginator [paginador]="paginator" [pageRoute]="baseRoute + '/page'"></shared-paginator>
+    <div class="items-per-page mt-2">
+      <label for="pageSize">Items por página:</label>
+      <select style="margin-left: 5px;" id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+  </div>
 </div>
