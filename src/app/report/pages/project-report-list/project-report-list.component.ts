@@ -25,7 +25,7 @@ export class ProjectReportListComponent {
   public actionsConfig: ActionConfig[] = [];
 
   public pageSize?: number;
-  public pageSizes = [5, 6, 15];
+  public pageSizes = [4, 5, 6, 15];
 
   public columns = [
     { key: 'project.name',   label: 'Proyecto' },
@@ -60,6 +60,13 @@ export class ProjectReportListComponent {
     this.actionsConfig = [
       {
         label: 'Info',
+        type: 'rowAction',
+        visible: () => true,
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-info'
+      },
+      {
+        label: 'PDF',
         type: 'rowAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),

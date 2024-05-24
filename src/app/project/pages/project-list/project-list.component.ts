@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
 import { Role } from '../../../shared/interfaces';
-import { environment } from '../../../../environments/environments';
+import { PageStateProjectService } from '../../../shared/services/page-state-project.service';
 
 @Component({
   selector: 'app-project-list',
@@ -18,37 +18,42 @@ import { environment } from '../../../../environments/environments';
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
 
-  public projectList: ProjectResponse[] = [];
+  private pageStateProjectService = inject ( PageStateProjectService );
+  private projectService   = inject( ProjectService );
+  private authService      = inject( AuthService );
+  private activatedRoute   = inject( ActivatedRoute );
+  private router           = inject( Router );
   public baseRoute = '/project';
+
+  public projectList: ProjectResponse[] = [];
   public paginator!: Pagination<ProjectResponse>;
 
-  public pageSize = 3;
-  public pageSizes = [2, 3, 6];
+  public pageSize?: number;
+  public pageSizes = [2, 3, 5, 6];
 
   private userSubscription?: Subscription;
   public user: User | null = null;
   public roleAdmin = Role.ADMIN;
 
-  private projectService = inject( ProjectService );
-  private authService    = inject( AuthService );
-  private activatedRoute = inject( ActivatedRoute );
-  private router         = inject( Router );
-
   constructor() {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
-      this.user = currentUser;
-    });
-    this.activatedRoute.paramMap.subscribe(params => {
-      let page = +params.get('page')! || 0;
-      this.loadProjects(page);
+    this.pageStateProjectService.currentPageSizeProject.subscribe(size => {
+      this.pageSize = size;
+
+      this.userSubscription = this.authService.currentUser.subscribe(currentUser => {
+        this.user = currentUser;
+      });
+      this.activatedRoute.paramMap.subscribe(params => {
+        let page = +params.get('page')! || 0;
+        this.loadProjects(page);
+      });
     });
   }
 
   loadProjects(page: number): void {
     let token = localStorage.getItem('access_token');
-    this.projectService.getProjectPaginated(page, this.pageSize, token).subscribe({
+    this.projectService.getProjectPaginated(page, this.pageSize!, token).subscribe({
       next: (response) => {
         this.projectList = response.content;
         this.paginator   = response;
@@ -64,7 +69,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
+    //this.pageSize = newSize;
+    this.pageStateProjectService.changePageSizeProject(newSize);
     this.loadProjects(0);
   }
 
