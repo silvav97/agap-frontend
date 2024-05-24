@@ -194,8 +194,8 @@ h2 {
 
 .details-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem 2rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 .detail-item {
