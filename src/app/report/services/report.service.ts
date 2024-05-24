@@ -90,7 +90,7 @@ export class ReportService {
   }
 
 
-  public generatePDF(id:number, token: string | null): Observable<Blob> {
+  public generatePDF(id: number, token: string | null): Observable<Blob> {
     const url = `${this.baseUrl}/api/v1/report/pdf/generate/${id}`;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 

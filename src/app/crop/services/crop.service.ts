@@ -104,4 +104,16 @@ export class CropService {
     );
   }
 
+  public generatePDF(id: number, token: string | null): Observable<Blob> {
+    const url = `${this.baseUrl}/api/v1/crop/pdf/generate/${id}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(url, { headers, responseType: 'blob' }).pipe(
+      tap((response) => {
+        console.log('CropService.generatePDF', response);
+      }),
+      catchError(err => throwError(() => err.error))
+    );
+  }
+
 }

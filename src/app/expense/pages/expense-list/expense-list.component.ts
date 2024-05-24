@@ -6,6 +6,7 @@ import { ExpenseResponse } from '../../interfaces';
 import { Pagination } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { CropService } from '../../../crop/services/crop.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-expense-list',
@@ -95,16 +96,25 @@ export class ExpenseListComponent {
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-add'
       },
+      {
+        label: 'PDF',
+        type: 'generalAction',
+        visible: () => true,
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-add'
+      },
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id!));
     this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id!));
     this.actionsConfig[2].emitEvent.subscribe(() => this.onCreate());
+    this.actionsConfig[3].emitEvent.subscribe(() => this.onPDFReport(this.selectedCropId!));
+
 
   }
 
   public onEdit(id: number): void {
-    this.router.navigate([`${this.baseRoute}/edit`, id]);
+    this.router.navigate(['/expense/edit', id, this.selectedCropId]);
   }
 
   public onDelete(id: number): void {
@@ -116,6 +126,48 @@ export class ExpenseListComponent {
     console.log('El selectedCropId es: ', id);
     this.router.navigate(['/expense/new', id]);
   }
+
+  public onPDFReport(id: number): void {
+    Swal.fire({
+      title: 'Introduce el nombre del archivo',
+      input: 'text',
+      inputLabel: 'Nombre del archivo (sin extensión)',
+      inputPlaceholder: 'project_report',
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Debes introducir un nombre para el archivo!';
+        }
+        return null;
+      },
+      customClass: {
+        popup: 'swal2-custom-popup',
+        confirmButton: 'swal2-confirm',
+        cancelButton: 'swal2-cancel'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const fileName = result.value;
+        var token = localStorage.getItem('access_token');
+        this.cropService.generatePDF(id, token).subscribe({
+          next: (blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${fileName}.pdf`;  // Establecer el nombre ingresado por el usuario
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+          },
+          error: (error) => Swal.fire('Error', 'Error al generar el reporte PDF', 'error')
+        });
+      }
+    });
+  }
+
 
   public onPageSizeChange(newSize: number): void {
     this.pageStateService.changePageSize(newSize);
