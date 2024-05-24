@@ -78,7 +78,7 @@ export class CropReportListComponent {
         type: 'rowAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
+        buttonClass: 'btn-info'
       }
     ];
 

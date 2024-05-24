@@ -7,7 +7,6 @@ import { SharedModule } from '../shared/shared.module';
 import { ProjectFormComponent } from './pages/project-form/project-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectInfoComponent } from './pages/project-info/project-info.component';
-import { EnsayandoComponent } from './pages/ensayando/ensayando.component';
 import { ProjectFormIndependienteComponent } from './pages/project-form-independiente/project-form-independiente.component';
 
 
@@ -16,7 +15,6 @@ import { ProjectFormIndependienteComponent } from './pages/project-form-independ
     ProjectListComponent,
     ProjectFormComponent,
     ProjectInfoComponent,
-    EnsayandoComponent,
     ProjectFormIndependienteComponent,
   ],
   imports: [

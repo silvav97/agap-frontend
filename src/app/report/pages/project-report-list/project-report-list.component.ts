@@ -63,14 +63,7 @@ export class ProjectReportListComponent {
         type: 'rowAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
-      },
-      {
-        label: 'PDF',
-        type: 'rowAction',
-        visible: () => true,
-        emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
+        buttonClass: 'btn-info'
       }
     ];
 

@@ -29,7 +29,7 @@ export class CropReportInfoComponent {
     });
 
     this.buttons = [
-      { label: 'Volver', class: 'btn btn-secondary', action: () => this.goBack() }
+      { label: 'Volver', class: 'btn-info', action: () => this.goBack() }
     ];
   }
 

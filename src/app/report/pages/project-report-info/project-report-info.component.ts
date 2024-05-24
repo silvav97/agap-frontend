@@ -6,7 +6,6 @@ import { CropReportResponse, ProjectReportResponse } from '../../interfaces';
 @Component({
   selector: 'app-project-report-info',
   templateUrl: './project-report-info.component.html',
-  styleUrl: './project-report-info.component.css'
 })
 export class ProjectReportInfoComponent {
 
@@ -35,7 +34,7 @@ export class ProjectReportInfoComponent {
     });
 
     this.buttons = [
-      { label: 'Volver', class: 'btn btn-secondary', action: () => this.goBack() }
+      { label: 'Volver', class: 'btn-info', action: () => this.goBack() }
     ];
   }
 
@@ -45,11 +44,9 @@ export class ProjectReportInfoComponent {
       next: (projectReport) => {
         this.projectReport = projectReport;
         this.projectReportData = {
-          title: projectReport.project.name,
-          detailTitle: 'Detalles del Reporte de Proyecto',
+          detailTitle: 'Reporte de proyecto',
           imageUrl: projectReport.project.imageUrl,
           details: [
-            { label: 'Estado',            value: projectReport.project.status },
             { label: 'Inicio',            value: projectReport.project.startDate },
             { label: 'Municipio',         value: projectReport.project.municipality },
             { label: 'Presupuesto Total', value: projectReport.project.totalBudget },
@@ -59,7 +56,6 @@ export class ProjectReportInfoComponent {
             { label: 'Ganancias',         value: projectReport.profit },
             { label: 'Rentabilidad',      value: projectReport.profitability }
           ],
-          //description: ''  // projectReport.description
         };
       },
       error: (error) => console.error('Failed to load projectReport', error)
