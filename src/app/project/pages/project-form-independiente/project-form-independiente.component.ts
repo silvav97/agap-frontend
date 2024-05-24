@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../environments/environments';
+import { FieldConfig } from '../../../shared/interfaces/field-config.interface';
 
 @Component({
   selector: 'app-project-form-independiente',
@@ -14,7 +15,7 @@ import { environment } from '../../../../environments/environments';
 })
 export class ProjectFormIndependienteComponent {
 
-  public url?: string;    //
+  public url?: string;
 
   private municipalityService = inject( MunicipalityService );
   private cropTypeService     = inject( CropTypeService );
@@ -26,10 +27,11 @@ export class ProjectFormIndependienteComponent {
   public municipalityOptions: { value: number, label: string }[] = [];
   public form: FormGroup;
   public title: string = '';
+  public formConfig!: FieldConfig[];
 
-  public selectedFile: File | null = null;    //
+  public selectedFile: File | null = null;
   public baseUrl = environment.baseUrl;
-  public urlBackendImage = `${this.baseUrl}/api/v1/project/imagen`
+  public urlBackendImage = `${this.baseUrl}/api/v1/project/imagen`;
 
   constructor() {
     this.form = this.fb.group({
@@ -42,6 +44,15 @@ export class ProjectFormIndependienteComponent {
       totalBudget:  ['', [Validators.required, Validators.min(0)]],
       imageUrl:     ['']
     });
+
+    this.formConfig = [
+      { type: 'select', name: 'cropTypeId', label: 'Tipo de Cultivo', validators: [Validators.required], options: this.cropTypeOptions },
+      { type: 'text', name: 'name', label: 'Nombre del Proyecto', validators: [Validators.required] },
+      { type: 'date', name: 'startDate', label: 'Fecha de Inicio', validators: [Validators.required] },
+      { type: 'date', name: 'endDate', label: 'Fecha de Fin' },
+      { type: 'select', name: 'municipality', label: 'Municipio', validators: [Validators.required], options: this.municipalityOptions },
+      { type: 'number', name: 'totalBudget', label: 'Presupuesto', validators: [Validators.required, Validators.min(0)] },
+    ];
   }
 
   ngOnInit(): void {
@@ -62,10 +73,17 @@ export class ProjectFormIndependienteComponent {
   private loadSelectOptions(token: string | null): void {
     this.cropTypeService.getCropTypeList(token).subscribe(cropTypes => {
       this.cropTypeOptions = cropTypes.map(ct => ({ value: ct.id, label: ct.name }));
+      const cropTypeField = this.formConfig.find(f => f.name === 'cropTypeId');
+      if (cropTypeField) {
+        cropTypeField.options = this.cropTypeOptions;
+      }
     });
 
-    this.municipalityOptions = this.municipalityService
-    .getAllMunicipalities().map(m => ({ value: m.id, label: m.name }));
+    this.municipalityOptions = this.municipalityService.getAllMunicipalities().map(m => ({ value: m.id, label: m.name }));
+    const municipalityField = this.formConfig.find(f => f.name === 'municipality');
+    if (municipalityField) {
+      municipalityField.options = this.municipalityOptions;
+    }
   }
 
   loadProject(id: number): void {
@@ -79,11 +97,9 @@ export class ProjectFormIndependienteComponent {
             imageUrl: project.imageUrl
         });
         this.url = project.imageUrl;
-        console.log("el URL de la imagen a editar es: ", this.url);
       },
       error: (error) => {
         Swal.fire('Error', 'No se pudo cargar el proyecto', 'error');
-        console.log({'errorObtenido': error});
         this.router.navigate(['/project']);
       }
     });
@@ -115,7 +131,6 @@ export class ProjectFormIndependienteComponent {
     }
   }
 
-
   getMunicipalityNameById(id: number): string {
     const municipality = this.municipalityService.getAllMunicipalities().find(m => Number(m.id) === Number(id));
     return municipality ? municipality.name : '';
@@ -126,36 +141,16 @@ export class ProjectFormIndependienteComponent {
     return municipality;
   }
 
-
-  // Para borrar
-  public upload2(event: any) {
-    const file = event.target.files[0];
-
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      const token = localStorage.getItem('access_token');
-      this.projectService.uploadFile(formData, token)
-      .subscribe(response => {
-        console.log('response', response);
-        this.url = response.url;
-      });
-    }
-  }
-
   public upload(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
 
-       // Crear una URL temporal para previsualizar la imagen
-       const reader = new FileReader();
-       reader.onload = () => {
-
-         this.url = reader.result as string;
-         console.log('La url es: ', this.url);
-       };
-       reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.url = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
   }
 }

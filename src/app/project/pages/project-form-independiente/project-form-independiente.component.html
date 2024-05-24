@@ -6,70 +6,24 @@
           <form [formGroup]="form" (ngSubmit)="handleFormSubmit(form.value)" class="agri-form">
             <h1 class="text-center text-green mb-4">{{ title }}</h1>
 
-            <div class="two-columns">
-              <div class="mb-3">
-                <label for="cropTypeId" class="form-label text-green">Tipo de Cultivo</label>
-                <select class="form-control" id="cropTypeId" formControlName="cropTypeId">
-                  <option *ngFor="let option of cropTypeOptions" [value]="option.value">{{ option.label }}</option>
-                </select>
-                <div *ngIf="form.get('cropTypeId')?.touched && form.get('cropTypeId')?.errors?.['required']" class="alert alert-danger mt-1">
+            <div [ngClass]="{'two-columns': formConfig.length > 3}">
+              <div *ngFor="let field of formConfig" class="mb-3">
+                <label [attr.for]="field.name" class="form-label text-green">{{ field.label }}</label>
+
+                <div [ngSwitch]="field.type">
+                  <input *ngSwitchCase="'text'" type="text" class="form-control" [id]="field.name" [formControlName]="field.name">
+                  <input *ngSwitchCase="'number'" type="number" class="form-control" [id]="field.name" [formControlName]="field.name">
+                  <input *ngSwitchCase="'date'" type="date" class="form-control" [id]="field.name" [formControlName]="field.name">
+                  <input *ngSwitchCase="'checkbox'" type="checkbox" class="form-check-input" [id]="field.name" [formControlName]="field.name">
+                  <select *ngSwitchCase="'select'" class="form-control" [id]="field.name" [formControlName]="field.name">
+                    <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+                  </select>
+                </div>
+
+                <div *ngIf="form.get(field.name)?.touched && form.get(field.name)?.errors?.['required']" class="alert alert-danger mt-1">
                   Este campo es requerido.
                 </div>
               </div>
-
-              <div class="mb-3">
-                <label for="name" class="form-label text-green">Nombre del Proyecto</label>
-                <input type="text" class="form-control" id="name" formControlName="name">
-                <div *ngIf="form.get('name')?.touched && form.get('name')?.errors?.['required']" class="alert alert-danger mt-1">
-                  Este campo es requerido.
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="startDate" class="form-label text-green">Fecha de Inicio</label>
-                <input type="date" class="form-control" id="startDate" formControlName="startDate">
-                <div *ngIf="form.get('startDate')?.touched && form.get('startDate')?.errors?.['required']" class="alert alert-danger mt-1">
-                  Este campo es requerido.
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="endDate" class="form-label text-green">Fecha de Fin</label>
-                <input type="date" class="form-control" id="endDate" formControlName="endDate">
-              </div>
-
-              <div class="mb-3">
-                <label for="municipality" class="form-label text-green">Municipio</label>
-                <select class="form-control" id="municipality" formControlName="municipality">
-                  <option *ngFor="let option of municipalityOptions" [value]="option.value">{{ option.label }}</option>
-                </select>
-                <div *ngIf="form.get('municipality')?.touched && form.get('municipality')?.errors?.['required']" class="alert alert-danger mt-1">
-                  Este campo es requerido.
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="totalBudget" class="form-label text-green">Presupuesto</label>
-                <input type="number" class="form-control" id="totalBudget" formControlName="totalBudget">
-                <div *ngIf="form.get('totalBudget')?.touched && form.get('totalBudget')?.errors?.['required']" class="alert alert-danger mt-1">
-                  Este campo es requerido.
-                </div>
-                <div *ngIf="form.get('totalBudget')?.touched && form.get('totalBudget')?.errors?.['min']" class="alert alert-danger mt-1">
-                  El valor debe ser mayor que cero.
-                </div>
-              </div>
-
-              <!-- <div class="mb-3">
-                <label for="imageUrl" class="form-label text-green">URL de la Imagen</label>
-                <input type="text" class="form-control" id="imageUrl" formControlName="imageUrl">
-              </div> -->
-
-
-
-              <!-- ******* SUBIR IMAGEN ******* -->
-
-
-
             </div>
 
             <div class="mb-3 centered-upload">
@@ -79,24 +33,14 @@
               </div>
             </div>
 
-
-
-            <!-- ******* MOSTRAR IMAGEN ******* -->
             <div *ngIf="url" class="d-flex justify-content-center">
               <img [src]="url.startsWith('data:') ? url : urlBackendImage + '/' + url" alt="" class="img-fluid img-thumbnail" style="height: 250px; object-fit: cover;">
             </div>
 
-
             <div class="d-flex justify-content-center">
-              <button type="submit" class="btn btn-green">Guardar</button>
+              <button type="submit" class="btn btn-info">Guardar</button>
             </div>
           </form>
-
-
-
-
-
-
         </div>
       </div>
     </div>

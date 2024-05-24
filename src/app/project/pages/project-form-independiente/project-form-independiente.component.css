@@ -16,25 +16,33 @@ body {
     color: #046a30;
 }
 
-.btn-green {
-    background-color: #046a30;
-    color: #FFFFFF;
-    border: none;
-    padding: 12px 24px;
-    font-size: 16px;
-    border-radius: 25px;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 10px;
+/* Botón Informativo (info) */
+.btn-info {
+  background-color: #17a2b8;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 10px;
 }
 
-.btn-green:hover {
-    background-color: #035026;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.btn-info:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-info:active {
+  background-color: #117a8b;
+  transform: scale(0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .card {
@@ -48,44 +56,44 @@ body {
 }
 
 .form-label {
-    font-weight: bold;
-    color: #046a30;
+  font-weight: bold;
+  color: #000000;
 }
 
 .form-control {
-    border-radius: 10px;
-    border: 1px solid #046a30;
-    padding: 10px;
-    font-size: 16px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  border: 1px solid #000000;
+  padding: 10px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-control:focus {
-    border-color: #035026;
-    box-shadow: 0 0 5px rgba(4, 106, 48, 0.5);
+  border-color: #000000;
+  box-shadow: 0 0 5px rgba(16, 16, 16, 0.5);
 }
 
 .form-check-input {
-    margin-top: 0.3rem;
-    margin-left: 0;
-    accent-color: #046a30;
+  margin-top: 0.3rem;
+  margin-left: 0;
+  accent-color: #000000;
 }
 
 .alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    border-radius: 5px;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .agri-form h1 {
-    font-size: 24px;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
-    text-align: center;
-    color: #046a30;
+  font-size: 24px;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: #000000;
 }
 
 .general-modal {
@@ -95,32 +103,29 @@ body {
 .two-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 2rem; /* Espacio lateral entre columnas */
-    row-gap: 0.5rem; /* Espacio vertical entre campos */
+    column-gap: 2rem;
+    row-gap: 0.5rem;
 }
 
 select.form-control {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: url('data:image/svg+xml;utf8,<svg fill="%23046a30" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
-    background-color: #fff;
-    background-size: 16px 16px;
-    padding-right: 30px;
-    border-radius: 10px;
-    border: 1px solid #046a30;
-    font-size: 16px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url('data:image/svg+xml;utf8,<svg fill="%23046a30" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+  background-color: #fff;
+  background-size: 16px 16px;
+  padding-right: 30px;
+  border-radius: 10px;
+  border: 1px solid #000000;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 select.form-control:focus {
-    border-color: #035026;
-    box-shadow: 0 0 5px rgba(4, 106, 48, 0.5);
+  border-color: #000000;
+  box-shadow: 0 0 5px rgba(32, 33, 32, 0.5);
 }
 
-
-
-/* Nueva clase para centrar y limitar el ancho del contenedor */
 .centered-upload {
   display: flex;
   justify-content: center;
@@ -128,46 +133,18 @@ select.form-control:focus {
   width: 100%;
 }
 
-/* Nueva clase para limitar el ancho del input file */
 .upload-container {
-  width: 60%;  /* Ajusta este valor según lo que necesites */
-  max-width: 500px; /* Puedes ajustar este valor según tus preferencias */
+  width: 60%;
+  max-width: 500px;
 }
 
 
 
 
 
-/* Ocultar el texto predeterminado del input file */
-.custom-file-input {
-  color: transparent;
-}
 
-/* Mostrar solo la etiqueta personalizada */
-.custom-file-input::-webkit-file-upload-button {
-  visibility: hidden;
-}
 
-.custom-file-input::before {
-  content: 'Seleccionar archivo';
-  color: #999;
-  display: inline-block;
-  background: #f1f1f1;
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  outline: none;
-  white-space: nowrap;
-  user-select: none;
-  cursor: pointer;
-}
 
-.custom-file-input:hover::before {
-  border-color: black;
-}
-
-.custom-file-input:active::before {
-  background: #e1e1e1;
-}
 
 .file-name {
   display: block;
@@ -175,49 +152,3 @@ select.form-control:focus {
   color: #999;
 }
 
-
-
-/* Ocultar el texto predeterminado del input file */
-.custom-file-input {
-  position: relative;
-  width: 100%;
-  height: 40px;
-  overflow: hidden;
-  cursor: pointer;
-  background-color: transparent;
-  color: transparent;
-}
-
-.custom-file-input::-webkit-file-upload-button,
-.custom-file-input::file-selector-button {
-  display: none;
-}
-
-.custom-file-input::before {
-  content: 'Seleccionar archivo';
-  display: inline-block;
-  background: #046a30;
-  color: #fff;
-  border: 1px solid #ccc;
-  padding: 10px 20px;
-  outline: none;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  text-align: center;
-  margin: auto;
-}
-
-.custom-file-input:active::before {
-  background-color: #035026;
-}
-
-.custom-file-input:hover::before {
-  border-color: #999;
-}
-
-/* Ocultar texto de "Ningún archivo seleccionado" */
-.custom-file-input::after {
-  content: '';
-}
