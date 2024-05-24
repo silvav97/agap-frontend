@@ -4,6 +4,7 @@ import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { isAuthenticatedGuard } from '../auth/guards';
 import { roleGuard } from '../auth/guards/role.guard';
+import { ContactInfoComponent } from './pages/contact-info/contact-info.component';
 
 const routes: Routes = [
 
@@ -60,6 +61,11 @@ const routes: Routes = [
         path: 'report',
         canActivate: [ isAuthenticatedGuard ],
         loadChildren: () => import('../report/report.module').then(m => m.ReportModule)
+      },
+
+      {
+        path: 'contact',
+        component: ContactInfoComponent
       },
 
       { path: '**', redirectTo: '' },

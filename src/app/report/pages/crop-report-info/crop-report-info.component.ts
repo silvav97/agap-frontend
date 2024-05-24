@@ -55,12 +55,19 @@ export class CropReportInfoComponent {
           title: cropReport.crop.projectApplication.farmName,
           detailTitle: 'Detalles del Reporte de Cultivo',
           details: [
-            { label: 'Estado', value: cropReport.crop.status },
-            { label: 'Inicio', value: cropReport.crop.startDate },
+            //{ label: 'Estado', value: cropReport.crop.status },
             { label: 'Municipio', value: cropReport.crop.projectApplication.project.municipality },
+
             { label: 'Presupuesto Total', value: cropReport.crop.assignedBudget },
+
+            { label: 'Inicio', value: cropReport.crop.startDate },
             { label: 'Gastos Esperados', value: cropReport.expectedExpense },
+
+            { label: 'Fin', value: cropReport.crop.endDate },
+
             { label: 'Gastos Reales', value: cropReport.realExpense },
+            { label: 'Finca', value: cropReport.crop.projectApplication.farmName },
+
             { label: 'Ventas Totales', value: cropReport.totalSale },
             { label: 'Ganancias', value: cropReport.profit },
             { label: 'Rentabilidad', value: cropReport.profitability }

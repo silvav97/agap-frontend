@@ -40,14 +40,14 @@ export class ProjectInfoComponent implements OnInit  {
           detailTitle: 'Detalles del Proyecto',
           imageUrl: project.imageUrl,
           details: [
-            { label: 'Estado', value: project.status },
+            { label: 'Nombre', value: project.name },
             { label: 'Inicio', value: project.startDate },
-            { label: 'Fin', value: project.endDate },
             { label: 'Municipio', value: project.municipality },
+            { label: 'Fin', value: project.endDate },
             { label: 'Presupuesto Total', value: project.totalBudget },
             { label: 'Cultivo', value: project.cropType?.name }
           ],
-          description:  'Some description' //project.description
+          description:  '' //project.description
         };
       },
       error: (error) => console.error('Failed to load project', error)
