@@ -1,14 +1,16 @@
-<div *ngIf="data" class="container mt-4">
-  <h1 class="text-center mb-3 project-title">{{ data.title }}</h1>
+<div *ngIf="data" class="container">
+  <h1 class="text-center mb-5 project-title">{{data.detailTitle}}</h1>
 
-  <div class="row">
+  <div class="row" [ngClass]="{'centered-table': !data.imageUrl}">
     <div class="col-md-6" *ngIf="data.imageUrl">
       <img src="{{urlBackendImage}}/{{data.imageUrl}}" class="img-fluid" alt="Imagen" style="height: 300px; object-fit: cover;">
     </div>
-    <div class="col-md-6">
-      <h2>{{ data.detailTitle }}</h2>
-      <div *ngFor="let detail of data.details">
-        <p><strong>{{ detail.label }}:</strong> {{ detail.value }}</p>
+    <div class="col-md-6 compact-table">
+      <div class="details-grid">
+        <div *ngFor="let detail of data.details" class="detail-item">
+          <span class="detail-label">{{ detail.label }}:</span>
+          <span class="detail-value">{{ detail.value }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -18,14 +20,11 @@
     <p>{{ data.description }}</p>
   </div>
 
-
   <div class="mt-4">
     <ng-content></ng-content>
   </div>
 
-
-
   <div class="mt-4" *ngIf="buttons">
-    <button *ngFor="let button of buttons" class="btn" [ngClass]="button.class" (click)="button.action()">{{ button.label }}</button>
+    <button *ngFor="let button of buttons" [ngClass]="button.class" (click)="button.action()">{{ button.label }}</button>
   </div>
 </div>

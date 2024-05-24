@@ -89,7 +89,7 @@ export class ProjectApplicationListComponent {
         type: 'rowAction',
         visible: (item: ProjectApplicationResponse) => item.applicationStatus === ApplicationStatus.PENDIENTE,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-primary'
+        buttonClass: 'btn-info'
       },
       {
         label: 'Rechazar',

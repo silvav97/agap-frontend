@@ -12,29 +12,37 @@ body {
     background-repeat: no-repeat;
 }
 
-.text-green {
-    color: #046a30;
+/* Botón Informativo (info) */
+.btn-info {
+  background-color: #17a2b8;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 25px; 
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23FFFFFF" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 20px 20px;
+  padding-left: 40px;
 }
 
-.btn-green {
-    background-color: #046a30;
-    color: #FFFFFF;
-    border: none;
-    padding: 12px 24px;
-    font-size: 16px;
-    border-radius: 25px;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 10px;
+.btn-info:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-green:hover {
-    background-color: #035026;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.btn-info:active {
+  background-color: #117a8b;
+  transform: scale(0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .card {
@@ -95,8 +103,8 @@ body {
 .two-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 2rem; /* Espacio lateral entre columnas */
-    row-gap: 0.5rem; /* Espacio vertical entre campos */
+    column-gap: 2rem;
+    row-gap: 0.5rem;
 }
 
 select.form-control {
@@ -120,10 +128,10 @@ select.form-control:focus {
 
 .container {
   padding: 20px;
-  background: #ffffff; /* Fondo claro para mejor contraste */
+  background: #ffffff; 
   border-radius: 10px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-  margin-top: 2rem;
+  box-shadow: 0 0 12px 24px rgba(0,0,0,0.1);
+  margin-top: 4rem;
   background-size: cover;
   background-blend-mode: multiply;
 }
@@ -131,7 +139,7 @@ select.form-control:focus {
 .project-title {
   text-align: center;
   margin-bottom: 30px;
-  color: #0056b3;
+  color: #000000;
   font-size: 2.5rem;
   font-weight: bold;
 }
@@ -157,7 +165,6 @@ h1, h2, h3 {
 }
 
 h2 {
-  margin-top: 20px;
   border-bottom: 3px solid #0056b3;
   padding-bottom: 5px;
 }
@@ -183,4 +190,42 @@ h2 {
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.detail-value {
+  font-weight: 100;
+  font-size: smaller;
+  color: #333;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.centered-table {
+  display: flex;
+  justify-content: center;
+}
+
+.compact-table {
+  max-width: 50%;
+  margin: auto;
 }

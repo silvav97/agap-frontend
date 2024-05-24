@@ -38,9 +38,10 @@
 }
 
 .custom-paginator {
-  margin-top: 20px; /* Añadir espacio entre la lista y el paginador */
+  margin-top: 7px; /* Añadir espacio entre la lista y el paginador */
   display: flex;
   justify-content: center; /* Centrar el paginador */
+  font-size: small;
 }
 
 .container {
@@ -52,7 +53,7 @@
   display: flex;
   justify-content: flex-end; /* Alinear el botón a la derecha */
   margin-bottom: 10px; /* Añadir espacio debajo del botón */
-  margin-top: 10px; /* Añadir espacio debajo del botón */
+  margin-top: 10px; /* Añadir espacio arriba del botón */
 }
 
 .shared-generic-table {
