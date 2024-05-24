@@ -79,14 +79,18 @@ export class AuthService {
     );
   }
 
-  public forgotPassword(email:string): Observable<string> {
+  public forgotPassword(email:string): Observable<any> {
     const url = `${ this.baseUrl }/api/v1/user/forgot-password`;
     const body = { email };
 
-    return this.http.post<string>( url, body ).pipe(
-        //tap( (message: RegisterResponse) => message.message),
-      //map( ({user, access_token, refresh_token}) => this.setAuthentication(user, access_token, refresh_token)),
-        catchError( err => throwError( () => err.error )),
+    return this.http.post<any>( url, body ).pipe(
+      tap(response => console.log('Forgot Password Response:', response)),
+
+      catchError( err => {
+        console.error('ForgotPassword Error:', err.error);
+        return throwError( () => err.error );
+      }
+      ),
     );
   }
 

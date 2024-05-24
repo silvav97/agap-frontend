@@ -67,7 +67,7 @@ export class MyCropListComponent {
         buttonClass: 'btn-info'
       },
       {
-        label: 'Cerrar Cultivo',
+        label: 'Cerrar',
         type: 'rowAction',
         visible: (item: CropResponse) => item.status === ProcessStatus.CREADO,
         emitEvent: new EventEmitter<number | void>(),

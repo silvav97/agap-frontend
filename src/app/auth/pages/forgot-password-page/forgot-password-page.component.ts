@@ -24,9 +24,16 @@ export class ForgotPasswordPageComponent {
 
   public forgotPassword() {
     const { email } = this.myForm.value;
+    console.log({email});
     this.authService.forgotPassword(email).subscribe({
-      next: () => Swal.fire('Aviso', 'Verifique su cuenta para recuperar contraseña', 'info'),
-      error: (error) => Swal.fire(error, error, 'error')
+      next: (message) => {
+        console.log({message})
+        Swal.fire('Aviso', 'Verifique su cuenta para recuperar contraseña', 'success')
+      },
+      error: (error) => {
+        console.log({error})
+        Swal.fire(error, error, 'error')
+      }
     })
 
   }

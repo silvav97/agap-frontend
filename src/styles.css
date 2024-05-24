@@ -2904,3 +2904,23 @@ flex-direction: column;
 -ms-align-items: center;
 align-items: center;
 }
+
+
+
+
+
+
+.swal2-custom-popup {
+  border-radius: 35px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.swal2-custom-popup .swal2-confirm,
+.swal2-custom-popup .swal2-cancel {
+  border-radius: 50px !important;  /* Hace los botones redondos */
+  padding: 0.5em 2em;              /* Ajusta el tamaño del botón */
+}
+
+.swal2-custom-popup .swal2-cancel {
+  margin-right: 0.5em;             /* Espaciado entre los botones */
+}
