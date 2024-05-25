@@ -18,7 +18,7 @@ body {
 
 /* Botón Informativo (info) */
 .btn-info {
-    background-color: #17a2b8;
+    background-image: linear-gradient(to right, #1e719a, #495057);
     color: #FFFFFF;
     border: none;
     padding: 12px 24px;
@@ -34,13 +34,13 @@ body {
   }
   
   .btn-info:hover {
-    background-color: #138496;
+    background-image: linear-gradient(to right, #1e719a, #343a40);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .btn-info:active {
-    background-color: #117a8b;
+    background-image: linear-gradient(to right, #1e719a, #2d3236);
     transform: scale(0.95);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   }

@@ -70,7 +70,7 @@ export class ProjectReportListComponent {
         type: 'rowAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-info'
+        buttonClass: 'btn-danger'
       }
     ];
 

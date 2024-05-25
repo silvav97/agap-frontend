@@ -22,36 +22,41 @@ body {
   font-weight: bold;
 }
 
-.btn-info {
-  background-color: #17a2b8;
+.btn-back {
+  background-color: #17a2b8; /* Color de respaldo si el degradado no se aplica */
   color: #FFFFFF;
   border: none;
   padding: 12px 24px;
   font-size: 16px;
-  border-radius: 25px;
+  border-radius: 25px; 
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   margin-top: 10px;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23FFFFFF" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8z"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23FFFFFF" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8z"/></svg>'), linear-gradient(to right, #17a2b8, #495057);
   background-repeat: no-repeat;
-  background-position: 12px center;
-  background-size: 20px 20px;
+  background-position: 12px center, 0 0;
+  background-size: 20px 20px, 100% 100%;
   padding-left: 40px;
 }
 
-.btn-info:hover {
-  background-color: #138496;
+.btn-back:hover {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23FFFFFF" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8z"/></svg>'), linear-gradient(to right, #17a2b8, #343a40);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-info:active {
-  background-color: #117a8b;
+.btn-back:active {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23FFFFFF" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8z"/></svg>'), linear-gradient(to right, #17a2b8, #2d3236);
   transform: scale(0.95);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.btn-back:focus:not(:active) {
+  box-shadow: 0 0 0 4px rgba(23, 162, 184, 0.5);
+  outline: none;
 }
 
 .details-grid {
