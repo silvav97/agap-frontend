@@ -90,26 +90,26 @@ export class ExpenseListComponent {
         buttonClass: 'btn-danger'
       },
       {
-        label: 'Registrar Gasto',
-        type: 'generalAction',
-        visible: () => true,
-        emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-add'
-      },
-      {
         label: 'PDF',
         type: 'generalAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
         buttonClass: 'btn-add'
       },
+      {
+        label: 'Agregar',
+        type: 'generalAction',
+        visible: () => true,
+        emitEvent: new EventEmitter<number | void>(),
+        buttonClass: 'btn-add'
+      },
+
     ];
 
     this.actionsConfig[0].emitEvent.subscribe(id => this.onEdit(id!));
     this.actionsConfig[1].emitEvent.subscribe(id => this.onDelete(id!));
-    this.actionsConfig[2].emitEvent.subscribe(() => this.onCreate());
-    this.actionsConfig[3].emitEvent.subscribe(() => this.onPDFReport(this.selectedCropId!));
-
+    this.actionsConfig[2].emitEvent.subscribe(() => this.onPDFReport(this.selectedCropId!));
+    this.actionsConfig[3].emitEvent.subscribe(() => this.onCreate());
 
   }
 
