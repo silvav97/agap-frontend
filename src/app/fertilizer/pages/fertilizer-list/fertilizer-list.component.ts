@@ -71,7 +71,7 @@ export class FertilizerListComponent {
         buttonClass: 'btn-danger'
       },
       {
-        label: 'Agregar ' + this.listTitle,
+        label: 'Agregar',
         type: 'generalAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
