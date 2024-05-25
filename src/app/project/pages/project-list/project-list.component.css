@@ -4,6 +4,13 @@
     padding-top: 25px;
 }
 
+.title-non-user {
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
 .paginator {
     margin-top: 7px; /* Añadir espacio entre la lista y el paginador */
     display: flex;

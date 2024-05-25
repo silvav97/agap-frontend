@@ -1,5 +1,14 @@
 <div class="container">
-  <h1 class="title">Lista de proyectos</h1>
+  
+  @if (user && user.roles.includes(roleAdmin)) {
+  <h1 class="title">
+    Lista de proyectos
+  </h1>
+  } @else {
+    <h1 class="title-non-user">
+      Lista de proyectos
+    </h1>
+  }
 
   <div class="button-container">
     @if (user && user.roles.includes(roleAdmin)) {

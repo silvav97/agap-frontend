@@ -13,6 +13,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   display: inline-block; /* Asegurar que el botón no ocupe todo el ancho */
+  margin-left: 10px;
 }
 
 .btn-add:hover {
@@ -29,6 +30,40 @@
 
 .btn-add:focus:not(:active) {
   box-shadow: 0 0 0 4px rgba(52, 58, 64, 0.4);
+}
+
+.btn-danger {
+  background-image: linear-gradient(to right, #f23e50, #343a40);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-block; /* Asegurar que el botón no ocupe todo el ancho */
+  margin-left: 10px;
+}
+
+.btn-danger:hover {
+  background-image: linear-gradient(to right, #f23e50, #2d3236);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.btn-danger:active {
+  background-image: linear-gradient(to right, #f23e50, #212529);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  transform: scale(0.95);
+}
+
+.btn-danger:focus:not(:active) {
+  box-shadow: 0 0 0 4px rgba(242, 62, 80, 0.5);
 }
 
 .title {
