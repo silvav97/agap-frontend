@@ -88,9 +88,8 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
   }
 
   private loadSelectOptions(token: string | null): void {
-    this.municipalityOptions = this.municipalityService
-    .getAllMunicipalities().map(municipality => ({ value: municipality.id, label: municipality.name}));
-    const municipalityField = this.formConfig.find(muni => muni.name === 'municipality');
+    this.municipalityOptions = this.municipalityService.getAllMunicipalities().map(municipality => ({ value: municipality.id, label: municipality.name}));
+    const municipalityField = this.formConfig.find(f => f.name === 'municipality');
     if ( municipalityField ) {
       municipalityField.options = this.municipalityOptions;
     }
@@ -99,7 +98,13 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
   loadProjectApplication(id: number): void {
     const token = localStorage.getItem('access_token');
     this.projectApplicationService.getProjectApplicationById(id, token).subscribe({
-      next: (projectApplication) => this.form.patchValue(projectApplication),
+      next: (projectApplication) => {
+        console.log('projectApplication: ', projectApplication);
+        this.form.patchValue({
+          ...projectApplication,
+          municipality: this.getMunicipalityIdByName(projectApplication.project.municipality)?.id,
+        });
+      },
       error: () => {
         Swal.fire('Error', 'No se pudo cargar la aplicación a proyecto', 'error');
         this.router.navigate(['/project']);
@@ -135,6 +140,11 @@ export class ProjectApplicationFormComponent implements OnInit, OnDestroy {
     const municipality = this.municipalityService.getAllMunicipalities().find(m => Number(m.id) === Number(id));
     console.log("Municipio encontrado: ", municipality);
     return municipality ? municipality.name : '';
+  }
+
+  getMunicipalityIdByName(name: string) {
+    const municipality = this.municipalityService.getAllMunicipalities().find(m => m.name === name);
+    return municipality;
   }
 
 }
