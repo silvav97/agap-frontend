@@ -18,7 +18,7 @@ export class AboutUsInfoComponent {
   };
 
   public buttons = [
-    { label: 'Volver', class: 'btn-info', action: () => this.goBack() }
+    { label: 'Volver', class: 'btn-back', action: () => this.goBack() }
   ];
 
   goBack(): void {

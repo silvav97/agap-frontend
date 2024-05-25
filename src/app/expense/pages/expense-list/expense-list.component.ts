@@ -94,7 +94,7 @@ export class ExpenseListComponent {
         type: 'generalAction',
         visible: () => true,
         emitEvent: new EventEmitter<number | void>(),
-        buttonClass: 'btn-add'
+        buttonClass: 'btn-danger'
       },
       {
         label: 'Agregar',

@@ -47,7 +47,7 @@ body {
 
 /* Botón Informativo (info) */
 .btn-info {
-    background-color: #17a2b8;
+    background-image: linear-gradient(to right, #1e719a, #495057);
     color: #FFFFFF;
     border: none;
     padding: 6px 15px; 
@@ -62,19 +62,20 @@ body {
 }
 
 .btn-info:hover {
-    background-color: #138496;
+    background-image: linear-gradient(to right, #1e719a, #343a40);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-info:active {
-    background-color: #117a8b;
+    background-image: linear-gradient(to right, #1e719a, #2d3236);
     transform: scale(0.95);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .btn-info:focus:not(:active) {
-    box-shadow: 0 0 0 4px rgba(23, 162, 184, 0.4);
+    box-shadow: 0 0 0 4px rgba(30, 113, 154, 0.5);
+    outline: none;
 }
 
 /* Botón Primario (primary) */
@@ -111,7 +112,7 @@ body {
 
 /* Botón de Advertencia (warning) */
 .btn-warning {
-    background-color: #ffc107;
+    background-image: linear-gradient(to right, #ffc107, #343a40);
     color: #FFFFFF;
     border: none;
     padding: 6px 15px; 
@@ -126,24 +127,25 @@ body {
 }
 
 .btn-warning:hover {
-    background-color: #e0a800;
+    background-image: linear-gradient(to right, #ffc107, #2d3236);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-warning:active {
-    background-color: #c69500;
+    background-image: linear-gradient(to right, #ffc107, #212529);
     transform: scale(0.95);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .btn-warning:focus:not(:active) {
-    box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.4);
+    box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.5);
+    outline: none;
 }
 
 /* Botón de Peligro (danger) */
 .btn-danger {
-    background-color: #f23e50;
+    background-image: linear-gradient(to right, #f23e50, #343a40);
     color: #FFFFFF;
     border: none;
     padding: 6px 15px; 
@@ -158,17 +160,18 @@ body {
 }
 
 .btn-danger:hover {
-    background-color: #c82333;
+    background-image: linear-gradient(to right, #f23e50, #2d3236);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-danger:active {
-    background-color: #bd2130;
+    background-image: linear-gradient(to right, #f23e50, #212529);
     transform: scale(0.95);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .btn-danger:focus:not(:active) {
-    box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.4);
+    box-shadow: 0 0 0 4px rgba(242, 62, 80, 0.5);
+    outline: none;
 }

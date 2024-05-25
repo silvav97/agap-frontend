@@ -39,11 +39,11 @@
 }
 
 .btn-info {
-  background-color: #17a2b8;
+  background-image: linear-gradient(to right, #1e719a, #495057); /* Mezcla de azul y negro */
   color: #FFFFFF;
   border: none;
-  padding: 8px 18px; /* Incrementé el padding */
-  font-size: 14px; /* Incrementé el tamaño de la fuente */
+  padding: 8px 18px; /* Mantener el padding */
+  font-size: 14px; /* Mantener el tamaño de la fuente */
   border-radius: 25px; 
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -54,13 +54,13 @@
 }
 
 .btn-info:hover {
-  background-color: #138496;
+  background-image: linear-gradient(to right, #1e719a, #343a40); /* Cambiar colores al hacer hover */
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-info:active {
-  background-color: #117a8b;
+  background-image: linear-gradient(to right, #1e719a, #2d3236); /* Colores al hacer clic */
   transform: scale(0.95);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
