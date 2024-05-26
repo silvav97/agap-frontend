@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
-import { PageStateService } from '../../../shared/services/page-state.service';
+import { PageStateFertilizerService } from '../../../shared/services/page-state-fertilizer.service';
 
 @Component({
   selector: 'app-fertilizer-list',
@@ -15,7 +15,7 @@ import { PageStateService } from '../../../shared/services/page-state.service';
 export class FertilizerListComponent {
 
   private fertilizerService = inject( FertilizerService );
-  private pageStateService  = inject ( PageStateService );
+  private pageStateService  = inject ( PageStateFertilizerService );
   private activatedRoute    = inject( ActivatedRoute );
   private router            = inject( Router );
   public baseRoute          = '/fertilizer';
@@ -34,7 +34,7 @@ export class FertilizerListComponent {
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeFertilizer.subscribe(size => {
       this.pageSize = size;
 
         this.setupActions();
@@ -85,7 +85,7 @@ export class FertilizerListComponent {
   }
 
   onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeFertilizer(newSize);
     this.loadFertilizers(0);
   }
 

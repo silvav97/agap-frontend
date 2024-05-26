@@ -8,7 +8,7 @@ import { Pagination } from '../../../shared/interfaces/pagination.interface';
 import { ProjectResponse } from '../../../project/interfaces';
 import { ProjectService } from '../../../project/services/project.service';
 import { ApplicationStatus } from '../../../shared/interfaces/application-status.enum';
-import { PageStateService } from '../../../shared/services/page-state.service';
+import { PageStateProjectApplicationService } from '../../../shared/services/page-state-project-application.service';
 
 @Component({
   selector: 'app-project-application-list',
@@ -18,7 +18,7 @@ import { PageStateService } from '../../../shared/services/page-state.service';
 export class ProjectApplicationListComponent {
 
   private projectApplicationService = inject( ProjectApplicationService );
-  private pageStateService          = inject ( PageStateService );
+  private pageStateService          = inject ( PageStateProjectApplicationService );
   private projectService            = inject( ProjectService );
   private activatedRoute            = inject( ActivatedRoute );
   private router                    = inject( Router );
@@ -48,7 +48,7 @@ export class ProjectApplicationListComponent {
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeProjectApplication.subscribe(size => {
       this.pageSize = size;
 
       this.setupActions();
@@ -139,7 +139,7 @@ export class ProjectApplicationListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeProjectApplication(newSize);
     this.loadProjectApplications(0);
   }
 

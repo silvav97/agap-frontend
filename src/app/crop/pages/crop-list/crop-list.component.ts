@@ -4,7 +4,7 @@ import { ActionConfig } from '../../../shared/components/generic-table/generic-t
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
 import { CropService } from '../../services/crop.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PageStateService } from '../../../shared/services/page-state.service';
+import { PageStateCropService } from '../../../shared/services/page-state-crop.service';
 
 @Component({
   selector: 'app-crop-list',
@@ -13,7 +13,7 @@ import { PageStateService } from '../../../shared/services/page-state.service';
 })
 export class CropListComponent {
 
-  private pageStateService = inject ( PageStateService );
+  private pageStateService = inject ( PageStateCropService );
   private activatedRoute   = inject( ActivatedRoute );
   private cropService      = inject( CropService );
   private router           = inject( Router );
@@ -29,14 +29,14 @@ export class CropListComponent {
 
   public columns = [
     { key: 'projectApplication.farmName',            label: 'Nombre' },
-    { key: 'projectApplication.project.id',            label: 'Proyecto' },
+    { key: 'projectApplication.project.name',            label: 'Proyecto' },
     { key: 'assignedBudget',                         label: 'Presupuesto asignado' },
     { key: 'status',                                 label: 'Estado' },
     { key: 'projectApplication.applicant.firstName', label: 'Usuario' },
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeCrop.subscribe(size => {
       this.pageSize = size;
 
         this.setupActions();
@@ -78,7 +78,7 @@ export class CropListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeCrop(newSize);
     this.loadCrops(0);
   }
 

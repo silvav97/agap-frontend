@@ -1,11 +1,11 @@
 import { Component, EventEmitter, inject } from '@angular/core';
 import { ReportService } from '../../services/report.service';
-import { PageStateService } from '../../../shared/services/page-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectReportResponse } from '../../interfaces';
 import { Pagination } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import Swal from 'sweetalert2';
+import { PageStateProjectReportService } from '../../../shared/services/page-state-project-report.service';
 
 @Component({
   selector: 'app-project-report-list',
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class ProjectReportListComponent {
 
-  private pageStateService = inject ( PageStateService );
+  private pageStateService = inject ( PageStateProjectReportService );
   private activatedRoute   = inject( ActivatedRoute );
   private reportService    = inject( ReportService );
   private router           = inject( Router );
@@ -34,7 +34,7 @@ export class ProjectReportListComponent {
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeProjectReport.subscribe(size => {
       this.pageSize = size;
 
       this.setupActions();
@@ -126,7 +126,7 @@ export class ProjectReportListComponent {
 
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeProjectReport(newSize);
     this.loadProjectReports(0);
   }
 

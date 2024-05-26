@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { Pesticide } from '../../interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
-import { PageStateService } from '../../../shared/services/page-state.service';
+import { PageStatePesticideService } from '../../../shared/services/page-state-pesticide.service';
 
 @Component({
   selector: 'app-pesticide-list',
@@ -15,7 +15,7 @@ import { PageStateService } from '../../../shared/services/page-state.service';
 export class PesticideListComponent {
 
   private pesticideService = inject( PesticideService );
-  private pageStateService = inject ( PageStateService );
+  private pageStateService = inject ( PageStatePesticideService );
   private activatedRoute   = inject( ActivatedRoute );
   private router           = inject( Router );
   public baseRoute         = '/pesticide';
@@ -34,7 +34,7 @@ export class PesticideListComponent {
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizePesticide.subscribe(size => {
       this.pageSize = size;
 
       this.setupActions();
@@ -86,7 +86,7 @@ export class PesticideListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizePesticide(newSize);
     this.loadPesticides(0);
   }
 

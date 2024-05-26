@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, inject, input } from '@angular/core';
-import { PageStateService } from '../../../shared/services/page-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReportService } from '../../services/report.service';
 import { CropReportResponse } from '../../interfaces';
 import { Pagination } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import Swal from 'sweetalert2';
+import { PageStateCropReportService } from '../../../shared/services/page-state-crop-report.service';
 
 @Component({
   selector: 'app-crop-report-list',
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class CropReportListComponent {
 
-  private pageStateService = inject ( PageStateService );
+  private pageStateService = inject ( PageStateCropReportService );
   private activatedRoute   = inject( ActivatedRoute );
   private reportService    = inject( ReportService );
   private router           = inject( Router );
@@ -40,7 +40,7 @@ export class CropReportListComponent {
     let projectId = this.selectedProjectId;
     var token = localStorage.getItem('access_token')
 
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeCropReport.subscribe(size => {
       this.pageSize = size;
 
       this.setupActions();
@@ -90,7 +90,7 @@ export class CropReportListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeCropReport(newSize);
     this.loadCropReports(0);
   }
 

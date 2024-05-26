@@ -1,5 +1,4 @@
 import { Component, EventEmitter, inject } from '@angular/core';
-import { PageStateService } from '../../../shared/services/page-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExpenseService } from '../../services/expense.service';
 import { ExpenseResponse } from '../../interfaces';
@@ -7,6 +6,7 @@ import { Pagination } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { CropService } from '../../../crop/services/crop.service';
 import Swal from 'sweetalert2';
+import { PageStateExpenseService } from '../../../shared/services/page-state-expense.service';
 
 @Component({
   selector: 'app-expense-list',
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class ExpenseListComponent {
 
-  private pageStateService = inject ( PageStateService );
+  private pageStateService = inject ( PageStateExpenseService );
   private expenseService   = inject( ExpenseService );
   private activatedRoute   = inject( ActivatedRoute );
   private cropService      = inject ( CropService );
@@ -41,7 +41,7 @@ export class ExpenseListComponent {
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeExpense.subscribe(size => {
       this.pageSize = size;
 
         this.setupActions();
@@ -170,7 +170,7 @@ export class ExpenseListComponent {
 
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeExpense(newSize);
     this.loadExpenses(0);
   }
 }

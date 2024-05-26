@@ -1,10 +1,10 @@
 import { Component, EventEmitter, inject } from '@angular/core';
-import { PageStateService } from '../../../shared/services/page-state.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CropService } from '../../services/crop.service';
 import { CropResponse } from '../../interfaces';
 import { Pagination, ProcessStatus } from '../../../shared/interfaces';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
+import { PageStateMyCropService } from '../../../shared/services/page-state-my-crop.service';
 
 @Component({
   selector: 'app-my-crop-list',
@@ -13,7 +13,7 @@ import { ActionConfig } from '../../../shared/components/generic-table/generic-t
 })
 export class MyCropListComponent {
 
-  private pageStateService = inject ( PageStateService );
+  private pageStateService = inject ( PageStateMyCropService );
   private activatedRoute   = inject( ActivatedRoute );
   private cropService      = inject( CropService );
   private router           = inject( Router );
@@ -29,7 +29,7 @@ export class MyCropListComponent {
 
   public columns = [
     { key: 'projectApplication.farmName',            label: 'Nombre' },
-    { key: 'projectApplication.project.id',            label: 'Proyecto' },
+    { key: 'projectApplication.project.name',            label: 'Proyecto' },
     { key: 'assignedBudget',                         label: 'Presupuesto asignado' },
     { key: 'status',                                 label: 'Estado' },
     { key: 'projectApplication.applicant.firstName', label: 'Usuario' },
@@ -37,7 +37,7 @@ export class MyCropListComponent {
 
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeMyCrop.subscribe(size => {
       this.pageSize = size;
 
         this.setupActions();
@@ -89,7 +89,7 @@ export class MyCropListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeMyCrop(newSize);
     this.loadCrops(0);
   }
 }

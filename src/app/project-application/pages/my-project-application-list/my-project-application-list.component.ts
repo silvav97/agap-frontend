@@ -6,7 +6,7 @@ import { ProjectApplicationService } from '../../services/project-application.se
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ApplicationStatus } from '../../../shared/interfaces';
-import { PageStateService } from '../../../shared/services/page-state.service';
+import { PageStateMyProjectApplicationService } from '../../../shared/services/page-state-my-project-application.service';
 
 @Component({
   selector: 'app-my-project-application-list',
@@ -16,7 +16,7 @@ import { PageStateService } from '../../../shared/services/page-state.service';
 export class MyProjectApplicationListComponent {
 
   private projectApplicationService = inject( ProjectApplicationService );
-  private pageStateService          = inject ( PageStateService );
+  private pageStateService          = inject ( PageStateMyProjectApplicationService );
   private activatedRoute            = inject( ActivatedRoute );
   private router                    = inject( Router );
   public baseRoute = '/project-application/mine';
@@ -42,7 +42,7 @@ export class MyProjectApplicationListComponent {
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeMyProjectApplication.subscribe(size => {
       this.pageSize = size;
 
       this.setupActions();
@@ -93,7 +93,7 @@ export class MyProjectApplicationListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeMyProjectApplication(newSize);
     this.loadProjectApplications(0);
   }
 

@@ -5,7 +5,7 @@ import { CropTypeService } from '../../services/crop-type.service';
 import Swal from 'sweetalert2';
 import { ActionConfig } from '../../../shared/components/generic-table/generic-table.component';
 import { Pagination } from '../../../shared/interfaces/pagination.interface';
-import { PageStateService } from '../../../shared/services/page-state.service';
+import { PageStateCropTypeService } from '../../../shared/services/page-state-crop-type.service';
 
 @Component({
   selector: 'app-crop-type-list',
@@ -14,7 +14,7 @@ import { PageStateService } from '../../../shared/services/page-state.service';
 })
 export class CropTypeListComponent {
 
-  private pageStateService = inject ( PageStateService );
+  private pageStateService = inject ( PageStateCropTypeService );
   private cropTypeService  = inject( CropTypeService );
   private activatedRoute   = inject( ActivatedRoute );
   private router           = inject( Router );
@@ -38,7 +38,7 @@ export class CropTypeListComponent {
   ];
 
   ngOnInit(): void {
-    this.pageStateService.currentPageSize.subscribe(size => {
+    this.pageStateService.currentPageSizeCropType.subscribe(size => {
       this.pageSize = size;
 
       this.setupActions();
@@ -90,7 +90,7 @@ export class CropTypeListComponent {
   }
 
   public onPageSizeChange(newSize: number): void {
-    this.pageStateService.changePageSize(newSize);
+    this.pageStateService.changePageSizeCropType(newSize);
     this.loadCropTypes(0);
   }
 
